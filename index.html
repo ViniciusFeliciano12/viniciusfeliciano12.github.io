@@ -804,6 +804,288 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
   }
 }
 
+/* ─── SISTEMA DE DADOS ───────────────────────────────────────── */
+
+/* Popup de resultado */
+.dice-popup {
+  position: fixed;
+  z-index: 9999;
+  background: var(--ink);
+  color: var(--parch);
+  border-radius: 8px;
+  padding: 14px 18px 16px;
+  min-width: 220px;
+  max-width: 300px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.55), 0 0 0 2px rgba(232,196,74,.25);
+  font-family: 'Georgia', serif;
+  border-left: 4px solid var(--gold);
+  transition: opacity .4s ease, transform .4s ease;
+  pointer-events: auto;
+}
+.dice-popup.fade-out {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+/* Desktop: canto inferior direito */
+@media (min-width: 601px) {
+  .dice-popup {
+    bottom: 24px;
+    right: 24px;
+    top: auto;
+    left: auto;
+    transform: none;
+  }
+  .dice-popup.fade-out {
+    transform: translateY(10px);
+  }
+}
+/* Mobile: centro da tela */
+@media (max-width: 600px) {
+  .dice-popup {
+    bottom: auto;
+    right: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 260px;
+    max-width: 85vw;
+  }
+  .dice-popup.fade-out {
+    transform: translate(-50%, -40%);
+  }
+}
+
+.dice-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.dice-popup-skill {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #aaa;
+  flex: 1;
+}
+.dice-popup-close {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 0 0 8px;
+  transition: color .15s;
+}
+.dice-popup-close:hover { color: var(--crimson-lt); }
+
+.dice-popup-rolling {
+  text-align: center;
+  font-size: 13px;
+  color: #aaa;
+  padding: 4px 0;
+  font-style: italic;
+  letter-spacing: .04em;
+}
+.dice-popup-rolling .rolling-dots {
+  display: inline-block;
+  animation: rolling-pulse .9s infinite;
+}
+@keyframes rolling-pulse {
+  0%,100%{opacity:1}50%{opacity:.3}
+}
+
+.dice-popup-rolls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.dice-single {
+  font-size: 22px;
+  font-weight: 700;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 6px;
+  padding: 4px 10px;
+  min-width: 44px;
+  text-align: center;
+  line-height: 1.2;
+}
+.dice-single.selected {
+  border-color: var(--gold);
+  background: rgba(184,136,10,.18);
+}
+.dice-single.discarded {
+  opacity: .4;
+  text-decoration: line-through;
+}
+.dice-arrow {
+  font-size: 14px;
+  color: #888;
+}
+.dice-selected-label {
+  font-size: 9px;
+  color: var(--gold-lt);
+  text-align: center;
+  margin-top: 2px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.dice-result-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+.dice-result-value {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 56px;
+  text-align: center;
+}
+.dice-result-info {
+  flex: 1;
+}
+.dice-result-type {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  line-height: 1.2;
+  margin-bottom: 3px;
+}
+.dice-result-against {
+  font-size: 10px;
+  color: #aaa;
+  letter-spacing: .04em;
+}
+.dice-mode-tag {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  background: rgba(255,255,255,.08);
+  border-radius: 3px;
+  padding: 2px 6px;
+  color: #bbb;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+/* Result colors */
+.res-critico     { color: #ff4d4d; }
+.res-extremo     { color: var(--rank-ss); }
+.res-dificil     { color: var(--gold-lt); }
+.res-regular     { color: #7ec87e; }
+.res-falha       { color: #bbb; }
+.res-falha-crit  { color: #ff4d4d; }
+
+/* Skill total clicável */
+.skill-total {
+  cursor: pointer !important;
+  transition: background .15s, border-color .15s, transform .1s;
+}
+.skill-total:hover {
+  background: var(--parch-deep) !important;
+  border-color: var(--gold) !important;
+}
+.skill-total:active {
+  transform: scale(.93);
+}
+
+/* Sorte clicável */
+.der-box.sorte {
+  cursor: pointer;
+  transition: box-shadow .15s, border-color .15s;
+}
+.der-box.sorte:hover {
+  box-shadow: 0 0 0 2px var(--crimson);
+}
+
+/* Context menu de vantagem/desvantagem */
+.dice-ctx-menu {
+  position: fixed;
+  z-index: 10000;
+  background: var(--ink);
+  border: 1.5px solid var(--gold);
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.5);
+  padding: 6px 0;
+  min-width: 210px;
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  color: var(--parch);
+  overflow: hidden;
+}
+.dice-ctx-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background .12s;
+}
+.dice-ctx-item:hover {
+  background: rgba(232,196,74,.13);
+  color: var(--gold-lt);
+}
+.dice-ctx-item .ctx-icon { font-size: 15px; }
+.dice-ctx-sep {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,.08);
+  margin: 4px 0;
+}
+.dice-ctx-title {
+  padding: 5px 16px 3px;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #888;
+}
+
+/* Controle de quantidade de vantagem/desvantagem */
+.adv-controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 10px;
+  margin-top: 4px;
+  background: rgba(255,255,255,.03);
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+.adv-controls-bar label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #888;
+  flex: 1;
+}
+.adv-qty-btn {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  color: var(--parch);
+  width: 22px; height: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .12s;
+  padding: 0;
+  font-family: monospace;
+}
+.adv-qty-btn:hover { background: rgba(232,196,74,.2); border-color: var(--gold); }
+.adv-qty-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold-lt);
+  min-width: 18px;
+  text-align: center;
+}
+
 /* ─── BÔNUS DE ESCOLA NAS PERÍCIAS ──────────────────────────── */
 .escola-bonus {
   display: inline;
@@ -3248,6 +3530,341 @@ carregarFichas();
 abaAtiva = fichas[0].id;
 renderTabs();
 renderConteudo();
+
+/* ═══════════════════════════════════════════════════════════════
+   SISTEMA DE ROLAGEM DE DADOS (d100)
+═══════════════════════════════════════════════════════════════ */
+
+(function() {
+  'use strict';
+
+  // ─── Estado global de vantagem ────────────────────────────────
+  let advQty = 1; // quantos dados extras (1 = rolagem dupla, 2 = tripla, etc.)
+
+  // ─── Utilitários ─────────────────────────────────────────────
+  const isMobile = () => window.matchMedia('(max-width: 600px)').matches;
+
+  function rollD100() {
+    return Math.floor(Math.random() * 100) + 1;
+  }
+
+  function classifyResult(roll, skillTotal) {
+    const extremo = Math.floor(skillTotal / 5);
+    const dificil = Math.floor(skillTotal / 2);
+    if (roll === 1)           return { label: 'Crítico!',        cls: 'res-critico',    success: true };
+    if (roll <= extremo)      return { label: 'Sucesso Extremo', cls: 'res-extremo',    success: true };
+    if (roll <= dificil)      return { label: 'Sucesso Difícil', cls: 'res-dificil',    success: true };
+    if (roll <= skillTotal)   return { label: 'Sucesso Regular', cls: 'res-regular',    success: true };
+    if (roll >= 96)           return { label: 'Falha Crítica!',  cls: 'res-falha-crit', success: false };
+    return                         { label: 'Falha',             cls: 'res-falha',      success: false };
+  }
+
+  // ─── Popup ────────────────────────────────────────────────────
+  let popupEl = null;
+  let fadeTimer = null;
+  let autoCloseTimer = null;
+
+  function getOrCreatePopup() {
+    if (!popupEl) {
+      popupEl = document.createElement('div');
+      popupEl.className = 'dice-popup';
+      popupEl.style.display = 'none';
+      document.body.appendChild(popupEl);
+    }
+    return popupEl;
+  }
+
+  function clearTimers() {
+    if (fadeTimer)     { clearTimeout(fadeTimer);     fadeTimer = null; }
+    if (autoCloseTimer){ clearTimeout(autoCloseTimer); autoCloseTimer = null; }
+  }
+
+  function closePopup() {
+    clearTimers();
+    if (!popupEl) return;
+    popupEl.classList.add('fade-out');
+    fadeTimer = setTimeout(() => {
+      if (popupEl) popupEl.style.display = 'none';
+    }, 420);
+  }
+
+  function showRolling(skillName) {
+    const el = getOrCreatePopup();
+    clearTimers();
+    el.classList.remove('fade-out');
+    el.style.display = 'block';
+    el.innerHTML = `
+      <div class="dice-popup-header">
+        <span class="dice-popup-skill">${skillName}</span>
+        <button class="dice-popup-close" title="Fechar">✕</button>
+      </div>
+      <div class="dice-popup-rolling">
+        Jogando dados<span class="rolling-dots">...</span>
+      </div>
+    `;
+    el.querySelector('.dice-popup-close').addEventListener('click', closePopup);
+  }
+
+  function showResult(skillName, skillTotal, rolls, mode) {
+    // mode: 'normal' | 'advantage' | 'disadvantage'
+    const el = getOrCreatePopup();
+    clearTimers();
+    el.classList.remove('fade-out');
+    el.style.display = 'block';
+
+    let selectedRoll, discardedRolls;
+    if (mode === 'advantage') {
+      selectedRoll    = Math.min(...rolls);
+      discardedRolls  = rolls.filter(r => r !== selectedRoll);
+      // se empate, apenas um é selecionado
+      if (rolls.every(r => r === selectedRoll)) discardedRolls = rolls.slice(1);
+    } else if (mode === 'disadvantage') {
+      selectedRoll    = Math.max(...rolls);
+      discardedRolls  = rolls.filter(r => r !== selectedRoll);
+      if (rolls.every(r => r === selectedRoll)) discardedRolls = rolls.slice(1);
+    } else {
+      selectedRoll   = rolls[0];
+      discardedRolls = [];
+    }
+
+    const res = classifyResult(selectedRoll, skillTotal);
+
+    // Etiqueta de modo
+    let modeLabel = '';
+    if (mode === 'advantage')    modeLabel = `<span class="dice-mode-tag">⬆ Vantagem ×${rolls.length}</span>`;
+    if (mode === 'disadvantage') modeLabel = `<span class="dice-mode-tag">⬇ Desvantagem ×${rolls.length}</span>`;
+
+    // Dados exibidos
+    let rollsHtml = '';
+    if (rolls.length > 1) {
+      rollsHtml = '<div class="dice-popup-rolls">';
+      rolls.forEach((r, i) => {
+        const isSelected = (r === selectedRoll && !rolls.slice(0, i).includes(selectedRoll));
+        const isDiscard  = !isSelected;
+        const cls = isSelected ? 'selected' : 'discarded';
+        rollsHtml += `<div><div class="dice-single ${cls}">${r}</div>${isSelected ? '<div class="dice-selected-label">usado</div>' : ''}</div>`;
+        if (i < rolls.length - 1) rollsHtml += `<span class="dice-arrow">${mode==='advantage'?'↓':'↑'}</span>`;
+      });
+      rollsHtml += '</div>';
+    }
+
+    // Descrição do valor contra o quê
+    const extremo = Math.floor(skillTotal / 5);
+    const dificil = Math.floor(skillTotal / 2);
+    const againstText = `Perícia: ${skillTotal}% | ½=${dificil} | ⅕=${extremo}`;
+
+    el.innerHTML = `
+      <div class="dice-popup-header">
+        <span class="dice-popup-skill">${skillName}</span>
+        <button class="dice-popup-close" title="Fechar">✕</button>
+      </div>
+      ${modeLabel}
+      ${rollsHtml}
+      <div class="dice-result-main">
+        <div class="dice-result-value ${res.cls}">${selectedRoll}</div>
+        <div class="dice-result-info">
+          <div class="dice-result-type ${res.cls}">${res.label}</div>
+          <div class="dice-result-against">${againstText}</div>
+        </div>
+      </div>
+    `;
+    el.querySelector('.dice-popup-close').addEventListener('click', closePopup);
+
+    // Auto-fechar após 5s
+    autoCloseTimer = setTimeout(closePopup, 5000);
+  }
+
+  // ─── Execução da rolagem ──────────────────────────────────────
+  function executeRoll(skillName, skillTotal, mode) {
+    showRolling(skillName);
+
+    let numDice;
+    if (mode === 'normal') {
+      numDice = 1;
+    } else {
+      numDice = 1 + advQty; // ex: advQty=1 → 2 dados
+    }
+
+    setTimeout(() => {
+      const rolls = Array.from({ length: numDice }, rollD100);
+      showResult(skillName, skillTotal, rolls, mode);
+    }, 450);
+  }
+
+  // ─── Contexto: lê total de perícia do DOM ─────────────────────
+  function getSkillInfo(totalEl) {
+    const text = totalEl.textContent.trim().replace('%','');
+    const total = parseInt(text) || 0;
+    // nome: pega do label irmão
+    const item = totalEl.closest('.skill-item');
+    const labelText = item?.querySelector('.skill-label-text')?.textContent?.trim() || 'Perícia';
+    const name = labelText.replace(/\(.*?\)/g,'').trim();
+    return { name, total };
+  }
+
+  function getSorteInfo(sorteBox) {
+    const val = sorteBox.querySelector('[data-field="sorte_atual"]')?.value;
+    const total = parseInt(val) || 0;
+    return { name: 'Sorte', total };
+  }
+
+  // ─── Menu de contexto (clique direito / long press) ──────────
+  let ctxMenuEl = null;
+  let longPressTimer = null;
+  let longPressFired = false;
+
+  function removeCtxMenu() {
+    if (ctxMenuEl) { ctxMenuEl.remove(); ctxMenuEl = null; }
+  }
+
+  function showCtxMenu(x, y, skillName, skillTotal) {
+    removeCtxMenu();
+    ctxMenuEl = document.createElement('div');
+    ctxMenuEl.className = 'dice-ctx-menu';
+
+    ctxMenuEl.innerHTML = `
+      <div class="dice-ctx-title">Modo de Rolagem — ${skillName}</div>
+      <div class="dice-ctx-item" data-mode="advantage">
+        <span class="ctx-icon">⬆</span>
+        <span>Vantagem <small style="color:#888">(menor resultado)</small></span>
+      </div>
+      <div class="dice-ctx-item" data-mode="disadvantage">
+        <span class="ctx-icon">⬇</span>
+        <span>Desvantagem <small style="color:#888">(maior resultado)</small></span>
+      </div>
+      <hr class="dice-ctx-sep">
+      <div class="adv-controls-bar">
+        <label>Qtd. de dados extras</label>
+        <button class="adv-qty-btn" id="adv-qty-minus">−</button>
+        <span class="adv-qty-val" id="adv-qty-display">${advQty}</span>
+        <button class="adv-qty-btn" id="adv-qty-plus">+</button>
+      </div>
+    `;
+    document.body.appendChild(ctxMenuEl);
+
+    // Posicionar
+    const menuW = 220, menuH = 160;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let left = x, top = y;
+    if (left + menuW > vw - 8) left = vw - menuW - 8;
+    if (top  + menuH > vh - 8) top  = vh - menuH - 8;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    ctxMenuEl.style.left = left + 'px';
+    ctxMenuEl.style.top  = top  + 'px';
+
+    // Qtd handlers
+    ctxMenuEl.querySelector('#adv-qty-minus').addEventListener('click', e => {
+      e.stopPropagation();
+      if (advQty > 1) { advQty--; ctxMenuEl.querySelector('#adv-qty-display').textContent = advQty; }
+    });
+    ctxMenuEl.querySelector('#adv-qty-plus').addEventListener('click', e => {
+      e.stopPropagation();
+      if (advQty < 9) { advQty++; ctxMenuEl.querySelector('#adv-qty-display').textContent = advQty; }
+    });
+
+    // Cliques de modo
+    ctxMenuEl.querySelectorAll('[data-mode]').forEach(item => {
+      item.addEventListener('click', e => {
+        e.stopPropagation();
+        const mode = item.dataset.mode;
+        removeCtxMenu();
+        executeRoll(skillName, skillTotal, mode);
+      });
+    });
+
+    // Fechar ao clicar fora
+    setTimeout(() => {
+      document.addEventListener('click', removeCtxMenu, { once: true });
+    }, 10);
+  }
+
+  // ─── Bind em um skill-total ou sorte box ─────────────────────
+  function bindDiceEvents(el, getInfo) {
+    // Clique esquerdo normal → rolagem normal
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (longPressFired) { longPressFired = false; return; }
+      const { name, total } = getInfo(el);
+      if (!total) return;
+      executeRoll(name, total, 'normal');
+    });
+
+    // Clique direito → menu
+    el.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      const { name, total } = getInfo(el);
+      if (!total) return;
+      showCtxMenu(e.clientX, e.clientY, name, total);
+    });
+
+    // Long press para mobile
+    el.addEventListener('touchstart', e => {
+      longPressFired = false;
+      const touch = e.touches[0];
+      const { name, total } = getInfo(el);
+      if (!total) return;
+      longPressTimer = setTimeout(() => {
+        longPressFired = true;
+        // Vibrar levemente se disponível
+        if (navigator.vibrate) navigator.vibrate(40);
+        showCtxMenu(touch.clientX, touch.clientY, name, total);
+      }, 550);
+    }, { passive: true });
+
+    el.addEventListener('touchend', () => {
+      clearTimeout(longPressTimer);
+    }, { passive: true });
+
+    el.addEventListener('touchmove', () => {
+      clearTimeout(longPressTimer);
+    }, { passive: true });
+  }
+
+  // ─── Observar novos elementos no DOM ─────────────────────────
+  // (fichas são geradas dinamicamente)
+  function bindAllDiceTargets(root) {
+    // skill-total elements
+    root.querySelectorAll('.skill-total[data-total]').forEach(el => {
+      if (el.dataset.diceBound) return;
+      el.dataset.diceBound = '1';
+      bindDiceEvents(el, getSkillInfo);
+    });
+
+    // sorte box
+    root.querySelectorAll('.der-box.sorte').forEach(el => {
+      if (el.dataset.diceBound) return;
+      el.dataset.diceBound = '1';
+      bindDiceEvents(el, getSorteInfo);
+    });
+  }
+
+  // Observar mudanças no DOM para bind automático
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(m => {
+      m.addedNodes.forEach(node => {
+        if (node.nodeType === 1) {
+          bindAllDiceTargets(node);
+        }
+      });
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // Bind inicial (caso já haja fichas)
+  document.addEventListener('DOMContentLoaded', () => {
+    bindAllDiceTargets(document.body);
+  });
+  // também agora, para fichas já renderizadas
+  bindAllDiceTargets(document.body);
+
+  // ─── Fechar menu ao pressionar Escape ─────────────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { removeCtxMenu(); closePopup(); }
+  });
+
+})();
 </script>
 </body>
 </html>
