@@ -1321,7 +1321,23 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .attack-result-area.has-result {
   display: block;
   font-style: normal;
+  position: relative;
 }
+.result-clear-btn {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: color .15s, background .15s;
+}
+.result-clear-btn:hover { color: var(--crimson-lt); background: rgba(200,64,64,.12); }
 
 .attack-res-header {
   display: flex;
@@ -1502,6 +1518,7 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .custom-dice-result.has-result {
   display: block;
   font-style: normal;
+  position: relative;
 }
 .custom-res-formula {
   font-size: 10px;
@@ -4842,8 +4859,20 @@ function rollAttack(id, tab, mode) {
       <div class="attack-res-damage-dice">${dmgDiceHtml}</div>
     `;
 
-    resultEl.innerHTML = d100Html + dmgHtml;
+    resultEl.innerHTML = d100Html + dmgHtml +
+      `<button class="result-clear-btn" title="Limpar resultado" onclick="clearResult(this)">✕</button>`;
   }, 400);
+}
+
+// ─── Limpar resultado ─────────────────────────────────────────
+function clearResult(btn) {
+  const area = btn.closest('.attack-result-area, .custom-dice-result');
+  if (!area) return;
+  const isCustom = area.classList.contains('custom-dice-result');
+  area.className = isCustom ? 'custom-dice-result' : 'attack-result-area';
+  area.innerHTML = `<span>${isCustom
+    ? 'Digite uma expressão como <strong>2d6</strong> ou <strong>1d6+1d4</strong> e pressione Rolar.'
+    : 'Selecione o tipo e clique em rolar.'}</span>`;
 }
 
 // ─── Rolador customizado ──────────────────────────────────────
@@ -4904,7 +4933,8 @@ function rollCustomDice(id) {
     const result = parseAndRollDice(expr);
     if (!result) {
       resultEl.className = 'custom-dice-result has-result';
-      resultEl.innerHTML = `<span class="custom-error">⚠ Expressão inválida. Use formato: <strong>2d6</strong>, <strong>1d4+3</strong>, <strong>3d8+1d4</strong></span>`;
+      resultEl.innerHTML = `<span class="custom-error">⚠ Expressão inválida. Use formato: <strong>2d6</strong>, <strong>1d4+3</strong>, <strong>3d8+1d4</strong></span>` +
+        `<button class="result-clear-btn" title="Limpar resultado" onclick="clearResult(this)">✕</button>`;
       return;
     }
 
@@ -4924,6 +4954,7 @@ function rollCustomDice(id) {
       <div class="custom-res-formula">${result.expr.toUpperCase()}</div>
       <div class="custom-res-total">${result.total}</div>
       <div class="custom-res-dice-row">${groupsHtml}</div>
+      <button class="result-clear-btn" title="Limpar resultado" onclick="clearResult(this)">✕</button>
     `;
   }, 350);
 }
