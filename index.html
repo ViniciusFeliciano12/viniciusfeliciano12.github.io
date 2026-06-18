@@ -221,12 +221,15 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 /* ─── ATRIBUTOS ─────────────────────────────────────────────── */
 .attrs-grid{
   display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  align-items:stretch;
 }
 
 .attr-box{
   background:#fff;border:1px solid var(--parch-deep);
   border-radius:var(--r);padding:10px 8px;
   text-align:center;
+  display:flex;flex-direction:column;justify-content:space-between;align-items:center;
+  min-height:80px;
 }
 .attr-box span{
   display:block;font-size:10px;font-weight:700;
