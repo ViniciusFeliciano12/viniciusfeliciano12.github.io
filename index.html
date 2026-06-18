@@ -137,7 +137,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
   grid-template-columns:148px 1fr;
   gap:20px;align-items:start;
 }
-@media(max-width:600px){.perfil-layout{grid-template-columns:1fr}}
 
 .foto-box{display:flex;flex-direction:column;align-items:center;gap:8px}
 .foto-area{
@@ -161,8 +160,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .foto-btn:hover{background:var(--crimson)}
 
 .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-@media(max-width:700px){.info-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:420px){.info-grid{grid-template-columns:1fr}}
 
 .field{display:flex;flex-direction:column;gap:3px}
 .field label{
@@ -189,7 +186,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 /* ─── VARINHA ──────────────────────────────────────────────── */
 .varinha-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
-@media(max-width:650px){.varinha-grid{grid-template-columns:repeat(2,1fr)}}
 
 /* ─── OBJETOS ────────────────────────────────────────────────── */
 .obj-header{
@@ -222,7 +218,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .attrs-grid{
   display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
 }
-@media(max-width:650px){.attrs-grid{grid-template-columns:repeat(2,1fr)}}
 
 .attr-box{
   background:#fff;border:1px solid var(--parch-deep);
@@ -245,8 +240,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .derived-grid{
   display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
 }
-@media(max-width:700px){.derived-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:420px){.derived-grid{grid-template-columns:1fr}}
 
 .der-box{
   background:var(--parch-alt);border:2px solid var(--parch-deep);
@@ -279,7 +272,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 }
 .feiticos-intro ul{font-style:normal;margin-top:6px}
 .feiticos-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:580px){.feiticos-grid{grid-template-columns:1fr}}
 .feitico-card{
   background:#fdf8ec;border:1px solid #d4b85a;
   border-radius:var(--r);padding:12px;
@@ -301,8 +293,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .skills-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:0 28px;
 }
-@media(max-width:720px){.skills-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.skills-grid{grid-template-columns:1fr}}
 
 .skill-col h3{
   font-size:11px;text-transform:uppercase;letter-spacing:.1em;
@@ -382,11 +372,9 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 /* Two-col rules */
 .rules-2col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media(max-width:680px){.rules-2col{grid-template-columns:1fr}}
 
 /* Medidor de estilo */
 .estilo-wrap{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start}
-@media(max-width:580px){.estilo-wrap{grid-template-columns:1fr}}
 
 .rank-column{
   background:var(--ink);border:1.5px solid #444;
@@ -406,8 +394,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .beneficios-grid{
   display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px;
 }
-@media(max-width:700px){.beneficios-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:440px){.beneficios-grid{grid-template-columns:repeat(2,1fr)}}
 
 .benef-card{
   background:var(--parch-alt);border:1px solid var(--parch-deep);
@@ -440,7 +426,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 /* gain/lose lists */
 .gain-lose{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
-@media(max-width:520px){.gain-lose{grid-template-columns:1fr}}
 .gain-lose h4{font-size:12px;padding-bottom:4px;margin-bottom:8px;border-bottom:1px solid var(--parch-deep)}
 .gain-lose h4.green{color:var(--forest)}
 .gain-lose h4.red{color:var(--crimson)}
@@ -449,7 +434,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .spec-grid{
   display:grid;grid-template-columns:repeat(2,1fr);gap:14px;
 }
-@media(max-width:680px){.spec-grid{grid-template-columns:1fr}}
 
 .spec-card{
   background:var(--parch-alt);border:1px solid var(--parch-deep);
@@ -522,12 +506,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
   grid-column: 1 / -1;            /* ocupa ambas as colunas */
   width: calc(50% - 7px);         /* mesmo tamanho que os outros (metade do gap: 14px/2) */
   justify-self: center;           /* centraliza dentro da faixa total */
-}
-@media(max-width:680px){
-  .spec-grid .spec-card--solo,
-  .spec-grid .school-card--solo {
-    width: 100%;                  /* em mobile volta ao full-width normal */
-  }
 }
 
 /* ─── MISC UI ────────────────────────────────────────────────── */
@@ -612,7 +590,6 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .gloss-grid{
   display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
 }
-@media(max-width:680px){.gloss-grid{grid-template-columns:1fr}}
 
 .gloss-entry{
   background:var(--parch-alt);border:1px solid var(--parch-deep);
@@ -639,11 +616,156 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
   color:var(--ink-soft);font-style:italic;font-size:13px;
 }
 
-/* ─── RESPONSIVE TWEAKS ────────────────────────────────────── */
-@media(max-width:500px){
-  .sheet-body,.rules-body{padding:16px 14px 24px}
-  .sec-title,.rules-sec-title{margin-left:-14px;margin-right:-14px}
-  .obj-header,.attrs-grid,.derived-grid{font-size:12px}
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE FIRST
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── TOPBAR: dois níveis em mobile ──────────────────────────── */
+@media(max-width:600px){
+  .app-topbar{
+    flex-wrap:wrap;
+    min-height:auto;
+  }
+
+  /* Linha 1: navegação de páginas ocupa a largura toda */
+  .page-nav{
+    width:100%;
+    border-right:none;
+    border-bottom:1px solid #333;
+    flex-shrink:0;
+    min-height:38px;
+  }
+  .page-nav button{
+    flex:1;
+    padding:0 8px;
+    font-size:11px;
+    letter-spacing:.04em;
+    min-height:38px;
+    /* ícone + texto curto */
+  }
+
+  /* Linha 2: tabs strip ocupa a largura toda */
+  .tabs-strip{
+    width:100%;
+    flex:none;
+    min-height:36px;
+    padding:0 4px;
+    border-top:none;
+  }
+
+  .tab-btn{
+    min-width:80px;
+    padding:0 8px;
+    font-size:11px;
+    margin-top:2px;
+  }
+  .tab-name-text{max-width:72px}
+
+  .tab-add{
+    padding:0 8px;
+    font-size:18px;
+  }
+}
+
+/* ── PÁGINA GERAL ────────────────────────────────────────────── */
+@media(max-width:600px){
+  .page{padding:12px 10px 32px}
+  .sheet-body,.rules-body{padding:14px 12px 24px}
+  .sec-title,.rules-sec-title{margin-left:-12px;margin-right:-12px;font-size:11px}
+}
+
+/* ── EXPORT BAR ──────────────────────────────────────────────── */
+@media(max-width:520px){
+  .export-bar{
+    flex-wrap:wrap;
+    gap:6px;
+    padding:8px 10px;
+  }
+  .export-bar span{
+    width:100%;
+    flex:none;
+    font-size:10px;
+  }
+  .btn-export,.btn-import-lbl{
+    flex:1;
+    text-align:center;
+    font-size:10px;
+    padding:5px 8px;
+  }
+}
+
+/* ── PERFIL ──────────────────────────────────────────────────── */
+@media(max-width:600px){
+  .perfil-layout{grid-template-columns:1fr}
+  .foto-box{flex-direction:row;justify-content:flex-start;gap:12px;margin-bottom:4px}
+  .foto-area{width:80px;height:104px;flex-shrink:0}
+  .foto-btn{width:80px;font-size:10px}
+}
+
+/* info-grid: 3 col → 2 col → 1 col */
+@media(max-width:680px){.info-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:380px){.info-grid{grid-template-columns:1fr}}
+
+/* ── VARINHA ─────────────────────────────────────────────────── */
+@media(max-width:600px){.varinha-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:360px){.varinha-grid{grid-template-columns:1fr}}
+
+/* ── OBJETOS ─────────────────────────────────────────────────── */
+@media(max-width:480px){
+  .obj-header,.objeto-item{
+    grid-template-columns:1fr 1fr 28px;
+  }
+  .obj-header span:nth-child(2),
+  .objeto-item input:nth-child(2){display:none} /* esconde coluna "Descrição" em telas muito pequenas */
+}
+
+/* ── ATRIBUTOS ───────────────────────────────────────────────── */
+@media(max-width:600px){.attrs-grid{grid-template-columns:repeat(4,1fr);gap:6px}}
+@media(max-width:400px){.attrs-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ── RECURSOS DERIVADOS ──────────────────────────────────────── */
+@media(max-width:600px){.derived-grid{grid-template-columns:repeat(2,1fr);gap:8px}}
+
+/* ── FEITIÇOS ────────────────────────────────────────────────── */
+@media(max-width:520px){.feiticos-grid{grid-template-columns:1fr}}
+
+/* ── PERÍCIAS ────────────────────────────────────────────────── */
+@media(max-width:680px){.skills-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.skills-grid{grid-template-columns:1fr}}
+
+/* ── REGRAS ──────────────────────────────────────────────────── */
+@media(max-width:600px){
+  .rules-body{padding:14px 12px 28px}
+  .rules-sec-title{margin-left:-12px;margin-right:-12px}
+  .exaustao-table{font-size:11px}
+  .exaustao-table th,.exaustao-table td{padding:4px 5px}
+}
+@media(max-width:620px){.rules-2col{grid-template-columns:1fr}}
+@media(max-width:560px){.estilo-wrap{grid-template-columns:1fr}}
+@media(max-width:620px){.beneficios-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:380px){.beneficios-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.spec-grid{grid-template-columns:1fr}}
+@media(max-width:620px){
+  .spec-grid .spec-card--solo,
+  .spec-grid .school-card--solo{width:100%;grid-column:auto}
+}
+
+/* ── GLOSSÁRIO ───────────────────────────────────────────────── */
+@media(max-width:560px){.gloss-grid{grid-template-columns:1fr}}
+
+/* ── MODAL ───────────────────────────────────────────────────── */
+@media(max-width:440px){
+  .modal-box{padding:18px 16px}
+  .modal-actions{flex-direction:column}
+  .modal-btn{width:100%;text-align:center}
+}
+
+/* ── TOAST ───────────────────────────────────────────────────── */
+@media(max-width:440px){
+  .save-toast{
+    left:10px;right:10px;bottom:12px;
+    text-align:center;
+  }
 }
 
 /* ─── BÔNUS DE ESCOLA NAS PERÍCIAS ──────────────────────────── */
@@ -712,12 +834,12 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
               <tr>
                 <td style="color:var(--forest)">Regular</td>
                 <td>Resultado ≤ valor da perícia</td>
-                <td>Rolar 31–60</td>
+                <td>Rolar 01–60</td>
               </tr>
               <tr>
                 <td style="color:var(--gold)">Difícil</td>
                 <td>Resultado ≤ <strong>metade</strong> da perícia</td>
-                <td>Rolar 13-30</td>
+                <td>Rolar 01–30</td>
               </tr>
               <tr>
                 <td style="color:var(--rank-ss)">Extremo</td>
