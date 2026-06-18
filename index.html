@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fichas de Auror — Sistema d100</title>
+<title>Fichas de Auror</title>
 <style>
 /* ─── TOKENS ────────────────────────────────────────────────── */
 :root {
@@ -135,7 +135,7 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 .perfil-layout{
   display:grid;
   grid-template-columns:148px 1fr;
-  gap:20px;align-items:start;
+  gap:20px;align-items:end;
 }
 
 .foto-box{display:flex;flex-direction:column;align-items:center;gap:8px}
@@ -701,10 +701,10 @@ input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 
 /* ── PERFIL ──────────────────────────────────────────────────── */
 @media(max-width:600px){
-  .perfil-layout{grid-template-columns:1fr}
-  .foto-box{flex-direction:row;justify-content:flex-start;gap:12px;margin-bottom:4px}
-  .foto-area{width:80px;height:104px;flex-shrink:0}
-  .foto-btn{width:80px;font-size:10px}
+  .perfil-layout{grid-template-columns:1fr;justify-items:center}
+  .foto-box{flex-direction:column;align-items:center;gap:8px;margin-bottom:12px}
+  .foto-area{width:100px;height:130px;flex-shrink:0}
+  .foto-btn{width:100px;font-size:10px}
 }
 
 /* info-grid: 3 col → 2 col → 1 col */
