@@ -46,6 +46,7 @@
 
         <div id="auth-form-signup" style="display:none">
           <input class="auth-input" type="email"    id="auth-signup-email"    placeholder="seu@email.com"            autocomplete="email">
+          <input class="auth-input" type="text"     id="auth-signup-username" placeholder="Nome de usuário (opcional)" maxlength="40" autocomplete="username">
           <div class="pass-wrap">
             <input class="auth-input" type="password" id="auth-signup-password" placeholder="Senha (mínimo 6 chars)" autocomplete="new-password">
             <button type="button" class="btn-olho" onclick="toggleSenha('auth-signup-password',this)" title="Mostrar senha"></button>
@@ -66,6 +67,7 @@
       <button class="tab-add" id="btn-nova-aba" title="Nova Ficha">＋</button>
     </div>
     <div class="user-bar" id="user-bar" style="display:none">
+      <div class="user-avatar-mini" id="user-avatar-mini"></div>
       <span class="user-email" id="user-email-display"></span>
       <span class="gm-badge"   id="gm-badge"           style="display:none">Mestre</span>
       <span class="jogador-ctx" id="jogador-ctx"        style="display:none"></span>

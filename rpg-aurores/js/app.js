@@ -177,7 +177,18 @@ function _esconderOverlay() {
 function _atualizarBarraUsuario(user, perfil = null) {
   const bar = document.getElementById('user-bar');
   bar.style.display = 'flex';
-  document.getElementById('user-email-display').textContent = perfil?.username || user.email;
+  const displayName = perfil?.username || user.email;
+  document.getElementById('user-email-display').textContent = displayName;
+
+  const avatarMini = document.getElementById('user-avatar-mini');
+  if (avatarMini) {
+    if (perfil?.avatarUrl) {
+      avatarMini.innerHTML = '<img src="' + perfil.avatarUrl + '" alt="">';
+    } else {
+      avatarMini.textContent = displayName[0].toUpperCase();
+    }
+  }
+
   const isGM = typeof DB_IS_GM !== 'undefined' && DB_IS_GM;
   document.getElementById('gm-badge').style.display = isGM ? 'inline' : 'none';
   const btnPainel = document.getElementById('btn-painel');
@@ -208,13 +219,15 @@ async function authLogin() {
 }
 
 async function authSignup() {
-  const email = document.getElementById('auth-signup-email').value.trim();
-  const pass  = document.getElementById('auth-signup-password').value;
+  const email    = document.getElementById('auth-signup-email').value.trim();
+  const username = document.getElementById('auth-signup-username').value.trim();
+  const pass     = document.getElementById('auth-signup-password').value;
   if (!email || !pass) { _authErro('Preencha e-mail e senha.'); return; }
   if (pass.length < 6) { _authErro('Senha deve ter ao menos 6 caracteres.'); return; }
   _authBotoes(true);
   try {
     const user = await dbSignup(email, pass);
+    if (username) await dbUpdateProfile({ username }).catch(() => {});
     await _carregarEIniciar(user);
   } catch (e) {
     _authErro(e.message || 'Erro ao criar conta.');
@@ -251,7 +264,7 @@ function _authBotoes(disabled) {
 ['auth-email', 'auth-password'].forEach(id => {
   document.getElementById(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') authLogin(); });
 });
-['auth-signup-email', 'auth-signup-password'].forEach(id => {
+['auth-signup-email', 'auth-signup-username', 'auth-signup-password'].forEach(id => {
   document.getElementById(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') authSignup(); });
 });
 

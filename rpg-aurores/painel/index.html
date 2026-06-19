@@ -155,6 +155,7 @@
     </div>
     <div style="flex:1"></div>
     <div class="user-bar" id="user-bar" style="display:none">
+      <div class="user-avatar-mini" id="user-avatar-mini"></div>
       <span class="user-email" id="user-email-display"></span>
       <span class="gm-badge">Mestre</span>
       <a class="btn-painel" href="../perfil/" style="display:inline-flex;">Perfil</a>
@@ -199,6 +200,14 @@
         bar.style.display = 'flex';
         const perfilDM = await dbGetUser(user.uid).catch(() => null);
         document.getElementById('user-email-display').textContent = perfilDM?.username || user.email;
+        const avatarMiniDM = document.getElementById('user-avatar-mini');
+        if (avatarMiniDM) {
+          if (perfilDM?.avatarUrl) {
+            avatarMiniDM.innerHTML = '<img src="' + perfilDM.avatarUrl + '" alt="">';
+          } else {
+            avatarMiniDM.textContent = (perfilDM?.username || user.email || '?')[0].toUpperCase();
+          }
+        }
 
         await _carregarJogadores();
       } catch (e) {
@@ -235,8 +244,7 @@
         card.innerHTML =
           '<div class="player-avatar">' + avatarHtml + '</div>' +
           '<div style="text-align:center;width:100%;">' +
-            (u.username ? '<span class="player-name">' + _escapeHtml(u.username) + '</span>' : '') +
-            '<span class="player-email">' + _escapeHtml(u.email) + '</span>' +
+            '<span class="player-name">' + _escapeHtml(nomeDisplay) + '</span>' +
             (isSelf ? '<span class="player-you">suas fichas</span>' : '') +
           '</div>' +
           '<a class="btn-ver-fichas" href="../ficha/?jogador=' + encodeURIComponent(u.uid) + '">Ver fichas →</a>';

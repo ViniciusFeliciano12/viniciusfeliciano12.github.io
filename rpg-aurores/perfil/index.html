@@ -188,6 +188,7 @@
     </div>
     <div style="flex:1"></div>
     <div class="user-bar" id="user-bar" style="display:none">
+      <div class="user-avatar-mini" id="user-avatar-mini"></div>
       <span class="user-email" id="user-email-display"></span>
       <span class="gm-badge" id="gm-badge" style="display:none">Mestre</span>
       <button class="btn-logout" onclick="perfilLogout()">Sair</button>
@@ -472,14 +473,24 @@
         bar.style.display = 'flex';
 
         const perfil = await dbGetUser(user.uid).catch(() => null);
+        const inicial = (perfil?.username || user.email || '?')[0].toUpperCase();
         document.getElementById('user-email-display').textContent = perfil?.username || user.email;
         document.getElementById('gm-badge').style.display = DB_IS_GM ? 'inline' : 'none';
 
-        // Preenche formulário
+        // Avatar mini na barra do topo
+        const avatarMini = document.getElementById('user-avatar-mini');
+        if (avatarMini) {
+          if (perfil?.avatarUrl) {
+            avatarMini.innerHTML = '<img src="' + perfil.avatarUrl + '" alt="">';
+          } else {
+            avatarMini.textContent = inicial;
+          }
+        }
+
+        // Preenche formulário com dados salvos
         document.getElementById('perfil-username').value = perfil?.username || '';
 
         const avatarSrc = perfil?.avatarUrl || '';
-        const inicial = (perfil?.username || user.email || '?')[0].toUpperCase();
         _atualizarPreviewAvatar(avatarSrc, inicial);
 
         document.getElementById('perfil-loading').style.display = 'none';
