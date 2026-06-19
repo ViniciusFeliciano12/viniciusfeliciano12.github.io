@@ -196,20 +196,22 @@
 
         document.getElementById('painel-loading').style.display = 'none';
         document.getElementById('painel-content').style.display = 'block';
-        const bar = document.getElementById('user-bar');
-        bar.style.display = 'flex';
-        const perfilDM = await dbGetUser(user.uid).catch(() => null);
-        document.getElementById('user-email-display').textContent = perfilDM?.username || user.email;
-        const avatarMiniDM = document.getElementById('user-avatar-mini');
-        if (avatarMiniDM) {
-          if (perfilDM?.avatarUrl) {
-            avatarMiniDM.innerHTML = '<img src="' + perfilDM.avatarUrl + '" alt="">';
+        document.getElementById('user-bar').style.display = 'flex';
+
+        // Carrega jogadores e reusa o próprio registro do DM para a topbar
+        const users = await _carregarJogadores();
+        const myProfile = users ? users.find(u => u.uid === DB_USER.uid) : null;
+        const displayName = myProfile?.username || user.email;
+
+        document.getElementById('user-email-display').textContent = displayName;
+        const avatarMini = document.getElementById('user-avatar-mini');
+        if (avatarMini) {
+          if (myProfile?.avatarUrl) {
+            avatarMini.innerHTML = '<img src="' + myProfile.avatarUrl + '" alt="">';
           } else {
-            avatarMiniDM.textContent = (perfilDM?.username || user.email || '?')[0].toUpperCase();
+            avatarMini.textContent = displayName[0].toUpperCase();
           }
         }
-
-        await _carregarJogadores();
       } catch (e) {
         _showError('Erro ao carregar painel: ' + e.message);
       }
@@ -221,14 +223,14 @@
         users = await dbListUsers();
       } catch (e) {
         _showError('Erro ao listar jogadores: ' + e.message);
-        return;
+        return null;
       }
 
       const grid = document.getElementById('players-grid');
 
       if (!users.length) {
         document.getElementById('empty-msg').style.display = 'block';
-        return;
+        return users;
       }
 
       users.forEach(u => {
@@ -250,6 +252,8 @@
           '<a class="btn-ver-fichas" href="../ficha/?jogador=' + encodeURIComponent(u.uid) + '">Ver fichas →</a>';
         grid.appendChild(card);
       });
+
+      return users;
     }
 
     async function painelLogout() {

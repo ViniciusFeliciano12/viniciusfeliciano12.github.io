@@ -378,8 +378,13 @@
 
       _setBusy('btn-salvar-perfil', true);
       try {
-        await dbUpdateProfile(dados);
+        await firebase.firestore().collection('users').doc(DB_USER.uid).set(dados, { merge: true });
         _avatarDataUrl = null;
+
+        // Atualiza topbar imediatamente após salvar
+        const perfilAtualizado = await _lerPerfil(DB_USER.uid);
+        _atualizarTopbar(perfilAtualizado, DB_USER.email);
+
         _msg('msg-perfil', 'ok', 'Perfil salvo com sucesso!');
       } catch (e) {
         _msg('msg-perfil', 'erro', e.message || 'Erro ao salvar perfil.');
@@ -407,7 +412,10 @@
 
       _setBusy('btn-trocar-senha', true);
       try {
-        await dbChangePassword(atual, nova);
+        const auth = firebase.auth();
+        const cred = firebase.auth.EmailAuthProvider.credential(DB_USER.email, atual);
+        await auth.currentUser.reauthenticateWithCredential(cred);
+        await auth.currentUser.updatePassword(nova);
         document.getElementById('senha-atual').value = '';
         document.getElementById('senha-nova').value  = '';
         document.getElementById('senha-nova-conf').value = '';
@@ -442,7 +450,22 @@
 
       _setBusy('btn-confirmar-excluir', true);
       try {
-        await dbDeleteAccount(senha);
+        const auth = firebase.auth();
+        const db   = firebase.firestore();
+        const uid  = DB_USER.uid;
+        const cred = firebase.auth.EmailAuthProvider.credential(DB_USER.email, senha);
+        await auth.currentUser.reauthenticateWithCredential(cred);
+        // Remove fichas
+        const snap = await db.collection('fichas').where('userId', '==', uid).get();
+        if (!snap.empty) {
+          const batch = db.batch();
+          snap.docs.forEach(d => batch.delete(d.ref));
+          await batch.commit();
+        }
+        // Remove perfil
+        await db.collection('users').doc(uid).delete().catch(() => {});
+        // Deleta conta
+        await auth.currentUser.delete();
         localStorage.clear();
         window.location.href = '../ficha/';
       } catch (e) {
@@ -459,6 +482,30 @@
       if (e.target === this) fecharModalExcluir();
     });
 
+    // ── Leitura direta do perfil ───────────────────────────────
+    async function _lerPerfil(uid) {
+      try {
+        const snap = await firebase.firestore().collection('users').doc(uid).get();
+        return snap.exists ? snap.data() : null;
+      } catch (e) {
+        console.warn('[Perfil] Erro ao ler perfil do Firestore:', e);
+        return null;
+      }
+    }
+
+    function _atualizarTopbar(perfil, email) {
+      const displayName = perfil?.username || email;
+      document.getElementById('user-email-display').textContent = displayName;
+      const avatarMini = document.getElementById('user-avatar-mini');
+      if (avatarMini) {
+        if (perfil?.avatarUrl) {
+          avatarMini.innerHTML = '<img src="' + perfil.avatarUrl + '" alt="">';
+        } else {
+          avatarMini.textContent = displayName[0].toUpperCase();
+        }
+      }
+    }
+
     // ── Inicialização ──────────────────────────────────────────
     async function initPerfil() {
       if (typeof dbConfigured === 'undefined' || !dbConfigured()) {
@@ -468,30 +515,17 @@
         const user = await dbInit();
         if (!user) { window.location.href = '../ficha/'; return; }
 
-        // Barra de usuário
-        const bar = document.getElementById('user-bar');
-        bar.style.display = 'flex';
-
-        const perfil = await dbGetUser(user.uid).catch(() => null);
+        const perfil = await _lerPerfil(user.uid);
         const inicial = (perfil?.username || user.email || '?')[0].toUpperCase();
-        document.getElementById('user-email-display').textContent = perfil?.username || user.email;
-        document.getElementById('gm-badge').style.display = DB_IS_GM ? 'inline' : 'none';
 
-        // Avatar mini na barra do topo
-        const avatarMini = document.getElementById('user-avatar-mini');
-        if (avatarMini) {
-          if (perfil?.avatarUrl) {
-            avatarMini.innerHTML = '<img src="' + perfil.avatarUrl + '" alt="">';
-          } else {
-            avatarMini.textContent = inicial;
-          }
-        }
+        // Barra de usuário
+        document.getElementById('user-bar').style.display = 'flex';
+        document.getElementById('gm-badge').style.display = DB_IS_GM ? 'inline' : 'none';
+        _atualizarTopbar(perfil, user.email);
 
         // Preenche formulário com dados salvos
         document.getElementById('perfil-username').value = perfil?.username || '';
-
-        const avatarSrc = perfil?.avatarUrl || '';
-        _atualizarPreviewAvatar(avatarSrc, inicial);
+        _atualizarPreviewAvatar(perfil?.avatarUrl || '', inicial);
 
         document.getElementById('perfil-loading').style.display = 'none';
         document.getElementById('perfil-content').style.display = 'block';
