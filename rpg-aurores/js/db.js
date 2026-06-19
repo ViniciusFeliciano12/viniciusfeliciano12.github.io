@@ -124,25 +124,26 @@ function dbListenFichas(onRemoteChange) {
   let q = _db.collection('fichas');
   if (!DB_IS_GM) q = q.where('userId', '==', DB_USER.uid);
 
-  _unsubscribeListen = q.onSnapshot(
-    { includeMetadataChanges: true },
-    snapshot => {
-      snapshot.docChanges().forEach(change => {
-        // Ignorar escritas locais ainda não confirmadas pelo servidor
-        if (change.doc.metadata.hasPendingWrites) return;
+  let primeiroSnapshot = true;
 
-        if (change.type === 'removed') {
-          onRemoteChange(change.doc.id, null);
-          return;
-        }
-        // 'added' na inicialização é ignorado (já carregamos via dbLoadFichas)
-        // Só processa 'modified' e 'added' após inicialização
-        if (change.type === 'added' && change.doc.metadata.fromCache) return;
+  _unsubscribeListen = q.onSnapshot(snapshot => {
+    snapshot.docChanges().forEach(change => {
+      // Ignorar escritas locais pendentes
+      if (change.doc.metadata.hasPendingWrites) return;
 
-        onRemoteChange(change.doc.id, _docToFicha(change.doc));
-      });
-    }
-  );
+      // No primeiro snapshot o Firestore dispara 'added' para todos os documentos
+      // existentes — já carregados via dbLoadFichas(). Ignorar para evitar conflito.
+      if (primeiroSnapshot && change.type === 'added') return;
+
+      if (change.type === 'removed') {
+        onRemoteChange(change.doc.id, null);
+        return;
+      }
+
+      onRemoteChange(change.doc.id, _docToFicha(change.doc));
+    });
+    primeiroSnapshot = false;
+  });
 }
 
 function dbStopListen() {

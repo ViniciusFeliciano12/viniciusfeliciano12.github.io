@@ -72,7 +72,21 @@ function _aplicarMudancaRemota(fichaId, fichaRemota) {
     fichas.push(fichaRemota);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(fichas));
     renderTabs();
-    mostrarToast('↻ Nova ficha detectada: ' + fichaRemota.nome);
+
+    // Cria o painel de conteúdo da ficha (sem isso, clicar na aba deixa tela em branco)
+    const area = document.getElementById('tabs-content-area');
+    const div = document.createElement('div');
+    div.className = 'tab-content-ficha';
+    div.id = 'content-' + fichaRemota.id;
+    div.style.display = 'none';
+    div.innerHTML = criarFichaHTML(fichaRemota.id);
+    area.appendChild(div);
+    preencherFicha(fichaRemota.id, fichaRemota.dados);
+    bindFichaEvents(fichaRemota.id);
+    atualizarLabelPostura(fichaRemota.id);
+    setTimeout(() => atualizarTodasPericias(fichaRemota.id), 0);
+
+    mostrarToast('↻ Nova ficha: ' + fichaRemota.nome);
     return;
   }
 
