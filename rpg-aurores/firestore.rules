@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Verifica se o usuário logado é Mestre (documento existe em gm_users)
+    function isMestre() {
+      return exists(/databases/$(database)/documents/gm_users/$(request.auth.uid));
+    }
+
+    // Fichas: jogador gerencia as próprias; Mestre lê e escreve todas
+    match /fichas/{fichaId} {
+      allow read:   if request.auth != null &&
+                       (resource.data.userId == request.auth.uid || isMestre());
+      allow create: if request.auth != null &&
+                       request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null &&
+                       (resource.data.userId == request.auth.uid || isMestre());
+    }
+
+    // gm_users: só leitura (escrita é feita manualmente pelo console)
+    match /gm_users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+  }
+}

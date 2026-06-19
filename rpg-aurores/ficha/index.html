@@ -6,10 +6,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fichas de Auror</title>
   <link rel="stylesheet" href="../style.css">
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="../firebase-config.js"></script>
+  <script src="../db.js"></script>
   <script src="../components/header.js" data-page="ficha"></script>
 </head>
 
 <body>
+
+  <!-- ═══ AUTH OVERLAY ══════════════════════════════════════════ -->
+  <div class="auth-overlay" id="auth-overlay" style="display:none">
+    <div class="auth-box">
+      <div class="auth-logo">⚡</div>
+      <h2 class="auth-title">Auror — Fichas Operacionais</h2>
+      <p class="auth-subtitle">Departamento de Execução das Leis da Magia</p>
+
+      <div id="auth-loading-init" class="auth-loading">Verificando sessão…</div>
+
+      <div id="auth-forms" style="display:none">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="login"  onclick="authSwitchTab('login')">Entrar</button>
+          <button class="auth-tab"        data-tab="signup" onclick="authSwitchTab('signup')">Criar conta</button>
+        </div>
+
+        <div id="auth-form-login">
+          <input class="auth-input" type="email"    id="auth-email"    placeholder="seu@email.com"              autocomplete="email">
+          <input class="auth-input" type="password" id="auth-password" placeholder="Senha"                      autocomplete="current-password">
+          <button class="auth-btn" id="auth-login-btn" onclick="authLogin()">Entrar</button>
+        </div>
+
+        <div id="auth-form-signup" style="display:none">
+          <input class="auth-input" type="email"    id="auth-signup-email"    placeholder="seu@email.com"            autocomplete="email">
+          <input class="auth-input" type="password" id="auth-signup-password" placeholder="Senha (mínimo 6 chars)"   autocomplete="new-password">
+          <button class="auth-btn" id="auth-signup-btn" onclick="authSignup()">Criar conta</button>
+          <p class="auth-note">Confirme seu e-mail para ativar o acesso.</p>
+        </div>
+
+        <div id="auth-error" class="auth-error" style="display:none"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══ TOP BAR ════════════════════════════════════════════════ -->
   <div class="app-topbar">
@@ -17,12 +56,17 @@
     <div class="tabs-strip" id="tabs-strip">
       <button class="tab-add" id="btn-nova-aba" title="Nova Ficha">＋</button>
     </div>
+    <div class="user-bar" id="user-bar" style="display:none">
+      <span class="user-email" id="user-email-display"></span>
+      <span class="gm-badge"   id="gm-badge"           style="display:none">Mestre</span>
+      <button class="btn-logout" onclick="authLogout()">Sair</button>
+    </div>
   </div>
 
   <!-- ═══ FICHAS PAGE ══════════════════════════════════════════════ -->
   <div class="page active" id="page-ficha">
     <div class="export-bar" id="export-bar">
-      <span>💾 Dados salvos localmente no navegador</span>
+      <span id="sync-status-label">💾 Dados salvos localmente no navegador</span>
       <button class="btn-export" onclick="exportarFichas()">⬇ Exportar fichas (.json)</button>
       <label class="btn-import-lbl" title="Importar fichas de um arquivo .json">
         ⬆ Importar fichas

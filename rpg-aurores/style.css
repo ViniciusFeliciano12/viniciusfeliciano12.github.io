@@ -3052,3 +3052,61 @@ select:focus {
 .catalogo-rank-title { margin: 0 0 8px; font-size: 13px; color: var(--gold); border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 4px; }
 .item-card-catalogo { margin-bottom: 8px; }
 .item-card-catalogo:hover { border-color: rgba(212,175,55,0.5); }
+
+/* ═══ AUTH OVERLAY ════════════════════════════════════════════ */
+.auth-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(10, 8, 6, 0.93);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.auth-box {
+  background: var(--parch);
+  border: 1px solid var(--parch-deep);
+  border-radius: 10px;
+  padding: 36px 32px 28px;
+  width: 100%; max-width: 380px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  text-align: center;
+}
+.auth-logo     { font-size: 36px; margin-bottom: 8px; }
+.auth-title    { font-size: 18px; font-weight: 700; color: var(--ink); margin: 0 0 4px; }
+.auth-subtitle { font-size: 11px; color: var(--ink-soft); margin: 0 0 24px; letter-spacing: .04em; text-transform: uppercase; }
+
+.auth-tabs { display: flex; gap: 4px; margin-bottom: 20px; background: var(--parch-deep); border-radius: 6px; padding: 3px; }
+.auth-tab  { flex: 1; padding: 7px; border: none; background: transparent; border-radius: 4px; font-size: 13px; color: var(--ink-soft); cursor: pointer; transition: all .18s; }
+.auth-tab.active { background: var(--parch); color: var(--ink); font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+
+.auth-input {
+  width: 100%; box-sizing: border-box;
+  padding: 10px 12px; margin-bottom: 10px;
+  border: 1px solid var(--parch-deep); border-radius: 6px;
+  background: var(--parch-alt); color: var(--ink); font-size: 14px;
+  display: block;
+}
+.auth-input:focus { outline: none; border-color: var(--gold); }
+
+.auth-btn {
+  width: 100%; padding: 11px;
+  background: var(--gold); color: #fff;
+  border: none; border-radius: 6px;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: opacity .18s; margin-top: 2px;
+}
+.auth-btn:hover    { opacity: .88; }
+.auth-btn:disabled { opacity: .5; cursor: default; }
+
+.auth-note    { font-size: 11px; color: var(--ink-soft); margin: 10px 0 0; }
+.auth-error   { font-size: 12px; color: var(--crimson); margin-top: 12px; padding: 8px 12px; background: rgba(107,26,26,.08); border-radius: 5px; text-align: left; }
+.auth-loading { font-size: 13px; color: var(--ink-soft); padding: 12px 0; }
+
+/* ═══ BARRA DE USUÁRIO (TOPBAR) ═══════════════════════════════ */
+.user-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 12px; flex-shrink: 0;
+  border-left: 1px solid var(--parch-deep);
+}
+.user-email { font-size: 11px; color: var(--ink-soft); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gm-badge   { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); background: rgba(184,136,10,.12); padding: 2px 7px; border-radius: 10px; border: 1px solid rgba(184,136,10,.35); }
+.btn-logout { font-size: 11px; padding: 4px 10px; border: 1px solid var(--parch-deep); border-radius: 5px; background: transparent; color: var(--ink-soft); cursor: pointer; white-space: nowrap; }
+.btn-logout:hover { background: rgba(107,26,26,.08); border-color: var(--crimson-lt); color: var(--crimson); }

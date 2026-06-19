@@ -1,0 +1,19 @@
+# Configurações sensíveis
+rpg-aurores/firebase-config.js
+
+# Variáveis de ambiente
+.env
+.env.local
+.env.*.local
+
+# Dependências
+node_modules/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/settings.json
+*.suo
+*.user
