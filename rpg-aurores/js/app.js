@@ -59,11 +59,13 @@ async function _carregarEIniciar(user) {
   const lbl = document.getElementById('sync-status-label');
   if (lbl) lbl.textContent = '☁ Sincronizado com a nuvem · tempo real ativo';
 
+  const loadedIds = new Set(fichas.map(f => f.id));
+
   if (!fichas.length) {
     renderTabs();
     const area = document.getElementById('tabs-content-area');
-    area.innerHTML = '<p style="padding:3rem 2rem; color:var(--ink-soft); text-align:center; font-style:italic;">Este jogador ainda não criou nenhuma ficha.</p>';
-    dbListenFichas(_aplicarMudancaRemota, _JOGADOR_UID);
+    area.innerHTML = '<p id="msg-sem-fichas" style="padding:3rem 2rem; color:var(--ink-soft); text-align:center; font-style:italic;">Este jogador ainda não criou nenhuma ficha.</p>';
+    dbListenFichas(_aplicarMudancaRemota, _JOGADOR_UID, loadedIds);
     return;
   }
 
@@ -71,7 +73,7 @@ async function _carregarEIniciar(user) {
   renderTabs();
   renderConteudo();
 
-  dbListenFichas(_aplicarMudancaRemota, _JOGADOR_UID);
+  dbListenFichas(_aplicarMudancaRemota, _JOGADOR_UID, loadedIds);
 }
 
 async function _mostrarContextoJogador() {
@@ -98,16 +100,23 @@ function _aplicarMudancaRemota(fichaId, fichaRemota) {
   }
 
   if (idx === -1) {
+    const eraPrimeira = fichas.length === 0;
     fichas.push(fichaRemota);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(fichas));
+
+    // Se era o estado vazio, limpa a mensagem e ativa esta ficha como aba corrente
+    if (eraPrimeira) {
+      document.getElementById('msg-sem-fichas')?.remove();
+      abaAtiva = fichaRemota.id;
+    }
+
     renderTabs();
 
-    // Cria o painel de conteúdo da ficha (sem isso, clicar na aba deixa tela em branco)
     const area = document.getElementById('tabs-content-area');
     const div = document.createElement('div');
     div.className = 'tab-content-ficha';
     div.id = 'content-' + fichaRemota.id;
-    div.style.display = 'none';
+    div.style.display = eraPrimeira ? 'block' : 'none';
     div.innerHTML = criarFichaHTML(fichaRemota.id);
     area.appendChild(div);
     preencherFicha(fichaRemota.id, fichaRemota.dados);
@@ -125,9 +134,10 @@ function _aplicarMudancaRemota(fichaId, fichaRemota) {
   const tabText = document.querySelector(`.tab-btn[data-id="${fichaId}"] .tab-name-text`);
   if (tabText) tabText.textContent = fichaRemota.nome;
 
-  // Verdadeiro apenas quando o próprio usuário atual foi quem salvou a mudança.
-  // Impede que o eco do próprio save sobrescreva o formulário enquanto o usuário edita.
-  const editadoPorMim = fichaRemota.lastEditedBy === DB_USER?.uid;
+  // Verdadeiro apenas quando esta aba/janela foi quem salvou a mudança.
+  // Usa _SESSION_ID (não o UID) para que dois browsers com a mesma conta
+  // ainda recebam as mudanças um do outro.
+  const editadoPorMim = fichaRemota.lastEditedBy === _SESSION_ID;
 
   if (fichaId === abaAtiva && !editadoPorMim) {
     preencherFicha(fichaId, fichaRemota.dados);
@@ -223,5 +233,13 @@ function _authBotoes(disabled) {
     if (el) el.disabled = disabled;
   });
 }
+
+// Login e cadastro com Enter
+['auth-email', 'auth-password'].forEach(id => {
+  document.getElementById(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') authLogin(); });
+});
+['auth-signup-email', 'auth-signup-password'].forEach(id => {
+  document.getElementById(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') authSignup(); });
+});
 
 initApp();

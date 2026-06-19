@@ -11,6 +11,11 @@ let _unsubscribeListen = null;
 let DB_USER  = null;
 let DB_IS_GM = false;
 
+// ID único por aba/sessão de browser — distingue dois browsers logados na mesma conta.
+// Usado em lastEditedBy para que o eco do próprio save não sobrescreva o formulário,
+// mas mudanças de outra janela (mesmo usuário) ainda sejam aplicadas.
+const _SESSION_ID = Math.random().toString(36).slice(2) + Date.now().toString(36);
+
 // ─── Inicialização ────────────────────────────────────────────
 
 function dbConfigured() {
@@ -105,11 +110,14 @@ async function dbLogout() {
 // ─── CRUD ─────────────────────────────────────────────────────
 
 async function dbLoadFichas(filterUserId = null) {
-  let q = _db.collection('fichas').orderBy('createdAt');
+  let q = _db.collection('fichas');
   if (DB_IS_GM && filterUserId) {
+    // where + orderBy juntos exigem índice composto — usa só where e ordena no cliente
     q = q.where('userId', '==', filterUserId);
   } else if (!DB_IS_GM) {
     q = q.where('userId', '==', DB_USER.uid);
+  } else {
+    q = q.orderBy('createdAt'); // GM sem filtro: índice simples, sem where
   }
   const snap = await q.get();
   return snap.docs.map(_docToFicha);
@@ -134,7 +142,7 @@ async function dbSaveFicha(ficha) {
     userId:       ficha.user_id || DB_USER.uid,
     nome:         ficha.nome,
     dados:        ficha.dados,
-    lastEditedBy: DB_USER.uid,
+    lastEditedBy: _SESSION_ID,
     updatedAt:    firebase.firestore.FieldValue.serverTimestamp(),
   }, { merge: true });
 }
@@ -149,7 +157,12 @@ async function dbDeleteFicha(id) {
 // onRemoteChange(fichaId, fichaObj | null)
 //   fichaObj = { id, user_id, nome, dados }
 //   null = ficha foi removida
-function dbListenFichas(onRemoteChange, filterUserId = null) {
+//
+// loadedIds: Set com IDs já carregados por dbLoadFichas().
+//   No primeiro snapshot, 'added' de IDs que já estão no set são ignorados
+//   (evita duplicar fichas já renderizadas). IDs ausentes do set — carga
+//   inicial falhou ou ficha é nova — passam normalmente.
+function dbListenFichas(onRemoteChange, filterUserId = null, loadedIds = new Set()) {
   dbStopListen();
   let q = _db.collection('fichas');
   if (DB_IS_GM && filterUserId) {
@@ -162,17 +175,15 @@ function dbListenFichas(onRemoteChange, filterUserId = null) {
 
   _unsubscribeListen = q.onSnapshot(snapshot => {
     snapshot.docChanges().forEach(change => {
-      // Ignorar escritas locais pendentes
       if (change.doc.metadata.hasPendingWrites) return;
-
-      // No primeiro snapshot o Firestore dispara 'added' para todos os documentos
-      // existentes — já carregados via dbLoadFichas(). Ignorar para evitar conflito.
-      if (primeiroSnapshot && change.type === 'added') return;
 
       if (change.type === 'removed') {
         onRemoteChange(change.doc.id, null);
         return;
       }
+
+      // No primeiro snapshot, pular apenas fichas que já foram carregadas com sucesso
+      if (primeiroSnapshot && change.type === 'added' && loadedIds.has(change.doc.id)) return;
 
       onRemoteChange(change.doc.id, _docToFicha(change.doc));
     });
