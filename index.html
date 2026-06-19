@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auror — Fichas Operacionais</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="rpg-aurores/js/firebase-config.js"></script>
+  <script src="rpg-aurores/js/db.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #080604;
+      color: #e8dfc8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Faixa decorativa superior ───────────────────── */
+    .topband {
+      background: linear-gradient(90deg, #1a1208 0%, #2a1e0a 50%, #1a1208 100%);
+      border-bottom: 1px solid rgba(200,150,10,.25);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #a09060;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .topband-logo { color: #c8960a; font-weight: 700; font-size: 13px; letter-spacing: .1em; }
+
+    /* ── Hero ────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 64px 24px 48px;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 0%, rgba(200,150,10,.08) 0%, transparent 70%);
+      border-bottom: 1px solid rgba(200,150,10,.12);
+    }
+    .hero-bolt { font-size: 48px; line-height: 1; margin-bottom: 16px; filter: drop-shadow(0 0 16px rgba(200,150,10,.5)); }
+    .hero-dept {
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: #a09060; margin-bottom: 12px;
+    }
+    .hero-title {
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 800;
+      color: #c8960a;
+      letter-spacing: .04em;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .hero-sub {
+      font-size: 13px; color: #806840; max-width: 420px; margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Layout principal ────────────────────────────── */
+    .main {
+      flex: 1;
+      display: flex;
+      gap: 0;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 20px;
+      align-items: flex-start;
+    }
+
+    /* ── Painel de Auth ──────────────────────────────── */
+    .auth-panel {
+      width: 300px;
+      flex-shrink: 0;
+      background: #110e08;
+      border: 1px solid rgba(200,150,10,.2);
+      border-radius: 10px;
+      padding: 24px 22px;
+      margin-right: 28px;
+    }
+    .auth-panel-title {
+      font-size: 11px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: #c8960a;
+      margin-bottom: 18px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(200,150,10,.15);
+    }
+
+    /* estado: não logado */
+    #panel-login { display: block; }
+    /* estado: logado */
+    #panel-logged { display: none; }
+
+    .auth-tabs {
+      display: flex; gap: 3px; margin-bottom: 16px;
+      background: rgba(0,0,0,.3); border-radius: 6px; padding: 3px;
+    }
+    .auth-tab {
+      flex: 1; padding: 7px 4px; border: none;
+      background: transparent; border-radius: 4px;
+      font-size: 12px; color: #806840; cursor: pointer; transition: all .18s;
+    }
+    .auth-tab.active {
+      background: #1e1810; color: #e8c878; font-weight: 600;
+      box-shadow: 0 1px 4px rgba(0,0,0,.4);
+    }
+
+    #auth-form-signup { display: none; }
+
+    .auth-input {
+      width: 100%; padding: 9px 12px; margin-bottom: 9px;
+      border: 1px solid rgba(200,150,10,.2); border-radius: 6px;
+      background: #1a1408; color: #e8dfc8; font-size: 13px;
+      display: block; outline: none; transition: border-color .18s;
+    }
+    .auth-input:focus { border-color: #c8960a; }
+    .auth-input::placeholder { color: #50402a; }
+
+    .auth-btn {
+      width: 100%; padding: 10px;
+      background: #c8960a; color: #1a0e00;
+      border: none; border-radius: 6px;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: opacity .18s; margin-top: 2px;
+    }
+    .auth-btn:hover    { opacity: .88; }
+    .auth-btn:disabled { opacity: .45; cursor: default; }
+
+    .auth-note  { font-size: 11px; color: #60503a; margin-top: 10px; line-height: 1.5; }
+    .auth-error {
+      font-size: 12px; color: #c05040; margin-top: 10px;
+      padding: 8px 10px; background: rgba(120,30,20,.12);
+      border-radius: 5px; display: none;
+    }
+
+    /* estado logado */
+    .logged-email {
+      font-size: 12px; color: #a09060; margin-bottom: 6px;
+      word-break: break-all;
+    }
+    .logged-name {
+      font-size: 15px; font-weight: 700; color: #e8c878; margin-bottom: 4px;
+    }
+    .gm-chip {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: #c8960a; background: rgba(200,150,10,.12);
+      padding: 2px 8px; border-radius: 10px;
+      border: 1px solid rgba(200,150,10,.3); margin-bottom: 14px;
+    }
+    .btn-logout {
+      width: 100%; padding: 8px; border: 1px solid rgba(200,150,10,.2);
+      border-radius: 6px; background: transparent;
+      color: #806840; font-size: 12px; cursor: pointer; transition: all .18s;
+    }
+    .btn-logout:hover { background: rgba(120,30,20,.1); color: #c06050; border-color: rgba(150,60,50,.4); }
+
+    /* ── Área de Navegação ───────────────────────────── */
+    .nav-area { flex: 1; }
+    .nav-area-title {
+      font-size: 11px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: #c8960a;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(200,150,10,.15);
+    }
+    .nav-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .nav-card {
+      background: #110e08;
+      border: 1px solid rgba(200,150,10,.18);
+      border-radius: 10px;
+      padding: 20px 18px;
+      text-decoration: none;
+      color: inherit;
+      display: flex; flex-direction: column; gap: 6px;
+      transition: border-color .2s, background .2s, transform .15s;
+      cursor: pointer;
+    }
+    .nav-card:hover {
+      border-color: rgba(200,150,10,.5);
+      background: #181208;
+      transform: translateY(-2px);
+    }
+    .nav-card-icon { font-size: 28px; line-height: 1; }
+    .nav-card-name {
+      font-size: 14px; font-weight: 700; color: #e8c878;
+      margin-top: 4px;
+    }
+    .nav-card-desc { font-size: 11px; color: #60503a; line-height: 1.5; }
+
+    /* ── Footer ──────────────────────────────────────── */
+    .footer {
+      text-align: center; padding: 20px;
+      font-size: 11px; color: #3a3020;
+      border-top: 1px solid rgba(200,150,10,.08);
+    }
+
+    /* ── Responsivo ──────────────────────────────────── */
+    @media (max-width: 640px) {
+      .main { flex-direction: column; padding: 24px 16px; }
+      .auth-panel { width: 100%; margin-right: 0; margin-bottom: 24px; }
+      .nav-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topband">
+    <span class="topband-logo">⚡ Ministério da Magia</span>
+    <span>Sistema Operacional de Aurores</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-bolt">⚡</div>
+    <p class="hero-dept">Departamento de Execução das Leis da Magia</p>
+    <h1 class="hero-title">Fichas Operacionais de Auror</h1>
+    <p class="hero-sub">Adaptação d100 — acesse sua ficha, consulte as regras e gerencie seu arsenal de missão.</p>
+  </div>
+
+  <div class="main">
+
+    <!-- ── Painel de Auth ─────────────────────────── -->
+    <div class="auth-panel">
+      <p class="auth-panel-title">Acesso ao Sistema</p>
+
+      <!-- Não logado -->
+      <div id="panel-login">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="login"  onclick="switchTab('login')">Entrar</button>
+          <button class="auth-tab"        data-tab="signup" onclick="switchTab('signup')">Criar conta</button>
+        </div>
+
+        <div id="auth-form-login">
+          <input class="auth-input" type="email"    id="inp-email" placeholder="seu@email.com" autocomplete="email">
+          <input class="auth-input" type="password" id="inp-pass"  placeholder="Senha"         autocomplete="current-password">
+          <button class="auth-btn" id="btn-login" onclick="doLogin()">Entrar</button>
+        </div>
+
+        <div id="auth-form-signup">
+          <input class="auth-input" type="email"    id="inp-signup-email" placeholder="seu@email.com"          autocomplete="email">
+          <input class="auth-input" type="password" id="inp-signup-pass"  placeholder="Senha (mín. 6 chars)"   autocomplete="new-password">
+          <button class="auth-btn" id="btn-signup" onclick="doSignup()">Criar conta</button>
+          <p class="auth-note">Confirme seu e-mail para ativar o acesso.</p>
+        </div>
+
+        <div id="auth-error" class="auth-error"></div>
+      </div>
+
+      <!-- Logado -->
+      <div id="panel-logged">
+        <p class="logged-name" id="logged-name">—</p>
+        <p class="logged-email" id="logged-email">—</p>
+        <span class="gm-chip" id="gm-chip" style="display:none">Mestre</span>
+        <button class="btn-logout" style="margin-top:4px;" onclick="doLogout()">Sair da conta</button>
+      </div>
+    </div>
+
+    <!-- ── Navegação ──────────────────────────────── -->
+    <div class="nav-area">
+      <p class="nav-area-title">Áreas do Sistema</p>
+      <div class="nav-grid">
+        <a class="nav-card" href="rpg-aurores/ficha/">
+          <span class="nav-card-icon">⚡</span>
+          <span class="nav-card-name">Fichas de Auror</span>
+          <span class="nav-card-desc">Crie e gerencie seus personagens, atributos, perícias e equipamentos.</span>
+        </a>
+        <a class="nav-card" href="rpg-aurores/regras/">
+          <span class="nav-card-icon">📖</span>
+          <span class="nav-card-name">Regras</span>
+          <span class="nav-card-desc">Consulte o sistema d100, mecânicas de combate e progressão de patente.</span>
+        </a>
+        <a class="nav-card" href="rpg-aurores/glossario/">
+          <span class="nav-card-icon">📚</span>
+          <span class="nav-card-name">Glossário</span>
+          <span class="nav-card-desc">Termos, magias e referências do universo do Ministério da Magia.</span>
+        </a>
+        <a class="nav-card" href="rpg-aurores/itens/">
+          <span class="nav-card-icon">🧪</span>
+          <span class="nav-card-name">Itens de Missão</span>
+          <span class="nav-card-desc">Catálogo completo de itens por patente disponíveis para operações de campo.</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    Departamento de Execução das Leis da Magia · Uso Interno
+  </footer>
+
+  <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.auth-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+      document.getElementById('auth-form-login').style.display  = tab === 'login'  ? 'block' : 'none';
+      document.getElementById('auth-form-signup').style.display = tab === 'signup' ? 'block' : 'none';
+      document.getElementById('auth-error').style.display = 'none';
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('auth-error');
+      el.textContent = msg; el.style.display = 'block';
+    }
+
+    function setBtns(disabled) {
+      ['btn-login', 'btn-signup'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = disabled;
+      });
+    }
+
+    function showLoggedIn(user) {
+      document.getElementById('panel-login').style.display  = 'none';
+      document.getElementById('panel-logged').style.display = 'block';
+      document.getElementById('logged-email').textContent = user.email;
+      const name = user.displayName || user.email.split('@')[0];
+      document.getElementById('logged-name').textContent = name;
+      if (typeof DB_IS_GM !== 'undefined' && DB_IS_GM) {
+        document.getElementById('gm-chip').style.display = 'inline';
+      }
+    }
+
+    async function doLogin() {
+      const email = document.getElementById('inp-email').value.trim();
+      const pass  = document.getElementById('inp-pass').value;
+      if (!email || !pass) { showError('Preencha e-mail e senha.'); return; }
+      setBtns(true);
+      try {
+        const user = await dbLogin(email, pass);
+        showLoggedIn(user);
+      } catch (e) {
+        showError(e.message || 'Erro ao entrar.');
+        setBtns(false);
+      }
+    }
+
+    async function doSignup() {
+      const email = document.getElementById('inp-signup-email').value.trim();
+      const pass  = document.getElementById('inp-signup-pass').value;
+      if (!email || !pass) { showError('Preencha e-mail e senha.'); return; }
+      if (pass.length < 6) { showError('Senha deve ter ao menos 6 caracteres.'); return; }
+      setBtns(true);
+      try {
+        const user = await dbSignup(email, pass);
+        showLoggedIn(user);
+      } catch (e) {
+        showError(e.message || 'Erro ao criar conta.');
+        setBtns(false);
+      }
+    }
+
+    async function doLogout() {
+      await dbLogout();
+      document.getElementById('panel-login').style.display  = 'block';
+      document.getElementById('panel-logged').style.display = 'none';
+      document.getElementById('gm-chip').style.display = 'none';
+    }
+
+    // Verificar sessão existente ao carregar
+    (async () => {
+      if (typeof dbConfigured === 'undefined' || !dbConfigured()) return;
+      const user = await dbInit();
+      if (user) showLoggedIn(user);
+    })();
+  </script>
+</body>
+</html>

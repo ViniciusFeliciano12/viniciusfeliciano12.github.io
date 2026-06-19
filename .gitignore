@@ -1,5 +1,5 @@
 # Configurações sensíveis
-rpg-aurores/firebase-config.js
+rpg-aurores/js/firebase-config.js
 
 # Variáveis de ambiente
 .env

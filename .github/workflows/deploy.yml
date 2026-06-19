@@ -34,7 +34,7 @@ jobs:
           FIREBASE_APP_ID:              ${{ secrets.FIREBASE_APP_ID }}
           FIREBASE_MEASUREMENT_ID:      ${{ secrets.FIREBASE_MEASUREMENT_ID }}
         run: |
-          cat > rpg-aurores/firebase-config.js << EOF
+          cat > rpg-aurores/js/firebase-config.js << EOF
           const firebaseConfig = {
             apiKey:            "${FIREBASE_API_KEY}",
             authDomain:        "${FIREBASE_AUTH_DOMAIN}",
