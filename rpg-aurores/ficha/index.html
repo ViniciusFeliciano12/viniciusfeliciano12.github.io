@@ -132,6 +132,13 @@
                 </select>
               </div>
               <div class="field">
+                <label>Progresso da Patente (%)</label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input type="number" data-field="patente_progresso" placeholder="0" min="0" max="100" style="flex:1">
+                  <span style="font-size:12px;color:var(--ink-soft)">%</span>
+                </div>
+              </div>
+              <div class="field">
                 <label>Criação</label>
                 <select data-field="criacao">
                   <option value="">— Selecione —</option>
@@ -144,6 +151,10 @@
               <div class="field">
                 <label>Patrono</label>
                 <input type="text" data-field="patrono" placeholder="Ex: Cervo, Lontra...">
+              </div>
+              <div class="field">
+                <label>Condição Atual</label>
+                <input type="text" data-field="condicao_atual" placeholder="Ex: Exausto, Envenenado, Saudável...">
               </div>
               <div class="field" id="field-escola-wrap-${id}">
                 <label>Método de Ensino (Nacionalidade)</label>

@@ -315,6 +315,55 @@
           </div>
         </div>
 
+        <!-- FEITIÇOS DE CURA -->
+        <h2 class="rules-sec-title">Feitiços de Cura</h2>
+        <div class="rule-card bordered-gold">
+          <h4 class="gold">Cura em Combate vs Fora de Combate</h4>
+          <p style="font-size:13px;margin-bottom:12px">Feitiços de Cura diferem drasticamente dependendo de quando são usados. Em combate, são ações de alto risco e recompensa; fora, qualquer um pode tentar.</p>
+        </div>
+
+        <div class="rules-2col" style="gap:14px">
+          <div>
+            <div class="rule-card bordered-gold">
+              <h4>⚔ Em Combate (Ação Restrita)</h4>
+              <p style="font-size:12.5px;margin-bottom:10px"><strong>Apenas Aurores com Curandeirismo acima de 50%</strong> podem tentar lançar Feitiços de Cura durante um combate ativo. Abaixo disso, a perícia não fornece o refinamento necessário para concentração sob pressão.</p>
+              <ul style="font-size:12.5px;margin-bottom:10px">
+                <li><strong>Ação necessária:</strong> Gastar a Ação de Combate do turno +1 PM para conjurar.</li>
+                <li><strong>Alvo:</strong> Você mesmo ou um aliado próximo (até 6 quadrados).</li>
+                <li><strong>Teste:</strong> Role 1d100 usando sua perícia de Curandeirismo.</li>
+              </ul>
+              <p style="font-size:12.5px;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Resultado do Teste</p>
+              <ul style="font-size:12.5px">
+                <li><strong>Sucesso Regular:</strong> Recupera <strong>1d4 de HP</strong> no alvo.</li>
+                <li><strong>Sucesso Difícil:</strong> Recupera <strong>1d6 de HP</strong> no alvo.</li>
+                <li><strong>Sucesso Extremo:</strong> Recupera <strong>1d8 de HP</strong> no alvo.</li>
+                <li><strong>Crítico:</strong> Recupera HP máximo e o alvo ganha <strong>+1 Nível no Medidor de Estilo</strong> por inspiração tática.</li>
+                <li><strong>Falha:</strong> A cura falha, a ação é perdida e o Curandeiro gasta <strong>1 PM</strong> por exaustão da concentração quebrada. Sem efeito no alvo.</li>
+                <li><strong>Falha Crítica:</strong> Além de gastar 1 PM, o Curandeiro sofre <strong>1d4 de Dano de Postura</strong> — o backlash mágico afeta quem tentou curar.</li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="rule-card">
+              <h4>🌿 Fora de Combate (Ação Irrestrita)</h4>
+              <p style="font-size:12.5px;margin-bottom:10px"><strong>Qualquer Auror pode tentar 1x </strong> lançar um Feitiço de Cura fora de combate, independente do nível em Curandeirismo. Sem pressão de turno, até mesmo leigos conseguem recuperar alguém. (O Auror especializado em Curandeirismo pode tentar à vontade)</p>
+              <ul style="font-size:12.5px;margin-bottom:10px">
+                <li><strong>Custo:</strong> 1 PM.</li>
+                <li><strong>Teste:</strong> Role 1d100 usando sua perícia de Curandeirismo.</li>
+              </ul>
+              <p style="font-size:12.5px;font-weight:700;color:var(--forest);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Resultado do Teste</p>
+              <ul style="font-size:12.5px">
+                <li><strong>Sucesso Regular:</strong> Recupera <strong>1d4 de HP</strong> no alvo.</li>
+                <li><strong>Sucesso Difícil:</strong> Recupera <strong>1d6 de HP</strong> no alvo.</li>
+                <li><strong>Sucesso Extremo:</strong> Recupera <strong>1d8 de HP</strong> e também cura <strong>1d4 de Dano na Vida (HP)</strong>.</li>
+                <li><strong>Crítico:</strong> Recupera completamente a HP Máxima do alvo. Alvo fica em estado de bem-estar por algumas horas (vantagem narrativa).</li>
+                <li><strong>Falha:</strong> A tentativa falha sem consequência. Pode tentar novamente na próxima cena.</li>
+                <li><strong>Falha Crítica:</strong> A tentativa falha e ambos Usuário e Alvo perdem 1 PM.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <!-- ESPECIALIZAÇÕES DE AUROR -->
         <h2 class="rules-sec-title">Especializações de Auror</h2>
         <div class="rule-card bordered-gold" style="margin-bottom:14px">
@@ -687,6 +736,21 @@
             A patente também determina quais <strong>itens de missão</strong> o Auror pode requisitar antes de cada operação.
           </p>
         </div>
+
+        <div class="rule-card" style="margin-bottom:14px;border-left:4px solid var(--gold)">
+          <h4 class="gold">Sistema de Progressão de Patentes</h4>
+          <p style="font-size:12.5px;margin-bottom:10px">As patentes não são permanentes — elas evoluem conforme você completa missões e demonstra competência em campo. Cada missão contribui para sua <strong>Porcentagem de Experiência de Patente</strong>, que vai de 0% a 100%.</p>
+          <ul style="font-size:12.5px;margin-bottom:10px">
+            <li><strong>Durante as missões:</strong> A cada operação bem-sucedida, o Mestre atribui uma porcentagem baseada no desempenho. (tipicamente 5–25% por missão, dependendo da dificuldade e execução).</li>
+            <li><strong>Progresso acumulativo:</strong> A porcentagem é acumulada na sua patente atual. Você pode acompanhar o progresso na sua ficha de Auror.</li>
+            <li><strong>Ao atingir 100%:</strong> Você sobe automaticamente para a próxima patente. A porcentagem reseta a 0% na nova patente, e você imediatamente ganha acesso aos itens do novo rank.</li>
+            <li><strong>Demissão ou falhas críticas:</strong> A critério do Mestre, falhas graves em combate ou escolhas questionáveis podem reduzir a porcentagem ou até recuar uma patente.</li>
+          </ul>
+          <div class="school-special" style="margin-top:10px">
+            <strong>Exemplo:</strong> Um Cadete com 60% de experiência completa uma missão média e recebe +30%. Agora tem 90%. Na próxima missão bem-sucedida com +15%, atinge 105% e é promovido a Investigador (começa com 5% em Investigador).
+          </div>
+        </div>
+
         <div class="rank-patentes-grid">
           <div class="patente-card patente-cadete">
             <div class="patente-insignia">🔵</div>

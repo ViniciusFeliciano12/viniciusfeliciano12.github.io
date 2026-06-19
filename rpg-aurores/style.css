@@ -284,7 +284,7 @@ select:focus {
   display: grid;
   grid-template-columns: 148px 1fr;
   gap: 20px;
-  align-items: end;
+  align-items: center;
 }
 
 .foto-box {
