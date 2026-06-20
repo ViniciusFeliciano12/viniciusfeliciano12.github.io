@@ -34,7 +34,10 @@ service cloud.firestore {
         resource.data.userId == request.auth.uid ||
         isMestre() ||
         (resource.data.campanhaId != null &&
-         isCampanhaGM(resource.data.campanhaId))
+         isCampanhaGM(resource.data.campanhaId)) ||
+        (resource.data.campanhaId == null &&
+         request.resource.data.campanhaId != null &&
+         isCampanhaGM(request.resource.data.campanhaId))
       );
       allow delete: if request.auth != null && (
         resource.data.userId == request.auth.uid || isMestre()
