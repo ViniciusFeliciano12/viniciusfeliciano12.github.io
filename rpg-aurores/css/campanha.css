@@ -678,3 +678,394 @@
     max-width: 100%;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   DETALHES DA CAMPANHA
+═══════════════════════════════════════════════════════════════ */
+
+/* ─── Cabeçalho ──────────────────────────────────────────────── */
+.camp-detail-header {
+  padding: 24px 20px 20px;
+  border-bottom: 2px solid var(--parch-deep);
+  background: var(--parch);
+}
+
+.camp-detail-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.camp-detail-title-row h1 {
+  font-size: 22px;
+  color: var(--crimson);
+  margin: 0;
+}
+
+.camp-detail-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin: 0 0 8px;
+}
+
+.camp-detail-gm {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ─── Grupos de fichas ───────────────────────────────────────── */
+.detail-player-group {
+  border: 1.5px solid var(--parch-deep);
+  border-radius: var(--r);
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.detail-player-label {
+  background: var(--parch-alt);
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  border-bottom: 1px solid var(--parch-deep);
+}
+
+.detail-you-tag {
+  font-weight: 400;
+  text-transform: none;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0;
+}
+
+.detail-ficha-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--parch-deep);
+  gap: 10px;
+}
+
+.detail-ficha-row:last-of-type {
+  border-bottom: none;
+}
+
+.detail-ficha-name {
+  font-size: 13px;
+  color: var(--ink);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.detail-ficha-actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px;
+}
+
+/* Botão adicionar ficha (dentro do grupo) */
+.btn-adicionar-ficha {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  border-top: 1px dashed var(--parch-deep);
+  padding: 9px 14px;
+  text-align: left;
+  font-family: 'Georgia', serif;
+  font-size: 12px;
+  color: var(--gold);
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.btn-adicionar-ficha:hover {
+  background: var(--parch-alt);
+}
+
+/* ─── Lista de jogadores (GM) ────────────────────────────────── */
+.detail-player-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--parch-deep);
+  gap: 12px;
+}
+
+.detail-player-row:last-child {
+  border-bottom: none;
+}
+
+.detail-player-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-player-row-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.detail-player-row-email {
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+/* ─── Solicitações (GM) ──────────────────────────────────────── */
+.detail-request-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border: 1.5px solid var(--parch-deep);
+  border-radius: var(--r);
+  margin-bottom: 10px;
+  background: var(--parch-alt);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-request-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-request-player {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.detail-request-ficha {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.detail-request-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ─── Minha Participação (Jogador) ───────────────────────────── */
+.minha-part-section {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--parch-deep);
+  margin-bottom: 20px;
+}
+
+.minha-part-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.minha-part-title {
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.minha-part-info {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.minha-part-danger {
+  background: rgba(107, 26, 26, .04);
+  border: 1px solid rgba(107, 26, 26, .15);
+  border-radius: var(--r);
+  padding: 16px !important;
+}
+
+.minha-part-danger h4 {
+  color: var(--crimson);
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+/* ─── Botões de ação ─────────────────────────────────────────── */
+.btn-ver-ficha {
+  background: none;
+  border: 1.5px solid var(--parch-deep);
+  color: var(--ink);
+  font-family: 'Georgia', serif;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: var(--r);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: border-color .15s, color .15s;
+  white-space: nowrap;
+}
+
+.btn-ver-ficha:hover {
+  border-color: var(--gold);
+  color: var(--crimson);
+}
+
+.btn-desvincular {
+  background: none;
+  border: 1.5px solid var(--parch-deep);
+  color: var(--ink-soft);
+  font-family: 'Georgia', serif;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+  white-space: nowrap;
+}
+
+.btn-desvincular:hover {
+  border-color: var(--crimson);
+  color: var(--crimson);
+}
+
+.btn-expulsar {
+  background: none;
+  border: 1.5px solid rgba(107, 26, 26, .3);
+  color: var(--crimson);
+  font-family: 'Georgia', serif;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+}
+
+.btn-expulsar:hover {
+  background: rgba(107, 26, 26, .08);
+}
+
+.btn-aceitar {
+  background: var(--forest);
+  color: #fff;
+  border: none;
+  font-family: 'Georgia', serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+}
+
+.btn-aceitar:hover { background: #154a22; }
+.btn-aceitar:disabled { opacity: .6; cursor: default; }
+
+.btn-recusar {
+  background: none;
+  border: 1.5px solid var(--parch-deep);
+  color: var(--ink-soft);
+  font-family: 'Georgia', serif;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+  white-space: nowrap;
+}
+
+.btn-recusar:hover {
+  border-color: var(--crimson);
+  color: var(--crimson);
+}
+.btn-recusar:disabled { opacity: .6; cursor: default; }
+
+.btn-perigo {
+  background: var(--crimson);
+  color: #fff;
+  border: none;
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: var(--r);
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background .15s;
+}
+
+.btn-perigo:hover { background: #8b2020; }
+
+/* ─── Modal de confirmação (danger) ──────────────────────────── */
+.modal-btn-danger {
+  background: var(--crimson) !important;
+  color: #fff !important;
+}
+
+.modal-btn-danger:hover { background: #8b2020 !important; }
+
+/* ─── Badge de contagem nas tabs ─────────────────────────────── */
+.camp-tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--crimson);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 9px;
+  margin-left: 5px;
+  vertical-align: middle;
+  font-family: sans-serif;
+}
+
+/* ─── Botão solicitar entrada (busca) ────────────────────────── */
+.btn-solicitar {
+  background: var(--forest);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  font-family: 'Georgia', serif;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-solicitar:hover { background: #154a22; }
+
+.btn-entrar--pendente {
+  background: var(--parch-deep) !important;
+  color: var(--ink-soft) !important;
+  cursor: default !important;
+  font-style: italic;
+}
+
+@media (max-width: 520px) {
+  .detail-request-card { flex-direction: column; align-items: flex-start; }
+  .detail-request-actions { width: 100%; justify-content: flex-end; }
+  .detail-player-row { flex-wrap: wrap; }
+  .btn-expulsar { width: 100%; text-align: center; }
+}

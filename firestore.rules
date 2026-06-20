@@ -2,49 +2,86 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Verifica se o usuário logado é Mestre (documento existe em gm_users)
     function isMestre() {
       return exists(/databases/$(database)/documents/gm_users/$(request.auth.uid));
     }
 
-    // Fichas: jogador gerencia as próprias; Mestre lê e escreve todas
-    match /fichas/{fichaId} {
-      allow read:   if request.auth != null &&
-                       (resource.data.userId == request.auth.uid || isMestre());
-      allow create: if request.auth != null &&
-                       request.resource.data.userId == request.auth.uid;
-      allow update, delete: if request.auth != null &&
-                       (resource.data.userId == request.auth.uid || isMestre());
+    function campDoc(campanhaId) {
+      return get(/databases/$(database)/documents/campanhas/$(campanhaId));
     }
 
-    // gm_users: só leitura (escrita é feita manualmente pelo console)
+    function isCampanhaGM(campanhaId) {
+      return campDoc(campanhaId).data.gmId == request.auth.uid;
+    }
+
+    function isCampanhaParticipante(campanhaId) {
+      return request.auth.uid in campDoc(campanhaId).data.jogadoresIds;
+    }
+
+    // Fichas: dono gerencia; GM da campanha lê e desvinculariza; participantes leem fichas da mesma campanha
+    match /fichas/{fichaId} {
+      allow read: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        isMestre() ||
+        (resource.data.campanhaId != null && (
+          isCampanhaGM(resource.data.campanhaId) ||
+          isCampanhaParticipante(resource.data.campanhaId)
+        ))
+      );
+      allow create: if request.auth != null &&
+                       request.resource.data.userId == request.auth.uid;
+      allow update: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        isMestre() ||
+        (resource.data.campanhaId != null &&
+         isCampanhaGM(resource.data.campanhaId))
+      );
+      allow delete: if request.auth != null && (
+        resource.data.userId == request.auth.uid || isMestre()
+      );
+    }
+
+    // gm_users: só leitura (escrita via console)
     match /gm_users/{userId} {
       allow read: if request.auth != null;
       allow write: if false;
     }
 
-    // users: registro de perfil (email). Jogador escreve o próprio; Mestre lê todos.
+    // users: qualquer autenticado lê; cada um escreve o próprio
     match /users/{userId} {
-      allow read: if request.auth != null && (request.auth.uid == userId || isMestre());
+      allow read:  if request.auth != null;
       allow write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // campanhas: GM cria e gerencia; jogadores participantes leem.
+    // campanhas
     match /campanhas/{campanhaId} {
-      // GM da campanha, jogador participante ou Mestre admin podem ler
       allow read: if request.auth != null;
-
-      // Qualquer autenticado pode criar, desde que gmId seja o próprio UID
       allow create: if request.auth != null &&
                        request.resource.data.gmId == request.auth.uid;
+      allow update: if request.auth != null && (
+        resource.data.gmId == request.auth.uid ||
+        isMestre() ||
+        request.auth.uid in resource.data.jogadoresIds
+      );
+      allow delete: if request.auth != null && (
+        resource.data.gmId == request.auth.uid || isMestre()
+      );
+    }
 
-      // Só o GM da campanha ou Mestre admin podem atualizar
-      allow update: if request.auth != null &&
-                       (resource.data.gmId == request.auth.uid || isMestre());
-
-      // Só o GM da campanha ou Mestre admin podem apagar
-      allow delete: if request.auth != null &&
-                       (resource.data.gmId == request.auth.uid || isMestre());
+    // solicitações de entrada em campanhas
+    match /campanhas/{campanhaId}/solicitacoes/{uid} {
+      allow read: if request.auth != null && (
+        request.auth.uid == uid ||
+        campDoc(campanhaId).data.gmId == request.auth.uid ||
+        isMestre()
+      );
+      allow create: if request.auth != null && request.auth.uid == uid;
+      allow delete: if request.auth != null && (
+        request.auth.uid == uid ||
+        campDoc(campanhaId).data.gmId == request.auth.uid ||
+        isMestre()
+      );
+      allow update: if false;
     }
   }
 }

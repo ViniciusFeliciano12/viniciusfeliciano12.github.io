@@ -796,3 +796,21 @@
     grid-template-columns: 1fr
   }
 }
+
+/* ─── Modo leitura (ficha de outro jogador) ──────────────────── */
+.readonly-banner {
+  background: rgba(184, 136, 10, .1);
+  border: 1.5px solid rgba(184, 136, 10, .35);
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 18px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.readonly-banner strong {
+  color: var(--ink);
+}

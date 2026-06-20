@@ -242,5 +242,169 @@ function dbStopListen() {
 
 function _docToFicha(doc) {
   const d = doc.data();
-  return { id: doc.id, user_id: d.userId, nome: d.nome, dados: d.dados || {}, lastEditedBy: d.lastEditedBy || null };
+  return {
+    id: doc.id,
+    user_id: d.userId,
+    nome: d.nome,
+    dados: d.dados || {},
+    lastEditedBy: d.lastEditedBy || null,
+    campanhaId: d.campanhaId || null,
+  };
+}
+
+// Busca uma ficha específica pelo ID (acesso por GM de campanha, participantes ou dono)
+async function dbGetFichaById(id) {
+  const doc = await _db.collection('fichas').doc(id).get();
+  if (!doc.exists) return null;
+  return _docToFicha(doc);
+}
+
+// ─── Campanhas ────────────────────────────────────────────────
+
+async function dbGetCampanha(id) {
+  const doc = await _db.collection('campanhas').doc(id).get();
+  if (!doc.exists) return null;
+  const d = doc.data();
+  return {
+    id: doc.id,
+    gmId: d.gmId || '',
+    gmEmail: d.gmEmail || '',
+    nome: d.nome || '',
+    descricao: d.descricao || '',
+    sistema: d.sistema || 'd100',
+    status: d.status || 'ativa',
+    jogadoresIds: d.jogadoresIds || [],
+    membros: d.membros || {},
+  };
+}
+
+// Fichas vinculadas a uma campanha (lidas pelo GM ou participantes)
+async function dbGetCampanhaFichas(campanhaId) {
+  const snap = await _db.collection('fichas')
+    .where('campanhaId', '==', campanhaId)
+    .get();
+  return snap.docs.map(_docToFicha);
+}
+
+async function dbGetSolicitacoes(campanhaId) {
+  const snap = await _db.collection('campanhas').doc(campanhaId)
+    .collection('solicitacoes')
+    .orderBy('requestedAt', 'desc')
+    .get();
+  return snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+}
+
+// Jogador solicita entrada com uma ficha (cria/sobrescreve solicitação)
+async function dbSolicitarEntrada(campanhaId, fichaId, fichaName) {
+  if (!DB_USER) throw new Error('Não autenticado.');
+  const fichaDoc = await _db.collection('fichas').doc(fichaId).get();
+  if (!fichaDoc.exists) throw new Error('Ficha não encontrada.');
+  if (fichaDoc.data().campanhaId) throw new Error('Esta ficha já está vinculada a uma campanha.');
+  await _db.collection('campanhas').doc(campanhaId)
+    .collection('solicitacoes').doc(DB_USER.uid).set({
+      email: DB_USER.email,
+      fichaId,
+      fichaName,
+      requestedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+}
+
+async function dbCancelarSolicitacao(campanhaId) {
+  if (!DB_USER) throw new Error('Não autenticado.');
+  await _db.collection('campanhas').doc(campanhaId)
+    .collection('solicitacoes').doc(DB_USER.uid).delete();
+}
+
+// GM aceita jogador: vincula ficha, adiciona à campanha, remove solicitação
+async function dbAceitarJogador(campanhaId, uid, fichaId, userData) {
+  if (!DB_USER) throw new Error('Não autenticado.');
+  const batch = _db.batch();
+  const campRef = _db.collection('campanhas').doc(campanhaId);
+  batch.update(campRef, {
+    jogadoresIds: firebase.firestore.FieldValue.arrayUnion(uid),
+    [`membros.${uid}`]: {
+      email: userData.email || '',
+      username: userData.username || null,
+      joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    },
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+  batch.update(_db.collection('fichas').doc(fichaId), {
+    campanhaId,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+  batch.delete(campRef.collection('solicitacoes').doc(uid));
+  await batch.commit();
+}
+
+async function dbRecusarJogador(campanhaId, uid) {
+  await _db.collection('campanhas').doc(campanhaId)
+    .collection('solicitacoes').doc(uid).delete();
+}
+
+// GM expulsa jogador: remove da campanha e desvincula todas as suas fichas
+async function dbExpulsarJogador(campanhaId, uid) {
+  if (!DB_USER) throw new Error('Não autenticado.');
+  const campRef = _db.collection('campanhas').doc(campanhaId);
+  await campRef.update({
+    jogadoresIds: firebase.firestore.FieldValue.arrayRemove(uid),
+    [`membros.${uid}`]: firebase.firestore.FieldValue.delete(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+  const snap = await _db.collection('fichas')
+    .where('userId', '==', uid)
+    .where('campanhaId', '==', campanhaId)
+    .get();
+  if (!snap.empty) {
+    const batch = _db.batch();
+    snap.docs.forEach(d => batch.update(d.ref, {
+      campanhaId: null,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    }));
+    await batch.commit();
+  }
+}
+
+// GM ou dono desvincula uma ficha da campanha (sem deletar)
+async function dbDesvinculaFicha(fichaId) {
+  await _db.collection('fichas').doc(fichaId).update({
+    campanhaId: null,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+}
+
+// Jogador vincula uma ficha livre a uma campanha em que já é membro
+async function dbVincularFicha(fichaId, campanhaId) {
+  if (!DB_USER) throw new Error('Não autenticado.');
+  const fichaDoc = await _db.collection('fichas').doc(fichaId).get();
+  if (!fichaDoc.exists) throw new Error('Ficha não encontrada.');
+  const atual = fichaDoc.data().campanhaId;
+  if (atual && atual !== campanhaId) throw new Error('Esta ficha já está vinculada a outra campanha.');
+  await _db.collection('fichas').doc(fichaId).update({
+    campanhaId,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+}
+
+// Jogador sai da campanha: remove-se de jogadoresIds e desvincula suas fichas
+async function dbSairDaCampanha(campanhaId) {
+  if (!DB_USER) throw new Error('Não autenticado.');
+  const campRef = _db.collection('campanhas').doc(campanhaId);
+  await campRef.update({
+    jogadoresIds: firebase.firestore.FieldValue.arrayRemove(DB_USER.uid),
+    [`membros.${DB_USER.uid}`]: firebase.firestore.FieldValue.delete(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+  const snap = await _db.collection('fichas')
+    .where('userId', '==', DB_USER.uid)
+    .where('campanhaId', '==', campanhaId)
+    .get();
+  if (!snap.empty) {
+    const batch = _db.batch();
+    snap.docs.forEach(d => batch.update(d.ref, {
+      campanhaId: null,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    }));
+    await batch.commit();
+  }
 }

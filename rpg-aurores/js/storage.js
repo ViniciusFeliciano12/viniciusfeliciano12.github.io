@@ -17,6 +17,7 @@ function carregarFichas() {
 }
 
 function salvarFichas(fichaId) {
+  if (typeof _modoLeitura !== 'undefined' && _modoLeitura) return;
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(fichas)); }
   catch (e) { console.warn('Erro ao salvar local:', e); }
   if (typeof DB_USER !== 'undefined' && DB_USER) {

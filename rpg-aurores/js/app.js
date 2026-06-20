@@ -4,6 +4,11 @@
 
 // UID do jogador a ser visualizado pelo Mestre (param ?jogador=UID)
 const _JOGADOR_UID = new URLSearchParams(location.search).get('jogador');
+// ID de uma ficha específica a ser aberta (param ?ficha=ID)
+const _FICHA_ID = new URLSearchParams(location.search).get('ficha');
+
+// true quando o usuário está apenas visualizando a ficha de outro jogador
+let _modoLeitura = false;
 
 document.getElementById('btn-nova-aba').addEventListener('click', novaAba);
 
@@ -21,11 +26,108 @@ async function initApp() {
   try {
     const user = await dbInit();
     if (!user) { _mostrarFormLogin(); return; }
-    await _carregarEIniciar(user);
+    if (_FICHA_ID) {
+      await _carregarFichaEspecifica(user);
+    } else {
+      await _carregarEIniciar(user);
+    }
   } catch (e) {
     console.error('Erro na inicialização:', e);
     _mostrarFormLogin();
   }
+}
+
+// Abre uma ficha específica por ID, determinando permissão de edição
+async function _carregarFichaEspecifica(user) {
+  const ficha = await dbGetFichaById(_FICHA_ID).catch(() => null);
+  if (!ficha) {
+    _esconderOverlay();
+    document.getElementById('tabs-content-area').innerHTML =
+      '<p style="padding:3rem 2rem;color:var(--ink-soft);text-align:center">Ficha não encontrada ou acesso negado.</p>';
+    _atualizarBarraUsuario(user);
+    return;
+  }
+
+  // Determina permissão: dono e adm do site → edição; GM da campanha → edição; outros participantes → leitura
+  let podeEditar = ficha.user_id === user.uid || DB_IS_GM;
+
+  if (!podeEditar && ficha.campanhaId) {
+    const camp = await dbGetCampanha(ficha.campanhaId).catch(() => null);
+    if (camp) {
+      if (camp.gmId === user.uid) podeEditar = true;
+      // participante mas não GM → modo leitura (Firestore já bloqueou o update)
+    }
+  }
+
+  _modoLeitura = !podeEditar;
+
+  fichas = [ficha];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(fichas));
+
+  const perfil = await dbGetUser(user.uid).catch(() => null);
+  const donoLabel = await _resolverNomeDono(ficha);
+
+  _esconderOverlay();
+  _atualizarBarraUsuario(user, perfil);
+
+  // Na barra de contexto, mostra de quem é a ficha quando é de outro jogador
+  if (ficha.user_id !== user.uid) {
+    const ctx = document.getElementById('jogador-ctx');
+    if (ctx) { ctx.style.display = 'inline'; ctx.textContent = donoLabel; }
+  }
+
+  // Esconde export-bar, nova aba e aba-delete quando não é a própria ficha ou é leitura
+  if (_modoLeitura || ficha.user_id !== user.uid) {
+    document.getElementById('export-bar').style.display = 'none';
+    document.getElementById('btn-nova-aba').style.display = 'none';
+  }
+
+  abaAtiva = ficha.id;
+  renderTabs();
+  renderConteudo();
+
+  if (_modoLeitura) {
+    _aplicarModoLeitura(ficha.id, donoLabel);
+  }
+}
+
+async function _resolverNomeDono(ficha) {
+  try {
+    const u = await dbGetUser(ficha.user_id);
+    return u?.username || u?.email || ficha.user_id.slice(0, 8) + '…';
+  } catch {
+    return ficha.user_id.slice(0, 8) + '…';
+  }
+}
+
+// Desabilita todos os campos de dados e mostra banner de modo leitura
+function _aplicarModoLeitura(fichaId, donoLabel) {
+  const c = document.getElementById('content-' + fichaId);
+  if (!c) return;
+
+  c.querySelectorAll('input[data-field], select[data-field], textarea[data-field]').forEach(el => {
+    el.disabled = true;
+  });
+  c.querySelectorAll('input.objeto-input, .btn-add-obj, .btn-rm-obj').forEach(el => {
+    el.disabled = true;
+    if (el.tagName === 'BUTTON') el.style.visibility = 'hidden';
+  });
+
+  const fotoArea = c.querySelector('.foto-area');
+  if (fotoArea) { fotoArea.style.pointerEvents = 'none'; fotoArea.style.cursor = 'default'; }
+  const fotoBtn = c.querySelector('.foto-btn');
+  if (fotoBtn) fotoBtn.style.display = 'none';
+
+  const wrap = c.querySelector('.sheet-wrap');
+  if (wrap) {
+    const banner = document.createElement('div');
+    banner.className = 'readonly-banner';
+    banner.innerHTML = `👁 Ficha de <strong>${donoLabel}</strong> — modo somente leitura`;
+    wrap.insertBefore(banner, wrap.firstChild);
+  }
+
+  // Esconde botão de deletar aba
+  document.querySelectorAll('.tab-del').forEach(b => b.style.display = 'none');
 }
 
 async function _carregarEIniciar(user) {
