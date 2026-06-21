@@ -1,65 +1,113 @@
 /* ═══ PATENTES GRID ════════════════════════════════════════════ */
 .rank-patentes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
   gap: 12px;
   margin-bottom: 24px;
 }
 
 .patente-card {
-  background: var(--parch);
-  border-radius: 8px;
-  padding: 14px;
-  border-left: 4px solid var(--gold);
+  background: var(--parch-alt);
+  border: 1px solid var(--parch-deep);
+  border-top: 3px solid var(--gold);
+  border-radius: var(--r);
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
 
-.patente-card h4 {
-  margin: 0;
-  color: var(--gold);
-  font-size: 14px;
+.patente-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dotted var(--parch-deep);
 }
 
 .patente-insignia {
-  font-size: 24px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.patente-rank-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: rgba(184, 136, 10, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(184, 136, 10, 0.28);
+}
+
+.patente-card h4 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 13.5px;
 }
 
 .patente-desc {
   font-size: 11.5px;
   color: var(--ink-soft);
-  line-height: 1.5;
+  line-height: 1.55;
   margin: 0;
+  flex: 1;
 }
 
 .patente-acesso {
-  font-size: 11px;
-  color: var(--crimson);
+  font-size: 10.5px;
   font-weight: 600;
-  margin-top: auto;
-  padding-top: 6px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--crimson);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dotted var(--parch-deep);
 }
 
 .patente-cadete {
-  border-left-color: #3b82f6;
+  border-top-color: #3b82f6;
+}
+.patente-cadete .patente-rank-badge {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+  border-color: rgba(59, 130, 246, 0.25);
 }
 
 .patente-investigador {
-  border-left-color: #22c55e;
+  border-top-color: #22c55e;
+}
+.patente-investigador .patente-rank-badge {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+  border-color: rgba(34, 197, 94, 0.25);
 }
 
 .patente-auror {
-  border-left-color: #eab308;
+  border-top-color: #d4a000;
+}
+.patente-auror .patente-rank-badge {
+  background: rgba(184, 136, 10, 0.12);
+  color: var(--gold);
+  border-color: rgba(184, 136, 10, 0.28);
 }
 
 .patente-inspetor {
-  border-left-color: #f97316;
+  border-top-color: #f97316;
+}
+.patente-inspetor .patente-rank-badge {
+  background: rgba(249, 115, 22, 0.1);
+  color: #c05a00;
+  border-color: rgba(249, 115, 22, 0.25);
 }
 
 .patente-comandante {
-  border-left-color: #ef4444;
+  border-top-color: #ef4444;
+}
+.patente-comandante .patente-rank-badge {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.25);
 }
 
 /* ═══ CARGA FORMULA DESTAQUE ════════════════════════════════════ */

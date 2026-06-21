@@ -127,11 +127,15 @@
    * @param {string} [jogadorCtx] - Label exibido quando Mestre vê ficha alheia
    */
   window.headerUpdate = function (user, perfil, isGM, jogadorCtx) {
+    const existing = _cacheGet();
+    const sameUser = existing && existing.uid === (user?.uid || null);
     const data = {
       uid: user?.uid || null,
       email: user?.email || null,
-      username: perfil?.username || null,
-      avatarUrl: perfil?.avatarUrl || null,
+      // Se perfil falhou (null), preserva username/avatarUrl do cache — evita
+      // apagar foto/nome quando dbGetUser tem erro transiente de auth/rede.
+      username: perfil ? (perfil.username || null) : (sameUser ? existing.username : null),
+      avatarUrl: perfil ? (perfil.avatarUrl || null) : (sameUser ? existing.avatarUrl : null),
       isGM: !!isGM,
       jogadorCtx: jogadorCtx || null,
     };
