@@ -109,6 +109,11 @@ async function dbDeleteAccount(senhaAtual) {
   const cred = firebase.auth.EmailAuthProvider.credential(DB_USER.email, senhaAtual);
   await _auth.currentUser.reauthenticateWithCredential(cred);
   const uid = DB_USER.uid;
+  // Remove campanhas criadas pelo GM (libera fichas de outros jogadores)
+  const campsSnap = await _db.collection('campanhas').where('gmId', '==', uid).get();
+  for (const doc of campsSnap.docs) {
+    await dbDeleteCampanha(doc.id);
+  }
   // Remove fichas do usuário
   const snap = await _db.collection('fichas').where('userId', '==', uid).get();
   if (!snap.empty) {
@@ -363,6 +368,23 @@ async function dbExpulsarJogador(campanhaId, uid) {
     }));
     await batch.commit();
   }
+}
+
+// GM deleta a campanha: libera fichas vinculadas, remove solicitações e deleta o documento
+async function dbDeleteCampanha(campanhaId) {
+  if (!DB_USER) throw new Error('Não autenticado.');
+  const [fichasSnap, solsSnap] = await Promise.all([
+    _db.collection('fichas').where('campanhaId', '==', campanhaId).get(),
+    _db.collection('campanhas').doc(campanhaId).collection('solicitacoes').get(),
+  ]);
+  const batch = _db.batch();
+  fichasSnap.docs.forEach(d => batch.update(d.ref, {
+    campanhaId: null,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  }));
+  solsSnap.docs.forEach(d => batch.delete(d.ref));
+  batch.delete(_db.collection('campanhas').doc(campanhaId));
+  await batch.commit();
 }
 
 // GM ou dono desvincula uma ficha da campanha (sem deletar)

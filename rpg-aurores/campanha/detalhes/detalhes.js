@@ -184,6 +184,7 @@ function _renderTabs() {
         { key: 'fichas',       label: 'Fichas' },
         { key: 'jogadores',    label: 'Jogadores' },
         { key: 'solicitacoes', label: 'Solicitações', badge: true },
+        { key: 'config',       label: 'Configurações' },
       ]
     : [
         { key: 'fichas',      label: 'Fichas' },
@@ -204,7 +205,7 @@ function trocarTabDetail(tab) {
     b.setAttribute('aria-selected', ativo ? 'true' : 'false');
   });
 
-  const allPanels = ['panel-fichas', 'panel-jogadores', 'panel-solicitacoes', 'panel-minha-part'];
+  const allPanels = ['panel-fichas', 'panel-jogadores', 'panel-solicitacoes', 'panel-minha-part', 'panel-config'];
   allPanels.forEach(id => {
     document.getElementById(id).style.display = 'none';
   });
@@ -214,6 +215,7 @@ function trocarTabDetail(tab) {
     'jogadores':    'panel-jogadores',
     'solicitacoes': 'panel-solicitacoes',
     'minha-part':   'panel-minha-part',
+    'config':       'panel-config',
   };
   const panelId = panelMap[tab];
   if (panelId) document.getElementById(panelId).style.display = 'block';
@@ -223,6 +225,7 @@ function trocarTabDetail(tab) {
   if (tab === 'jogadores') carregarJogadores();
   if (tab === 'solicitacoes') carregarSolicitacoes();
   if (tab === 'minha-part') renderMinhaParticipacao();
+  if (tab === 'config') renderConfiguracoesCampanha();
 }
 
 function _ativarTab(tab) {
@@ -568,6 +571,30 @@ async function confirmarAddFicha() {
     btn.disabled = false;
     btn.textContent = 'Vincular ficha';
   }
+}
+
+// ─── Tab: Configurações (GM) ─────────────────────────────────
+
+function renderConfiguracoesCampanha() {
+  const content = document.getElementById('config-content');
+  content.innerHTML = `
+    <div class="minha-part-section minha-part-danger">
+      <h4>Zona de perigo</h4>
+      <p>Ao deletar a campanha, todas as fichas dos jogadores serão <strong>desvinculadas</strong> (não excluídas). Esta ação é <strong>irreversível</strong>.</p>
+      <button class="btn-perigo" onclick="solicitarDeletarCampanha()">Deletar campanha</button>
+    </div>`;
+}
+
+function solicitarDeletarCampanha() {
+  abrirConfirm(
+    'Deletar campanha',
+    `Deseja deletar "${_campanha.nome}"? Todas as fichas serão desvinculadas. Esta ação é irreversível.`,
+    async () => {
+      await dbDeleteCampanha(_campanhaId);
+      mostrarToast('Campanha deletada.');
+      setTimeout(() => location.replace('../'), 1200);
+    }
+  );
 }
 
 // ─── Modal: Confirmação de ação destrutiva ────────────────────
