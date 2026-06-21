@@ -144,6 +144,12 @@
     _applyUserData(data);
   };
 
+  /** Retorna o UID em cache, ou null. Usado pelas páginas para evitar
+   *  chamadas desnecessárias ao Firestore quando o cache já está válido. */
+  window.headerCacheUid = function () {
+    return (_cacheGet() || {}).uid || null;
+  };
+
   /** Remove o cache e oculta o user-bar (chamar no logout). */
   window.headerClear = function () {
     _cacheClear();

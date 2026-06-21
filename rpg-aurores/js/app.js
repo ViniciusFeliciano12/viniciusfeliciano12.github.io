@@ -63,7 +63,8 @@ async function _carregarFichaEspecifica(user) {
 
   fichas = [ficha];
 
-  const perfil = await dbGetUser(user.uid).catch(() => null);
+  const _hUid = typeof window.headerCacheUid === 'function' ? window.headerCacheUid() : null;
+  const perfil = _hUid !== user.uid ? await dbGetUser(user.uid).catch(() => null) : null;
   const donoLabel = await _resolverNomeDono(ficha);
 
   _esconderOverlay();
@@ -146,9 +147,11 @@ async function _carregarEIniciar(user) {
     if (!DB_IS_GM) carregarFichas(); // fallback local somente offline
   }
 
-  // Lê perfil após carregar fichas — garante que o token de auth do Firestore
-  // já está propagado antes desta leitura da coleção users.
-  const perfil = await dbGetUser(user.uid).catch(() => null);
+  // Só busca perfil no Firestore se não há cache válido para este usuário
+  // (primeiro acesso na aba, após logout, ou nova aba). Em navegação normal,
+  // o header usa o sessionStorage e não precisa de chamada extra ao Firebase.
+  const _hUid = typeof window.headerCacheUid === 'function' ? window.headerCacheUid() : null;
+  const perfil = _hUid !== user.uid ? await dbGetUser(user.uid).catch(() => null) : null;
 
   _esconderOverlay();
   _atualizarBarraUsuario(user, perfil);
