@@ -392,17 +392,26 @@
         </div>
 
         <!-- ATRIBUTOS BASE -->
-        <h2 class="sec-title"><span class="sec-icon">⚗</span> Atributos Base <button class="btn-rolar-atributos" onclick="abrirRolarAtributos('${id}')">🎲 Rolar Atributos</button></h2>
+        <h2 class="sec-title"><span class="sec-icon">⚗</span> Atributos Base <button class="btn-rolar-atributos"
+            onclick="abrirRolarAtributos('${id}')">🎲 Rolar Atributos</button></h2>
         <div class="attrs-grid">
-          <div class="attr-box" data-attr-label="FOR — Força"><span>FOR — Força</span><input type="text" data-field="for" value="50"></div>
-          <div class="attr-box" data-attr-label="DES — Destreza"><span>DES — Destreza</span><input type="text" data-field="des" value="60"></div>
-          <div class="attr-box" data-attr-label="INT — Inteligência"><span>INT — Inteligência</span><input type="text" data-field="int_attr" value="65">
+          <div class="attr-box" data-attr-label="FOR — Força"><span>FOR — Força</span><input type="text"
+              data-field="for" value="50"></div>
+          <div class="attr-box" data-attr-label="DES — Destreza"><span>DES — Destreza</span><input type="text"
+              data-field="des" value="60"></div>
+          <div class="attr-box" data-attr-label="INT — Inteligência"><span>INT — Inteligência</span><input type="text"
+              data-field="int_attr" value="65">
           </div>
-          <div class="attr-box" data-attr-label="CON — Constituição"><span>CON — Constituição</span><input type="text" data-field="con" value="55"></div>
-          <div class="attr-box" data-attr-label="APA — Aparência"><span>APA — Aparência</span><input type="text" data-field="apa" value="50"></div>
-          <div class="attr-box" data-attr-label="POD — Poder"><span>POD — Poder</span><input type="text" data-field="pod" value="70"></div>
-          <div class="attr-box" data-attr-label="TAM — Tamanho"><span>TAM — Tamanho</span><input type="text" data-field="tam" value="65"></div>
-          <div class="attr-box" data-attr-label="EDU — Educação"><span>EDU — Educação</span><input type="text" data-field="edu" value="70"></div>
+          <div class="attr-box" data-attr-label="CON — Constituição"><span>CON — Constituição</span><input type="text"
+              data-field="con" value="55"></div>
+          <div class="attr-box" data-attr-label="APA — Aparência"><span>APA — Aparência</span><input type="text"
+              data-field="apa" value="50"></div>
+          <div class="attr-box" data-attr-label="POD — Poder"><span>POD — Poder</span><input type="text"
+              data-field="pod" value="70"></div>
+          <div class="attr-box" data-attr-label="TAM — Tamanho"><span>TAM — Tamanho</span><input type="text"
+              data-field="tam" value="65"></div>
+          <div class="attr-box" data-attr-label="EDU — Educação"><span>EDU — Educação</span><input type="text"
+              data-field="edu" value="70"></div>
         </div>
 
         <!-- RECURSOS DERIVADOS -->
@@ -756,20 +765,17 @@
                 </label>
               </div>
             </div>
-<div class="lore-card">
-  <div class="lore-card-header">
-    <span class="lore-card-icon">🎯</span>
-    <label class="lore-card-title">Objetivos Pessoais</label>
-  </div>
-  <div 
-    class="lore-goals-list" 
-    id="lore-goals-${id}" 
-    contenteditable="true"
-    placeholder="Clique aqui para digitar os objetivos..."
-  >    </div>
-  <button class="lore-add-btn" onclick="loreAddGoal('${id}')">＋ Adicionar objetivo</button>
+            <div class="lore-card">
+              <div class="lore-card-header">
+                <span class="lore-card-icon">🎯</span>
+                <label class="lore-card-title">Objetivos Pessoais</label>
+              </div>
+              <div class="lore-goals-list" id="lore-goals-${id}" contenteditable="true"
+                placeholder="Clique aqui para digitar os objetivos..."> </div>
+              <button class="lore-add-btn" onclick="loreAddGoal('${id}')">＋ Adicionar objetivo</button>
 
-</div>          </div>
+            </div>
+          </div>
 
           <!-- Linha 2: Traços + Ideais + Vínculos + Fraquezas (4 colunas) -->
           <div class="lore-row lore-row-4">
@@ -778,28 +784,34 @@
                 <span class="lore-card-icon">🧠</span>
                 <label class="lore-card-title">Traços de Personalidade</label>
               </div>
-              <textarea data-field="tracos_personalidade" class="lore-textarea" placeholder="Como o personagem age no dia a dia? Maneirismos, hábitos, jeito de falar…" rows="5"></textarea>
+              <textarea data-field="tracos_personalidade" class="lore-textarea"
+                placeholder="Como o personagem age no dia a dia? Maneirismos, hábitos, jeito de falar…"
+                rows="5"></textarea>
             </div>
             <div class="lore-card">
               <div class="lore-card-header">
                 <span class="lore-card-icon">💡</span>
                 <label class="lore-card-title">Ideais</label>
               </div>
-              <textarea data-field="ideais" class="lore-textarea" placeholder="O que o personagem acredita ser certo? Valores que guiam suas decisões…" rows="5"></textarea>
+              <textarea data-field="ideais" class="lore-textarea"
+                placeholder="O que o personagem acredita ser certo? Valores que guiam suas decisões…"
+                rows="5"></textarea>
             </div>
             <div class="lore-card">
               <div class="lore-card-header">
                 <span class="lore-card-icon">🔗</span>
                 <label class="lore-card-title">Vínculos</label>
               </div>
-              <textarea data-field="vinculos" class="lore-textarea" placeholder="Pessoas, lugares ou coisas que o personagem não abriria mão…" rows="5"></textarea>
+              <textarea data-field="vinculos" class="lore-textarea"
+                placeholder="Pessoas, lugares ou coisas que o personagem não abriria mão…" rows="5"></textarea>
             </div>
             <div class="lore-card">
               <div class="lore-card-header">
                 <span class="lore-card-icon">⚠</span>
                 <label class="lore-card-title">Fraquezas &amp; Defeitos</label>
               </div>
-              <textarea data-field="fraquezas" class="lore-textarea" placeholder="Vícios, medos, pontos cegos ou falhas de caráter…" rows="5"></textarea>
+              <textarea data-field="fraquezas" class="lore-textarea"
+                placeholder="Vícios, medos, pontos cegos ou falhas de caráter…" rows="5"></textarea>
             </div>
           </div>
 
@@ -810,7 +822,9 @@
                 <span class="lore-card-icon">📖</span>
                 <label class="lore-card-title">História do Personagem</label>
               </div>
-              <textarea data-field="historia" class="lore-textarea lore-textarea-tall" placeholder="De onde veio? O que o levou a se tornar um Auror? Família, traumas, marcos importantes da vida…" rows="8"></textarea>
+              <textarea data-field="historia" class="lore-textarea lore-textarea-tall"
+                placeholder="De onde veio? O que o levou a se tornar um Auror? Família, traumas, marcos importantes da vida…"
+                rows="8"></textarea>
             </div>
           </div>
 
@@ -821,14 +835,17 @@
                 <span class="lore-card-icon">📅</span>
                 <label class="lore-card-title">Eventos Importantes</label>
               </div>
-              <textarea data-field="eventos" class="lore-textarea" placeholder="Eventos marcantes da vida do personagem após o início da jornada…" rows="5"></textarea>
+              <textarea data-field="eventos" class="lore-textarea"
+                placeholder="Eventos marcantes da vida do personagem após o início da jornada…" rows="5"></textarea>
             </div>
             <div class="lore-card">
               <div class="lore-card-header">
                 <span class="lore-card-icon">🔥</span>
                 <label class="lore-card-title">Motivação Principal</label>
               </div>
-              <textarea data-field="motivacao" class="lore-textarea" placeholder="O que faz o personagem continuar lutando? Qual é a faísca que o move?…" rows="5"></textarea>
+              <textarea data-field="motivacao" class="lore-textarea"
+                placeholder="O que faz o personagem continuar lutando? Qual é a faísca que o move?…"
+                rows="5"></textarea>
             </div>
           </div>
 
@@ -840,14 +857,16 @@
                 <label class="lore-card-title">Segredos</label>
                 <span class="lore-secret-badge">Apenas você</span>
               </div>
-              <textarea data-field="segredos" class="lore-textarea" placeholder="O que o personagem esconde dos demais — até dos aliados?…" rows="5"></textarea>
+              <textarea data-field="segredos" class="lore-textarea"
+                placeholder="O que o personagem esconde dos demais — até dos aliados?…" rows="5"></textarea>
             </div>
             <div class="lore-card">
               <div class="lore-card-header">
                 <span class="lore-card-icon">🤝</span>
                 <label class="lore-card-title">Conexões &amp; Aliados</label>
               </div>
-              <textarea data-field="conexoes" class="lore-textarea" placeholder="NPCs importantes, mentores, rivais, contatos do Ministério…" rows="5"></textarea>
+              <textarea data-field="conexoes" class="lore-textarea"
+                placeholder="NPCs importantes, mentores, rivais, contatos do Ministério…" rows="5"></textarea>
             </div>
           </div>
 
@@ -1069,7 +1088,8 @@
         <h3>🎲 Rolar Atributos Base</h3>
         <button class="attrs-roll-close" id="attrs-roll-close" title="Fechar">✕</button>
       </div>
-      <p class="attrs-roll-desc">Valores gerados por <strong>(3d6) × 5</strong>. Distribua livremente entre os atributos — cada valor pode ser usado apenas uma vez.</p>
+      <p class="attrs-roll-desc">Valores gerados por <strong>(3d6) × 5</strong>. Distribua livremente entre os atributos
+        — cada valor pode ser usado apenas uma vez.</p>
       <div class="attrs-roll-list" id="attrs-roll-list"></div>
       <div class="attrs-roll-footer">
         <button class="attrs-roll-btn attrs-roll-btn-reroll" id="attrs-roll-reroll">↺ Rolar Novamente</button>

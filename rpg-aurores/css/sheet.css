@@ -809,9 +809,17 @@
   gap: 14px;
 }
 
-.lore-row-1 { grid-template-columns: 1fr; }
-.lore-row-2 { grid-template-columns: 1fr 1fr; }
-.lore-row-4 { grid-template-columns: repeat(4, 1fr); }
+.lore-row-1 {
+  grid-template-columns: 1fr;
+}
+
+.lore-row-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.lore-row-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
 
 .lore-card {
   background: #fff;
@@ -981,7 +989,9 @@
   transition: color .12s;
 }
 
-.lore-goal-del:hover { color: var(--crimson); }
+.lore-goal-del:hover {
+  color: var(--crimson);
+}
 
 .lore-add-btn {
   background: none;
@@ -1003,12 +1013,17 @@
 
 /* Responsivo lore */
 @media(max-width:860px) {
-  .lore-row-4 { grid-template-columns: repeat(2, 1fr); }
+  .lore-row-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media(max-width:560px) {
+
   .lore-row-2,
-  .lore-row-4 { grid-template-columns: 1fr; }
+  .lore-row-4 {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ─── Modo leitura (ficha de outro jogador) ──────────────────── */
@@ -1202,19 +1217,23 @@
   .attrs-roll-row {
     gap: 6px;
   }
+
   .attrs-roll-value {
     font-size: 15px;
     min-width: 42px;
     padding: 4px 6px;
   }
+
   .attrs-roll-footer {
     flex-direction: column;
   }
+
   .attrs-roll-btn {
     width: 100%;
     text-align: center;
   }
 }
+
 /* Área de Upload de Arquivo */
 .lore-file-upload {
   display: flex;
@@ -1250,18 +1269,24 @@
   color: #9a8878;
   font-style: italic;
   max-width: 200px;
-  white-width: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 /* Faz a div parecer um campo interativo quando vazia ou ao passar o mouse */
 .lore-goals-list[contenteditable="true"] {
-  outline: none; /* Remove aquela borda preta feia do navegador ao clicar */
-  min-height: 50px; /* Garante que a caixa tenha um tamanho mínimo para clicar */
-  max-height: 50px; /* Limita a altura para evitar que fique gigante */
-  cursor: text; /* Transforma o ponteiro do mouse na barra de texto */
-  overflow-y: auto;     /* Adiciona a barra de rolagem vertical automaticamente quando necessário */
-  overflow-x: hidden;   /* Garante que nunca surja uma barra de rolagem horizontal */
+  outline: none;
+  /* Remove aquela borda preta feia do navegador ao clicar */
+  min-height: 50px;
+  /* Garante que a caixa tenha um tamanho mínimo para clicar */
+  max-height: 50px;
+  /* Limita a altura para evitar que fique gigante */
+  cursor: text;
+  /* Transforma o ponteiro do mouse na barra de texto */
+  overflow-y: auto;
+  /* Adiciona a barra de rolagem vertical automaticamente quando necessário */
+  overflow-x: hidden;
+  /* Garante que nunca surja uma barra de rolagem horizontal */
 }
 
 /* Mostra o placeholder caso a div esteja totalmente vazia */
@@ -1270,15 +1295,24 @@
   color: #aaa;
   font-style: italic;
 
-}.lore-goals-list {
+}
+
+.lore-goals-list {
   /* ... seus estilos atuais ... */
 
-  word-break: break-word;   /* Quebra palavras longas se necessário */
-  overflow-wrap: break-word;/* Garante a quebra de linha em navegadores modernos */
-  white-space: pre-wrap;    /* Preserva as quebras de linha que o usuário der com o 'Enter' */
-  min-height: 50px; /* Garante que a caixa tenha um tamanho mínimo para clicar */
-  max-height: 50px; /* Limita a altura para evitar que fique gigante */
-  overflow-y: auto;     /* Adiciona a barra de rolagem vertical automaticamente quando necessário */
-  overflow-x: hidden;   /* Garante que nunca surja uma barra de rolagem horizontal */
+  word-break: break-word;
+  /* Quebra palavras longas se necessário */
+  overflow-wrap: break-word;
+  /* Garante a quebra de linha em navegadores modernos */
+  white-space: pre-wrap;
+  /* Preserva as quebras de linha que o usuário der com o 'Enter' */
+  min-height: 50px;
+  /* Garante que a caixa tenha um tamanho mínimo para clicar */
+  max-height: 50px;
+  /* Limita a altura para evitar que fique gigante */
+  overflow-y: auto;
+  /* Adiciona a barra de rolagem vertical automaticamente quando necessário */
+  overflow-x: hidden;
+  /* Garante que nunca surja uma barra de rolagem horizontal */
 
 }
