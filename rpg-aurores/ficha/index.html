@@ -81,6 +81,8 @@
   <div class="page active" id="page-ficha">
     <div class="export-bar" id="export-bar">
       <span id="sync-status-label">💾 Dados salvos localmente no navegador</span>
+      <span id="ficha-camp-label" style="display:none;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft)">📋 <span id="ficha-camp-text">—</span></span>
+      <button class="btn-export" id="btn-vincular-camp" onclick="abrirModalVincular()" style="display:none">🔗 Vincular à campanha</button>
       <button class="btn-export" onclick="exportarFichas()">⬇ Exportar fichas (.json)</button>
       <label class="btn-import-lbl" title="Importar fichas de um arquivo .json">
         ⬆ Importar fichas
@@ -103,6 +105,20 @@
   </div>
   <div class="save-toast" id="save-toast">✓ Ficha salva</div>
 
+  <!-- ═══ MODAL VINCULAR FICHA À CAMPANHA ══════════════════════ -->
+  <div class="modal-overlay" id="modal-vincular-camp">
+    <div class="modal-box modal-vincular-box">
+      <h3>🔗 Vincular Ficha à Campanha</h3>
+      <p class="modal-vincular-subtitle">Escolha uma campanha em que você é membro:</p>
+      <div class="vincular-camp-list" id="modal-vincular-list"></div>
+      <div id="modal-vincular-error" class="auth-error" style="display:none"></div>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-cancel" onclick="fecharModalVincular()">Cancelar</button>
+        <button class="modal-btn modal-btn-confirm" id="btn-confirmar-vincular" disabled onclick="confirmarVincular()">Vincular</button>
+      </div>
+    </div>
+  </div>
+
   <template id="template-ficha">
     <div class="sheet-wrap">
       <div class="sheet-header">
@@ -111,8 +127,27 @@
       </div>
       <div class="sheet-body">
 
-        <!-- PERFIL -->
-        <h2 class="sec-title"><span class="sec-icon">✦</span> Perfil do Personagem</h2>
+        <!-- SECTION TABS: PERFIL / HISTÓRIA -->
+        <div class="section-nav-tabs">
+          <button class="section-nav-tab active" data-stab="perfil" onclick="switchSectionTab(this,'${id}')">
+            <span class="snav-icon">✦</span>
+            <div class="snav-info">
+              <span class="snav-label">Perfil do Personagem</span>
+              <span class="snav-sub">Dados, atributos &amp; perícias</span>
+            </div>
+          </button>
+          <button class="section-nav-tab" data-stab="historia" onclick="switchSectionTab(this,'${id}')">
+            <span class="snav-icon">📜</span>
+            <div class="snav-info">
+              <span class="snav-label">História &amp; Personalidade</span>
+              <span class="snav-sub">Traços, objetivos, segredos</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- PANE: PERFIL -->
+        <div class="section-nav-pane" id="stab-perfil-${id}">
+        <h2 class="sec-title" style="margin-top:18px"><span class="sec-icon">✦</span> Perfil do Personagem</h2>
         <div class="perfil-layout">
           <div class="foto-box">
             <div class="foto-area" onclick="this.closest('.foto-box').querySelector('.foto-file-input').click()">
@@ -726,9 +761,11 @@
           <strong>distribuir</strong> nela — não o total final. O valor total (base + bônus de ensino + pontos
           distribuídos) é exibido automaticamente à esquerda.
         </p>
+        </div><!-- /stab-perfil -->
 
-        <!-- HISTÓRIA & PERSONALIDADE -->
-        <h2 class="sec-title"><span class="sec-icon">📜</span> História &amp; Personalidade</h2>
+        <!-- PANE: HISTÓRIA & PERSONALIDADE -->
+        <div class="section-nav-pane" id="stab-historia-${id}" style="display:none">
+        <h2 class="sec-title" style="margin-top:18px"><span class="sec-icon">📜</span> História &amp; Personalidade</h2>
         <div class="lore-grid">
 
           <!-- Linha 1: Alinhamento + Objetivos -->
@@ -825,6 +862,14 @@
               <textarea data-field="historia" class="lore-textarea lore-textarea-tall"
                 placeholder="De onde veio? O que o levou a se tornar um Auror? Família, traumas, marcos importantes da vida…"
                 rows="8"></textarea>
+              <div class="lore-file-upload">
+                <label class="lore-file-btn" title="Anexar arquivo de história (txt, pdf, doc…)">
+                  📎 Anexar arquivo
+                  <input type="file" class="lore-historia-file" accept=".txt,.pdf,.doc,.docx,.md,.odt" style="display:none">
+                </label>
+                <span class="lore-file-name" id="lore-file-name-${id}">Nenhum arquivo</span>
+                <button class="lore-file-clear" id="lore-file-clear-${id}" style="display:none" onclick="loreHistoriaFileClear('${id}')" title="Remover arquivo">✕</button>
+              </div>
             </div>
           </div>
 
@@ -871,6 +916,7 @@
           </div>
 
         </div><!-- /lore-grid -->
+        </div><!-- /stab-historia -->
 
         <!-- PAINEL DE COMBATE & ROLADOR -->
         <h2 class="sec-title"><span class="sec-icon">🎲</span> Painel de Combate &amp; Dados</h2>

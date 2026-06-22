@@ -15,32 +15,41 @@ service cloud.firestore {
     }
 
     function isCampanhaParticipante(campanhaId) {
-      return request.auth.uid in campDoc(campanhaId).data.jogadoresIds;
+      return campDoc(campanhaId).data.jogadoresIds.hasAny([request.auth.uid]);
     }
 
-    // Fichas: dono gerencia; GM da campanha lê e desvinculariza; participantes leem fichas da mesma campanha
+    // Fichas: dono gerencia; GM da campanha lê e desvincula; participantes leem fichas da mesma campanha
     match /fichas/{fichaId} {
       allow read: if request.auth != null && (
-        resource.data.userId == request.auth.uid ||
+        resource.data.get('userId', '') == request.auth.uid ||
         isMestre() ||
-        (resource.data.campanhaId != null && (
-          isCampanhaGM(resource.data.campanhaId) ||
-          isCampanhaParticipante(resource.data.campanhaId)
+        (resource.data.get('campanhaId', null) != null && (
+          isCampanhaGM(resource.data.get('campanhaId', '')) ||
+          isCampanhaParticipante(resource.data.get('campanhaId', ''))
         ))
       );
+
       allow create: if request.auth != null &&
                        request.resource.data.userId == request.auth.uid;
-      allow update: if request.auth != null && (
-        resource.data.userId == request.auth.uid ||
+
+      allow update: if request.auth != null &&
+                    request.resource.data.get('userId', '') == resource.data.get('userId', '') && (
+        // 1. O próprio dono da ficha pode editar (inclusive vincular/desvincular sua própria ficha)
+        resource.data.get('userId', '') == request.auth.uid ||
+        // 2. Mestre administrador global
         isMestre() ||
-        (resource.data.campanhaId != null &&
-         isCampanhaGM(resource.data.campanhaId)) ||
-        (resource.data.campanhaId == null &&
-         request.resource.data.campanhaId != null &&
-         isCampanhaGM(request.resource.data.campanhaId))
+        // 3. O GM da campanha atual pode editar/atualizar os dados normalmente
+        (resource.data.get('campanhaId', null) != null &&
+         isCampanhaGM(resource.data.get('campanhaId', ''))) ||
+        // 4. O GM vincula uma ficha à sua campanha no momento em que aceita o jogador (via batch)
+        (resource.data.get('campanhaId', null) == null &&
+         request.resource.data.get('campanhaId', null) != null &&
+         isCampanhaGM(request.resource.data.campanhaId) &&
+         getAfter(/databases/$(database)/documents/campanhas/$(request.resource.data.campanhaId)).data.jogadoresIds.hasAny([resource.data.get('userId', '')]))
       );
+
       allow delete: if request.auth != null && (
-        resource.data.userId == request.auth.uid || isMestre()
+        resource.data.get('userId', '') == request.auth.uid || isMestre()
       );
     }
 
@@ -62,9 +71,20 @@ service cloud.firestore {
       allow create: if request.auth != null &&
                        request.resource.data.gmId == request.auth.uid;
       allow update: if request.auth != null && (
+        // GM e Mestre administrador gerenciam tudo
         resource.data.gmId == request.auth.uid ||
         isMestre() ||
-        request.auth.uid in resource.data.jogadoresIds
+        // Jogador pode APENAS se remover da campanha (sair):
+        //   - precisa estar em jogadoresIds antes
+        //   - após o update, não está mais em jogadoresIds
+        //   - campos críticos (gmId, nome, sistema) não mudam
+        (
+          resource.data.jogadoresIds.hasAny([request.auth.uid]) &&
+          !request.resource.data.jogadoresIds.hasAny([request.auth.uid]) &&
+          request.resource.data.get('gmId', '') == resource.data.get('gmId', '') &&
+          request.resource.data.get('nome', '') == resource.data.get('nome', '') &&
+          request.resource.data.get('sistema', '') == resource.data.get('sistema', '')
+        )
       );
       allow delete: if request.auth != null && (
         resource.data.gmId == request.auth.uid || isMestre()

@@ -83,6 +83,18 @@ async function _carregarFichaEspecifica(user) {
   if (_modoLeitura) {
     _aplicarModoLeitura(ficha.id, donoLabel);
   }
+
+  // ── Listener em tempo real para o GM (ou participante) ver atualizações ao vivo ──
+  dbListenFicha(_FICHA_ID, (fichaId, fichaRemota) => {
+    if (!fichaRemota) return;
+    if (fichaRemota.lastEditedBy === _SESSION_ID) return; // eco do próprio save
+    const f = fichas.find(f => f.id === fichaId);
+    if (f) Object.assign(f, fichaRemota);
+    preencherFicha(fichaId, fichaRemota.dados);
+    const tabText = document.querySelector(`.tab-btn[data-id="${fichaId}"] .tab-name-text`);
+    if (tabText) tabText.textContent = fichaRemota.nome;
+    mostrarToast('↻ Ficha atualizada ao vivo');
+  });
 }
 
 async function _resolverNomeDono(ficha) {
@@ -173,6 +185,7 @@ async function _carregarEIniciar(user) {
   abaAtiva = fichas[0].id;
   renderTabs();
   renderConteudo();
+  if (typeof window._onAbaAtivada === 'function') window._onAbaAtivada(abaAtiva);
 
   dbListenFichas(_aplicarMudancaRemota, _JOGADOR_UID, loadedIds);
 }
@@ -345,6 +358,124 @@ function _authBotoes(disabled) {
 });
 ['auth-signup-email', 'auth-signup-username', 'auth-signup-password'].forEach(id => {
   document.getElementById(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') authSignup(); });
+});
+
+/* ═══ CAMPANHA — DISPLAY E VINCULAR ══════════════════════════ */
+
+// Atualiza o indicador de campanha no export-bar para a ficha ativa
+function _atualizarDisplayCampanha(fichaId) {
+  const labelEl  = document.getElementById('ficha-camp-label');
+  const textEl   = document.getElementById('ficha-camp-text');
+  const btnEl    = document.getElementById('btn-vincular-camp');
+  if (!labelEl) return;
+
+  // Oculta para GM (não vincula fichas de outros) ou modo de leitura
+  if (DB_IS_GM || _modoLeitura || !dbConfigured()) {
+    labelEl.style.display = 'none';
+    if (btnEl) btnEl.style.display = 'none';
+    return;
+  }
+
+  const f = getFicha(fichaId);
+  if (!f) return;
+
+  labelEl.style.display = 'inline-flex';
+  if (f.campanhaId) {
+    textEl.textContent = 'Vinculada a uma campanha';
+    if (btnEl) btnEl.style.display = 'none';
+  } else {
+    textEl.textContent = 'Livre — sem campanha';
+    if (btnEl) btnEl.style.display = 'inline-flex';
+  }
+}
+
+// Hook chamado pelo sheet.js ao ativar uma aba
+window._onAbaAtivada = function (id) {
+  _atualizarDisplayCampanha(id);
+};
+
+/* ─── Modal: Vincular ficha à campanha ──────────────────────── */
+let _vincularCampSelecionada = null;
+
+async function abrirModalVincular() {
+  _vincularCampSelecionada = null;
+  const btn    = document.getElementById('btn-confirmar-vincular');
+  const errEl  = document.getElementById('modal-vincular-error');
+  const listEl = document.getElementById('modal-vincular-list');
+  if (btn)   btn.disabled = true;
+  if (errEl) errEl.style.display = 'none';
+  if (listEl) listEl.innerHTML = '<p style="color:var(--ink-soft);font-size:13px;padding:8px 0">Carregando campanhas…</p>';
+  document.getElementById('modal-vincular-camp').classList.add('open');
+
+  try {
+    const campanhas = await dbGetCampanhasJogador();
+    const f = getFicha(abaAtiva);
+    // Exclui a campanha que já está vinculada (se houver)
+    const disponiveis = campanhas.filter(c => c.id !== f?.campanhaId);
+
+    if (!disponiveis.length) {
+      listEl.innerHTML = campanhas.length
+        ? '<p style="color:var(--ink-soft);font-size:13px;text-align:center">Esta ficha já está na única campanha que você participa.</p>'
+        : '<p style="color:var(--ink-soft);font-size:13px;text-align:center">Você ainda não está em nenhuma campanha. <a href="../campanha/">Ver campanhas →</a></p>';
+      return;
+    }
+
+    listEl.innerHTML = disponiveis.map(c => `
+      <label class="vincular-camp-opt" data-id="${c.id}">
+        <input type="radio" name="vincular-camp-pick" value="${c.id}"
+               style="position:absolute;opacity:0;width:0;height:0"
+               onchange="_selecionarVincularCamp(this)">
+        <div class="vincular-camp-radio"></div>
+        <div>
+          <div class="vincular-camp-nome">${c.nome}</div>
+          <div class="vincular-camp-status">${c.status}</div>
+        </div>
+      </label>`).join('');
+  } catch (e) {
+    if (listEl) listEl.innerHTML = '<p style="color:var(--crimson);font-size:13px">Erro ao carregar campanhas.</p>';
+  }
+}
+
+function _selecionarVincularCamp(radio) {
+  _vincularCampSelecionada = radio.value;
+  document.querySelectorAll('.vincular-camp-opt').forEach(o => {
+    o.classList.toggle('vincular-camp-opt--selected', o.dataset.id === _vincularCampSelecionada);
+  });
+  const btn = document.getElementById('btn-confirmar-vincular');
+  if (btn) btn.disabled = false;
+}
+
+function fecharModalVincular() {
+  document.getElementById('modal-vincular-camp').classList.remove('open');
+  _vincularCampSelecionada = null;
+}
+
+async function confirmarVincular() {
+  if (!_vincularCampSelecionada || !abaAtiva) return;
+  const btn   = document.getElementById('btn-confirmar-vincular');
+  const errEl = document.getElementById('modal-vincular-error');
+  btn.disabled = true;
+  btn.textContent = 'Vinculando…';
+  if (errEl) errEl.style.display = 'none';
+  try {
+    await dbVincularFicha(abaAtiva, _vincularCampSelecionada);
+    const f = getFicha(abaAtiva);
+    if (f) f.campanhaId = _vincularCampSelecionada;
+    fecharModalVincular();
+    mostrarToast('✓ Ficha vinculada à campanha!');
+    _atualizarDisplayCampanha(abaAtiva);
+  } catch (e) {
+    if (errEl) { errEl.textContent = e.message || 'Erro ao vincular.'; errEl.style.display = 'block'; }
+    btn.disabled = false;
+  } finally {
+    btn.textContent = 'Vincular';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('modal-vincular-camp')?.addEventListener('click', function (e) {
+    if (e.target === this) fecharModalVincular();
+  });
 });
 
 initApp();

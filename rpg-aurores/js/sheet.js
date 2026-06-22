@@ -78,6 +78,8 @@ function coletarDados(id) {
   dados['_objetos'] = objs;
   dados['_lore_objetivos'] = loreColetarObjetivos(id);
   dados['_itens_mochila'] = (fichas.find(f => f.id === id) || {})._itens_mochila || [];
+  const prevArquivo = (fichas.find(f => f.id === id) || {}).dados?._historia_arquivo;
+  if (prevArquivo) dados['_historia_arquivo'] = prevArquivo;
   const f = getFicha(id);
   if (f) {
     f.dados = dados;
@@ -120,6 +122,13 @@ function preencherFicha(id, dados) {
   renderizarItensMochila(id);
   atualizarCargaDisplay(id);
   lorePreencherObjetivos(id, dados._lore_objetivos || []);
+  if (dados['_historia_arquivo']) {
+    const { nome } = dados['_historia_arquivo'];
+    const nameEl = document.getElementById('lore-file-name-' + id);
+    const clearBtn = document.getElementById('lore-file-clear-' + id);
+    if (nameEl) nameEl.textContent = nome;
+    if (clearBtn) clearBtn.style.display = 'inline-block';
+  }
   // sincronizar radio de alinhamento
   const alinhamentoVal = dados['alinhamento'];
   if (alinhamentoVal) {
@@ -202,6 +211,25 @@ function bindFichaEvents(id) {
       const ph = c.querySelector('.foto-placeholder-div');
       img.src = ev.target.result; img.style.display = 'block';
       ph.style.display = 'none'; coletarDados(id);
+    };
+    reader.readAsDataURL(file);
+  });
+
+  c.querySelector('.lore-historia-file')?.addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+    const nameEl = document.getElementById('lore-file-name-' + id);
+    const clearBtn = document.getElementById('lore-file-clear-' + id);
+    if (nameEl) nameEl.textContent = file.name;
+    if (clearBtn) clearBtn.style.display = 'inline-block';
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const f = getFicha(id);
+      if (f) {
+        if (!f.dados) f.dados = {};
+        f.dados['_historia_arquivo'] = { nome: file.name, data: ev.target.result };
+        salvarFichas(id);
+      }
     };
     reader.readAsDataURL(file);
   });
@@ -296,6 +324,7 @@ function ativarAba(id) {
   renderTabs();
   const btn = document.querySelector(`.tab-btn[data-id="${id}"]`);
   if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+  if (typeof window._onAbaAtivada === 'function') window._onAbaAtivada(id);
 }
 
 function novaAba() {
@@ -364,7 +393,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
-document.getElementById('file-historia').addEventListener('change', function() {
-  const fileName = this.files[0] ? this.files[0].name : 'Nenhum arquivo selecionado';
-  document.getElementById('file-name-preview').textContent = fileName;
-});
+/* ═══ SECTION TABS (Perfil / História) ═══════════════════════ */
+function switchSectionTab(btn, fichaId) {
+  const stab = btn.dataset.stab;
+  const c = document.getElementById('content-' + fichaId);
+  if (!c) return;
+  c.querySelectorAll('.section-nav-tab').forEach(b => b.classList.toggle('active', b.dataset.stab === stab));
+  c.querySelectorAll('.section-nav-pane').forEach(p => {
+    p.style.display = p.id === ('stab-' + stab + '-' + fichaId) ? '' : 'none';
+  });
+}
+
+/* ═══ UPLOAD DE ARQUIVO DA HISTÓRIA ══════════════════════════ */
+function loreHistoriaFileClear(fichaId) {
+  const f = getFicha(fichaId);
+  if (f?.dados) delete f.dados['_historia_arquivo'];
+  const nameEl = document.getElementById('lore-file-name-' + fichaId);
+  const clearBtn = document.getElementById('lore-file-clear-' + fichaId);
+  if (nameEl) nameEl.textContent = 'Nenhum arquivo';
+  if (clearBtn) clearBtn.style.display = 'none';
+  const c = document.getElementById('content-' + fichaId);
+  const fileInput = c?.querySelector('.lore-historia-file');
+  if (fileInput) fileInput.value = '';
+  salvarFichas(fichaId);
+}

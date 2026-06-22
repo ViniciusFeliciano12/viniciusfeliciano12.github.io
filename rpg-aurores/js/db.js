@@ -243,6 +243,34 @@ function dbStopListen() {
   if (_unsubscribeListen) { _unsubscribeListen(); _unsubscribeListen = null; }
 }
 
+// Listener em tempo real para UMA ficha específica (GM abrindo ?ficha=ID)
+function dbListenFicha(fichaId, onChange) {
+  dbStopListen();
+  _unsubscribeListen = _db.collection('fichas').doc(fichaId).onSnapshot(doc => {
+    if (doc.metadata.hasPendingWrites) return;
+    if (!doc.exists) { onChange(fichaId, null); return; }
+    onChange(fichaId, _docToFicha(doc));
+  });
+}
+
+// Lista campanhas em que o jogador autenticado é membro aceito
+async function dbGetCampanhasJogador() {
+  if (!DB_USER) return [];
+  try {
+    const snap = await _db.collection('campanhas')
+      .where('jogadoresIds', 'array-contains', DB_USER.uid)
+      .get();
+    return snap.docs.map(d => ({
+      id: d.id,
+      nome: d.data().nome || '(sem nome)',
+      status: d.data().status || 'ativa',
+    }));
+  } catch (e) {
+    console.warn('[dbGetCampanhasJogador]', e);
+    return [];
+  }
+}
+
 // ─── Helpers ──────────────────────────────────────────────────
 
 function _docToFicha(doc) {
