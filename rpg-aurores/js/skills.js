@@ -530,7 +530,7 @@ function aplicarHighlightEspecializacao(id) {
   const pericias = SPEC_SKILLS[spec] || [];
 
   c.querySelectorAll('.skill-item').forEach(item => {
-    const field = item.querySelector('[data-field]')?.dataset.field;
+    const field = item.querySelector('[data-total]')?.dataset.total;
     if (pericias.includes(field)) {
       item.classList.add('ocupacao');
     } else {
