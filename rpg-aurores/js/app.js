@@ -132,6 +132,11 @@ function _aplicarModoLeitura(fichaId, donoLabel) {
     wrap.insertBefore(banner, wrap.firstChild);
   }
 
+  // Oculta a seção de segredos para jogadores que não são donos nem mestre da campanha
+  c.querySelectorAll('.lore-card-secret').forEach(el => {
+    el.style.display = 'none';
+  });
+
   // Esconde botão de deletar aba
   document.querySelectorAll('.tab-del').forEach(b => b.style.display = 'none');
 }
