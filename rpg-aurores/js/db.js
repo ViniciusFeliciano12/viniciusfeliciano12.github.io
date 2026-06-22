@@ -302,6 +302,7 @@ async function dbGetCampanha(id) {
     id: doc.id,
     gmId: d.gmId || '',
     gmEmail: d.gmEmail || '',
+    gmUsername: d.gmUsername || null,
     nome: d.nome || '',
     descricao: d.descricao || '',
     sistema: d.sistema || 'd100',

@@ -165,7 +165,7 @@ function _renderCabecalho() {
   document.title = c.nome + ' — Aurores RPG';
   document.getElementById('detail-nome').textContent = c.nome;
   document.getElementById('detail-desc').textContent = c.descricao || 'Sem descrição.';
-  document.getElementById('detail-gm-name').textContent = c.gmEmail || 'Mestre';
+  document.getElementById('detail-gm-name').textContent = c.gmUsername || c.gmEmail || 'Mestre';
   document.getElementById('detail-sistema').textContent = c.sistema || 'd100';
 
   const badge = document.getElementById('detail-status-badge');
@@ -265,7 +265,7 @@ async function carregarFichas() {
       const membro = _campanha.membros[uid];
       const label = membro
         ? (membro.username || membro.email)
-        : (uid === _campanha.gmId ? _campanha.gmEmail : uid.slice(0, 8) + '…');
+        : (uid === _campanha.gmId ? (_campanha.gmUsername || _campanha.gmEmail) : uid.slice(0, 8) + '…');
       const isOwn = uid === DB_USER.uid;
 
       const fichaRows = uFichas.map(f => {

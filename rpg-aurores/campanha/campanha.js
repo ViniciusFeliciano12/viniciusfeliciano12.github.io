@@ -9,6 +9,8 @@ let _campanhasMinhas = [];
 let _campanhasParticipo = [];
 let _campanhasBuscadas = [];
 
+let _perfilAtual = null;
+
 let _campanhaAlvoId = null;
 let _campanhaAlvoNome = '';
 const _solicitacoesEnviadas = new Set();
@@ -69,8 +71,8 @@ function mostrarAuthOverlay(loading) {
 async function onLogin(user) {
   document.getElementById('auth-overlay').style.display = 'none';
   await dbRegisterUser().catch(() => { });
-  const perfil = await dbGetUser(user.uid).catch(() => null);
-  if (typeof headerUpdate === 'function') headerUpdate(user, perfil, DB_IS_GM);
+  _perfilAtual = await dbGetUser(user.uid).catch(() => null);
+  if (typeof headerUpdate === 'function') headerUpdate(user, _perfilAtual, DB_IS_GM);
   _carregarPaineis();
 }
 
@@ -219,7 +221,7 @@ function _campCard(c, isGM) {
   const statusLabel = { ativa: 'Ativa', pausada: 'Pausada', encerrada: 'Encerrada' }[c.status] || c.status;
   const meta = isGM
     ? `<span class="camp-meta-item"><span class="camp-meta-icon">👥</span>${c.jogadoresIds.length} jogador${c.jogadoresIds.length !== 1 ? 'es' : ''}</span>`
-    : `<span class="camp-meta-item"><span class="camp-meta-icon">🧙</span>${c.gmEmail || 'Mestre'}</span>`;
+    : `<span class="camp-meta-item"><span class="camp-meta-icon">🧙</span>${_esc(c.gmUsername || c.gmEmail || 'Mestre')}</span>`;
   return `
     <div class="camp-card">
       <div class="camp-card-top">
@@ -258,7 +260,7 @@ function _campCardBusca(c) {
       </div>
       <p class="camp-desc">${_esc(c.descricao || 'Sem descrição.')}</p>
       <div class="camp-meta">
-        <span class="camp-meta-item"><span class="camp-meta-icon">🧙</span>${_esc(c.gmEmail || 'Mestre')}</span>
+        <span class="camp-meta-item"><span class="camp-meta-icon">🧙</span>${_esc(c.gmUsername || c.gmEmail || 'Mestre')}</span>
       </div>
       <div class="camp-card-footer">
         <span class="camp-system-tag">d100</span>
@@ -303,6 +305,7 @@ async function criarCampanha() {
       status: 'ativa',
       gmId: DB_USER.uid,
       gmEmail: DB_USER.email,
+      gmUsername: _perfilAtual?.username || null,
       jogadoresIds: [],
       membros: {},
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -478,6 +481,7 @@ function _docToCampanha(doc) {
     status: d.status || 'ativa',
     gmId: d.gmId || '',
     gmEmail: d.gmEmail || '',
+    gmUsername: d.gmUsername || null,
     jogadoresIds: d.jogadoresIds || [],
     membros: d.membros || {},
   };
