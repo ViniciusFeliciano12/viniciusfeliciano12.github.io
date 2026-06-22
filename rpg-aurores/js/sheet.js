@@ -117,6 +117,8 @@ function preencherFicha(id, dados) {
   atualizarLabelPostura(id);
   setTimeout(() => onEscolaChange(id), 0);
   setTimeout(() => atualizarTodasPericias(id), 0);
+  setTimeout(() => atualizarPontosDistrib(id), 0);
+  setTimeout(() => restaurarEstiloRank(id, dados['estilo_rank'] || 'D'), 50);
   const ficha = fichas.find(f => f.id === id);
   if (ficha) ficha._itens_mochila = dados._itens_mochila || [];
   renderizarItensMochila(id);
@@ -179,6 +181,8 @@ function bindFichaEvents(id) {
       atualizarLabelPostura(id);
     if (e.target.dataset?.field?.startsWith('sk_') || e.target.dataset?.field === 'des')
       atualizarTodasPericias(id);
+    if (e.target.dataset?.field === 'int_attr' || e.target.dataset?.field === 'edu')
+      atualizarPontosDistrib(id);
   });
   c.addEventListener('input', debounce(() => { coletarDados(id); atualizarNomeAba(id); }, 600));
   c.addEventListener('change', debounce(() => { coletarDados(id); atualizarNomeAba(id); }, 600));
@@ -312,6 +316,7 @@ function renderConteudo() {
     atualizarLabelPostura(f.id);
     aplicarHighlightEspecializacao(f.id);
     setTimeout(() => atualizarTodasPericias(f.id), 0);
+    setTimeout(() => atualizarPontosDistrib(f.id), 0);
   });
 }
 

@@ -521,7 +521,13 @@
         </div>
 
         <!-- PERÍCIAS -->
-        <h2 class="sec-title"><span class="sec-icon">📋</span> Perícias do Auror</h2>
+        <h2 class="sec-title" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span><span class="sec-icon">📋</span> Perícias do Auror</span>
+          <span class="pts-distrib-wrap" id="pts-distrib-${id}" style="display:flex;gap:8px;margin-left:auto;font-size:12px;font-weight:400">
+            <span class="pts-badge" title="Interesse Pessoal — INT × 2 — distribua livremente em qualquer perícia" style="background:rgba(100,180,255,.12);border:1px solid rgba(100,180,255,.3);color:#7bc4ff;padding:3px 9px;border-radius:20px;white-space:nowrap">🧠 IP: <strong id="pts-ip-${id}">—</strong></span>
+            <span class="pts-badge" title="Ocupação — EDU × 4 — apenas nas 8 perícias da Especialização" style="background:rgba(255,200,80,.10);border:1px solid rgba(255,200,80,.3);color:#ffc85a;padding:3px 9px;border-radius:20px;white-space:nowrap">📚 OC: <strong id="pts-oc-${id}">—</strong></span>
+          </span>
+        </h2>
         <div class="skills-grid">
           <div class="skill-col">
             <h3>Combate e Físico</h3>
@@ -579,7 +585,9 @@
             <div class="skill-item"><span class="skill-total" data-total="sk_magia_combate">—</span><label
                 data-skill-label="sk_magia_combate"><span class="skill-label-text">Magia de Combate (20%)<span
                     class="escola-bonus" data-skill="sk_magia_combate"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                    style="color:var(--gold);font-size:10px;font-weight:700"></span><span
+                    class="estilo-bonus" data-estilo-skill="sk_magia_combate"
+                    style="color:#a78bfa;font-size:10px;font-weight:700"></span></span></label><span
                 class="skill-thresholds" data-thresh="sk_magia_combate"></span><input type="text"
                 data-field="sk_magia_combate"></div>
             <div class="skill-item"><span class="skill-total" data-total="sk_natacao">—</span><label
@@ -918,6 +926,26 @@
         </div><!-- /lore-grid -->
         </div><!-- /stab-historia -->
 
+        <!-- MEDIDOR DE ESTILO -->
+        <h2 class="sec-title"><span class="sec-icon">🌟</span> Medidor de Estilo</h2>
+        <div class="estilo-panel" id="estilo-panel-${id}">
+          <p class="estilo-desc">Defina o rank atual do Medidor de Estilo em combate. A partir do <strong>Rank B</strong>, o personagem ganha <strong>+5% em Magia de Combate</strong> automaticamente.</p>
+          <div class="estilo-rank-row">
+            <span class="estilo-rank-label">Rank atual:</span>
+            <div class="estilo-rank-btns">
+              <button class="estilo-rank-btn" data-rank="D" onclick="selecionarEstiloRank(this,'${id}')">D</button>
+              <button class="estilo-rank-btn" data-rank="C" onclick="selecionarEstiloRank(this,'${id}')">C</button>
+              <button class="estilo-rank-btn rank-b" data-rank="B" onclick="selecionarEstiloRank(this,'${id}')">B</button>
+              <button class="estilo-rank-btn rank-a" data-rank="A" onclick="selecionarEstiloRank(this,'${id}')">A</button>
+              <button class="estilo-rank-btn rank-s" data-rank="S" onclick="selecionarEstiloRank(this,'${id}')">S</button>
+              <button class="estilo-rank-btn rank-ss" data-rank="SS" onclick="selecionarEstiloRank(this,'${id}')">SS</button>
+              <button class="estilo-rank-btn rank-sss" data-rank="SSS" onclick="selecionarEstiloRank(this,'${id}')">SSS</button>
+            </div>
+            <input type="hidden" data-field="estilo_rank" value="D">
+          </div>
+          <div class="estilo-beneficio" id="estilo-beneficio-${id}"></div>
+        </div>
+
         <!-- PAINEL DE COMBATE & ROLADOR -->
         <h2 class="sec-title"><span class="sec-icon">🎲</span> Painel de Combate &amp; Dados</h2>
         <div class="combat-panel">
@@ -1163,7 +1191,8 @@
         <button class="attrs-roll-close" id="attrs-roll-close" title="Fechar">✕</button>
       </div>
       <p class="attrs-roll-desc">Valores gerados por <strong>(3d6) × 5</strong>. Distribua livremente entre os atributos
-        — cada valor pode ser usado apenas uma vez.</p>
+        — cada valor pode ser usado apenas uma vez. Os resultados ficam salvos e aparecem ao reabrir este painel.</p>
+      <div class="attrs-forced-notice" id="attrs-forced-notice" style="display:none"></div>
       <div class="attrs-roll-list" id="attrs-roll-list"></div>
       <div class="attrs-roll-footer">
         <button class="attrs-roll-btn attrs-roll-btn-reroll" id="attrs-roll-reroll">↺ Rolar Novamente</button>

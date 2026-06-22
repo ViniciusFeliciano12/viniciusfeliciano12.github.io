@@ -1526,3 +1526,100 @@
   /* Garante que nunca surja uma barra de rolagem horizontal */
 
 }
+/* ─── PONTOS DE DISTRIBUIÇÃO ─────────────────────────────────── */
+.pts-distrib-wrap { flex-shrink: 0; }
+.pts-badge { font-family: 'Georgia', serif; cursor: default; }
+.pts-badge strong { font-size: 14px; }
+
+/* ─── MEDIDOR DE ESTILO ──────────────────────────────────────── */
+.estilo-panel {
+  background: var(--parch-alt);
+  border: 1px solid var(--parch-deep);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 18px;
+}
+
+.estilo-desc {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.estilo-rank-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.estilo-rank-label {
+  font-size: 12px;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+}
+
+.estilo-rank-btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.estilo-rank-btn {
+  background: var(--parch-deep);
+  border: 2px solid transparent;
+  color: var(--ink-soft);
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.estilo-rank-btn:hover { border-color: var(--ink-soft); color: var(--ink); }
+.estilo-rank-btn[data-rank="D"].active,
+.estilo-rank-btn[data-rank="C"].active { border-color: var(--rank-c); color: var(--rank-c); background: rgba(170,170,170,.12); }
+.estilo-rank-btn[data-rank="B"].active,
+.estilo-rank-btn.rank-b.active { border-color: var(--rank-b); color: var(--rank-b); background: rgba(126,200,126,.12); }
+.estilo-rank-btn[data-rank="A"].active,
+.estilo-rank-btn.rank-a.active { border-color: var(--rank-a); color: var(--rank-a); background: rgba(106,172,255,.12); }
+.estilo-rank-btn[data-rank="S"].active,
+.estilo-rank-btn.rank-s.active { border-color: var(--rank-s); color: var(--rank-s); background: rgba(255,215,0,.12); }
+.estilo-rank-btn[data-rank="SS"].active,
+.estilo-rank-btn.rank-ss.active { border-color: var(--rank-ss); color: var(--rank-ss); background: rgba(255,140,0,.12); }
+.estilo-rank-btn[data-rank="SSS"].active,
+.estilo-rank-btn.rank-sss.active { border-color: var(--rank-sss); color: var(--rank-sss); background: rgba(232,53,53,.12); }
+
+.estilo-beneficio {
+  margin-top: 10px;
+  font-size: 12px;
+}
+.estilo-beneficio-text { color: var(--ink-soft); }
+.estilo-beneficio-text.rank-b { color: var(--rank-b); }
+.estilo-beneficio-text.rank-a { color: var(--rank-a); }
+.estilo-beneficio-text.rank-s { color: var(--rank-s); }
+.estilo-beneficio-text.rank-ss { color: var(--rank-ss); }
+.estilo-beneficio-text.rank-sss { color: var(--rank-sss); }
+
+/* ─── ROLAGEM FORÇADA (aviso no modal) ───────────────────────── */
+.attrs-forced-notice {
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.attrs-forced-notice.attrs-forced-eligible {
+  background: rgba(255,200,80,.12);
+  border: 1px solid rgba(255,200,80,.4);
+  color: #ffc85a;
+}
+.attrs-forced-notice.attrs-forced-used {
+  background: rgba(200,60,60,.10);
+  border: 1px solid rgba(200,60,60,.35);
+  color: #e88;
+}
+.attrs-roll-row-low .attrs-roll-value,
+.val-low { color: #e88 !important; }

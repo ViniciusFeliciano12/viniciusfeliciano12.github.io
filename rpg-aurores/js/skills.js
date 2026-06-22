@@ -30,13 +30,30 @@ function lerBasePericia(c, skillKey) {
   return SKILL_BASE[skillKey] || 0;
 }
 
+const RANK_B_PLUS = ['B', 'A', 'S', 'SS', 'SSS'];
+
+function lerBonusEstilo(c, skillKey) {
+  if (skillKey !== 'sk_magia_combate') return 0;
+  const rank = c.querySelector('[data-field="estilo_rank"]')?.value || '';
+  return RANK_B_PLUS.includes(rank) ? 5 : 0;
+}
+
 function atualizarPericia(c, skillKey) {
   const base = lerBasePericia(c, skillKey);
   const bonusEsc = lerBonusEscola(c, skillKey);
+  const bonusEstilo = lerBonusEstilo(c, skillKey);
   const distribEl = c.querySelector(`[data-field="${skillKey}"]`);
   const distrib = parseInt(distribEl?.value) || 0;
 
-  const total = Math.min(99, Math.max(0, base + bonusEsc + distrib));
+  if (skillKey === 'sk_magia_combate') {
+    const estiloSpan = c.querySelector('.estilo-bonus[data-estilo-skill="sk_magia_combate"]');
+    if (estiloSpan) {
+      estiloSpan.textContent = bonusEstilo > 0 ? ` +${bonusEstilo}% 🌟` : '';
+      estiloSpan.title = bonusEstilo > 0 ? 'Bônus do Medidor de Estilo (Rank B+)' : '';
+    }
+  }
+
+  const total = Math.min(99, Math.max(0, base + bonusEsc + bonusEstilo + distrib));
 
   const totalEl = c.querySelector(`[data-total="${skillKey}"]`);
   if (totalEl) totalEl.textContent = total + '%';
@@ -278,6 +295,58 @@ const SPEC_SKILLS = {
     'sk_percepcao', 'sk_rastreamento', 'sk_historia', 'sk_furtividade'
   ],
 };
+
+/* ═══ PONTOS DE DISTRIBUIÇÃO ══════════════════════════════════ */
+function atualizarPontosDistrib(id) {
+  const c = document.getElementById('content-' + id);
+  if (!c) return;
+  const int = parseInt(c.querySelector('[data-field="int_attr"]')?.value) || 0;
+  const edu = parseInt(c.querySelector('[data-field="edu"]')?.value) || 0;
+  const ipEl = document.getElementById('pts-ip-' + id);
+  const ocEl = document.getElementById('pts-oc-' + id);
+  if (ipEl) ipEl.textContent = int * 2;
+  if (ocEl) ocEl.textContent = edu * 4;
+}
+
+/* ═══ MEDIDOR DE ESTILO ════════════════════════════════════════ */
+const ESTILO_BENEFICIOS = {
+  'D': { label: 'Rank D — Sem benefícios ativos.', cls: '' },
+  'C': { label: 'Rank C — Sem benefícios ativos.', cls: '' },
+  'B': { label: 'Rank B — +5% em Magia de Combate ativo.', cls: 'rank-b' },
+  'A': { label: 'Rank A — +5% em Magia de Combate + +1 dado de Postura em feitiços de Efeito.', cls: 'rank-a' },
+  'S': { label: 'Rank S — Recupera 1 PM a cada feitiço acertado.', cls: 'rank-s' },
+  'SS': { label: 'Rank SS — Críticos causam dano máximo (todos os dados no valor mais alto).', cls: 'rank-ss' },
+  'SSS': { label: 'Rank SSS — Pode rolar um dado novamente, 1× por turno.', cls: 'rank-sss' },
+};
+
+function selecionarEstiloRank(btn, id) {
+  const panel = document.getElementById('estilo-panel-' + id);
+  if (!panel) return;
+  panel.querySelectorAll('.estilo-rank-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const rank = btn.dataset.rank;
+  const hiddenEl = panel.querySelector('[data-field="estilo_rank"]');
+  if (hiddenEl) hiddenEl.value = rank;
+
+  const beneficioEl = document.getElementById('estilo-beneficio-' + id);
+  if (beneficioEl) {
+    const info = ESTILO_BENEFICIOS[rank] || {};
+    beneficioEl.innerHTML = `<span class="estilo-beneficio-text ${info.cls || ''}">${info.label || ''}</span>`;
+  }
+
+  setTimeout(() => atualizarTodasPericias(id), 0);
+  if (typeof debounce === 'function' && typeof coletarDados === 'function') {
+    debounce(() => coletarDados(id), 300)();
+  }
+}
+
+function restaurarEstiloRank(id, rank) {
+  if (!rank) rank = 'D';
+  const panel = document.getElementById('estilo-panel-' + id);
+  if (!panel) return;
+  const btn = panel.querySelector(`.estilo-rank-btn[data-rank="${rank}"]`);
+  if (btn) selecionarEstiloRank(btn, id);
+}
 
 function aplicarHighlightEspecializacao(id) {
   const c = document.getElementById('content-' + id);
