@@ -1658,28 +1658,11 @@
   background: #fdf0f0;
 }
 
-/* Faz a div parecer um campo interativo quando vazia ou ao passar o mouse */
-.lore-goals-list[contenteditable="true"] {
-  outline: none;
-  /* Remove aquela borda preta feia do navegador ao clicar */
-  min-height: 50px;
-  /* Garante que a caixa tenha um tamanho mínimo para clicar */
-  max-height: 50px;
-  /* Limita a altura para evitar que fique gigante */
-  cursor: text;
-  /* Transforma o ponteiro do mouse na barra de texto */
-  overflow-y: auto;
-  /* Adiciona a barra de rolagem vertical automaticamente quando necessário */
-  overflow-x: hidden;
-  /* Garante que nunca surja uma barra de rolagem horizontal */
-}
-
-/* Mostra o placeholder caso a div esteja totalmente vazia */
-.lore-goals-list[contenteditable="true"]:empty::before {
+/* Placeholder quando a lista de objetivos está vazia */
+.lore-goals-list:empty::before {
   content: attr(placeholder);
   color: #aaa;
   font-style: italic;
-
 }
 
 .lore-goals-list {

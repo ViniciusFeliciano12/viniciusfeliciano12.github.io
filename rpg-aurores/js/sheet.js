@@ -67,7 +67,10 @@ function coletarDados(id) {
   const c = document.getElementById('content-' + id);
   if (!c) return;
   const dados = {};
-  c.querySelectorAll('[data-field]').forEach(el => { dados[el.dataset.field] = el.value; });
+  c.querySelectorAll('[data-field]').forEach(el => {
+    if (el.type === 'radio' && !el.checked) return;
+    dados[el.dataset.field] = el.value;
+  });
   const img = c.querySelector('.foto-preview-img');
   if (img?.src && img.style.display !== 'none') dados['_foto'] = img.src;
   const objs = [];
