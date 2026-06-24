@@ -1064,47 +1064,24 @@
   min-height: 130px;
 }
 
-/* Alinhamento 3×3 */
-.lore-alignment-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-}
-
-.lore-align-opt {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+/* Alinhamento */
+.lore-alignment-select {
+  width: 100%;
   font-size: 11px;
+  font-family: 'Georgia', serif;
   color: var(--ink);
   cursor: pointer;
   padding: 4px 6px;
   border-radius: 3px;
-  border: 1px solid transparent;
-  transition: background .12s, border-color .12s;
-}
-
-.lore-align-opt:hover {
+  border: 1px solid var(--parch-deep);
   background: var(--parch-alt);
-  border-color: var(--parch-deep);
+  transition: border-color .12s;
 }
-
-.lore-align-opt input[type="radio"] {
-  accent-color: var(--crimson);
-  flex-shrink: 0;
-}
-
-.lore-align-opt:has(input:checked) {
-  background: #fdf0f0;
+.lore-alignment-select:focus {
+  outline: none;
   border-color: var(--crimson);
-  color: var(--crimson);
-  font-weight: 700;
 }
 
-.lore-align-center {
-  grid-column: 2;
-  font-style: italic;
-}
 
 /* Objetivos dinâmicos */
 .lore-goals-list {

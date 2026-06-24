@@ -67,10 +67,7 @@ function coletarDados(id) {
   const c = document.getElementById('content-' + id);
   if (!c) return;
   const dados = {};
-  c.querySelectorAll('[data-field]').forEach(el => {
-    if (el.type === 'radio' && !el.checked) return;
-    dados[el.dataset.field] = el.value;
-  });
+  c.querySelectorAll('[data-field]').forEach(el => { dados[el.dataset.field] = el.value; });
   const img = c.querySelector('.foto-preview-img');
   if (img?.src && img.style.display !== 'none') dados['_foto'] = img.src;
   const objs = [];
@@ -96,7 +93,6 @@ function preencherFicha(id, dados) {
   const c = document.getElementById('content-' + id);
   if (!c || !dados) return;
   c.querySelectorAll('[data-field]').forEach(el => {
-    if (el.type === 'radio') return;
     if (dados[el.dataset.field] !== undefined) el.value = dados[el.dataset.field];
   });
   if (dados['_foto']) {
@@ -149,13 +145,6 @@ function preencherFicha(id, dados) {
     const clearBtn = document.getElementById('lore-file-clear-' + id);
     if (nameEl) nameEl.textContent = nome;
     if (clearBtn) clearBtn.style.display = 'inline-block';
-  }
-  // sincronizar radio de alinhamento
-  const alinhamentoVal = dados['alinhamento'];
-  if (alinhamentoVal) {
-    const c2 = document.getElementById('content-' + id);
-    const radio = c2?.querySelector(`input[name="alinhamento_${id}"][value="${alinhamentoVal}"]`);
-    if (radio) radio.checked = true;
   }
 }
 

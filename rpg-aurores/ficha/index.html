@@ -785,32 +785,15 @@
                 <span class="lore-card-icon">⚖</span>
                 <label class="lore-card-title">Alinhamento Moral</label>
               </div>
-              <div class="lore-alignment-grid">
-                <label class="lore-align-opt">
-                  <input type="radio" name="alinhamento_${id}" data-field="alinhamento" value="Leal e Bom">
-                  <span>Leal e Bom</span>
-                </label>
-                <label class="lore-align-opt">
-                  <input type="radio" name="alinhamento_${id}" data-field="alinhamento" value="Neutro e Bom">
-                  <span>Neutro e Bom</span>
-                </label>
-                <label class="lore-align-opt">
-                  <input type="radio" name="alinhamento_${id}" data-field="alinhamento" value="Caótico e Bom">
-                  <span>Caótico e Bom</span>
-                </label>
-                <label class="lore-align-opt">
-                  <input type="radio" name="alinhamento_${id}" data-field="alinhamento" value="Leal e Neutro">
-                  <span>Leal e Neutro</span>
-                </label>
-                <label class="lore-align-opt lore-align-center">
-                  <input type="radio" name="alinhamento_${id}" data-field="alinhamento" value="Neutro Verdadeiro">
-                  <span>Neutro Verdadeiro</span>
-                </label>
-                <label class="lore-align-opt">
-                  <input type="radio" name="alinhamento_${id}" data-field="alinhamento" value="Caótico e Neutro">
-                  <span>Caótico e Neutro</span>
-                </label>
-              </div>
+              <select data-field="alinhamento" class="lore-alignment-select">
+                <option value="">— Escolha o alinhamento —</option>
+                <option value="Leal e Bom">Leal e Bom</option>
+                <option value="Neutro e Bom">Neutro e Bom</option>
+                <option value="Caótico e Bom">Caótico e Bom</option>
+                <option value="Leal e Neutro">Leal e Neutro</option>
+                <option value="Neutro Verdadeiro">Neutro Verdadeiro</option>
+                <option value="Caótico e Neutro">Caótico e Neutro</option>
+              </select>
             </div>
             <div class="lore-card">
               <div class="lore-card-header">
