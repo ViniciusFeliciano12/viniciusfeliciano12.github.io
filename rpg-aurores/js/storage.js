@@ -92,7 +92,7 @@ document.getElementById('import-file-input').addEventListener('change', function
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = ev => {
+  reader.onload = async ev => {
     try {
       const raw = JSON.parse(ev.target.result);
       if (!Array.isArray(raw) || !raw[0]?.nome) throw new Error('formato inválido');
@@ -102,7 +102,11 @@ document.getElementById('import-file-input').addEventListener('change', function
         dados: f.dados ?? {},
       }));
       fichas.push(...importadas);
-      salvarFichas();
+      if (typeof DB_USER !== 'undefined' && DB_USER) {
+        await Promise.all(importadas.map(f => dbCreateFicha(f).then(() => sincronizarLastSaved(f.id, f.dados, f.nome))));
+      } else {
+        salvarFichas();
+      }
       abaAtiva = importadas[0].id;
       renderConteudo();
       renderTabs();
