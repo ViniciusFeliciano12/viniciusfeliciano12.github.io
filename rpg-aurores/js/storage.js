@@ -73,17 +73,10 @@ function salvarFichas(fichaId) {
 
 function getFicha(id) { return fichas.find(f => f.id === id); }
 
-const _CAMPOS_DB = ['lastEditedBy', 'campanhaId', 'updatedAt', 'userId'];
-
-function _limparCamposDB(ficha) {
-  const copia = { ...ficha };
-  _CAMPOS_DB.forEach(k => delete copia[k]);
-  return copia;
-}
-
 function exportarFichas() {
   if (abaAtiva) coletarDados(abaAtiva);
-  const json = JSON.stringify(fichas.map(_limparCamposDB), null, 2);
+  const payload = fichas.map(f => ({ nome: f.nome, dados: f.dados ?? {} }));
+  const json = JSON.stringify(payload, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -101,12 +94,13 @@ document.getElementById('import-file-input').addEventListener('change', function
   const reader = new FileReader();
   reader.onload = ev => {
     try {
-      const importadas = JSON.parse(ev.target.result);
-      if (!Array.isArray(importadas) || !importadas[0]?.id) throw new Error('formato inválido');
-      importadas.forEach((f, i) => {
-        _CAMPOS_DB.forEach(k => delete f[k]);
-        if (fichas.some(ex => ex.id === f.id)) f.id = gerarFichaId(f.nome || 'personagem');
-      });
+      const raw = JSON.parse(ev.target.result);
+      if (!Array.isArray(raw) || !raw[0]?.nome) throw new Error('formato inválido');
+      const importadas = raw.map(f => ({
+        id: gerarFichaId(f.nome || 'personagem'),
+        nome: f.nome || 'Personagem',
+        dados: f.dados ?? {},
+      }));
       fichas.push(...importadas);
       salvarFichas();
       abaAtiva = importadas[0].id;
