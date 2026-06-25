@@ -293,12 +293,15 @@ async function carregarFichas() {
         </div>`;
     }).join('');
 
-    // Se o jogador não tem fichas ainda, oferece adicionar
-    if (_role === 'player' && !grupos[DB_USER.uid]) {
+    // Se o usuário (jogador ou mestre) não tem fichas ainda, oferece adicionar
+    if (!grupos[DB_USER.uid]) {
+      const semFichasMsg = _role === 'gm'
+        ? 'Você ainda não adicionou suas próprias fichas a esta campanha.'
+        : 'Você ainda não tem fichas nesta campanha.';
       content.innerHTML += `
         <div class="detail-player-group">
           <div class="detail-player-label">${_esc(DB_USER.email)} <span class="detail-you-tag">(você)</span></div>
-          <p style="font-size:13px;color:var(--ink-soft);padding:8px 0">Você ainda não tem fichas nesta campanha.</p>
+          <p style="font-size:13px;color:var(--ink-soft);padding:8px 0">${semFichasMsg}</p>
           <button class="btn-adicionar-ficha" onclick="abrirModalAddFicha()">+ Adicionar ficha</button>
         </div>`;
     }
@@ -516,7 +519,7 @@ async function _carregarFichasLivres() {
   list.innerHTML = '';
 
   try {
-    const todas = await dbLoadFichas();
+    const todas = await dbLoadFichas(DB_USER.uid);
     const livres = todas.filter(f => !f.campanhaId);
     loading.style.display = 'none';
 

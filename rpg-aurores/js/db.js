@@ -295,6 +295,25 @@ async function dbGetCampanhasJogador() {
   }
 }
 
+// Lista campanhas em que o usuário autenticado é o mestre (gmId)
+async function dbGetCampanhasMestre() {
+  if (!DB_USER) return [];
+  try {
+    const snap = await _db.collection('campanhas')
+      .where('gmId', '==', DB_USER.uid)
+      .get();
+    return snap.docs.map(d => ({
+      id: d.id,
+      nome: d.data().nome || '(sem nome)',
+      status: d.data().status || 'ativa',
+      isMestre: true,
+    }));
+  } catch (e) {
+    console.warn('[dbGetCampanhasMestre]', e);
+    return [];
+  }
+}
+
 // ─── Helpers ──────────────────────────────────────────────────
 
 function _docToFicha(doc) {

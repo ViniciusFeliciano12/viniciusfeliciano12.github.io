@@ -411,14 +411,15 @@ function _atualizarDisplayCampanha(fichaId) {
   const btnEl    = document.getElementById('btn-vincular-camp');
   if (!labelEl) return;
 
-  // Oculta para GM (não vincula fichas de outros) ou modo de leitura
-  if (DB_IS_GM || _modoLeitura || !dbConfigured()) {
+  // Oculta em modo leitura (ficha de outro), sem config ou quando o GM está vendo ficha alheia
+  const f = getFicha(fichaId);
+  const fichaEPropia = f && f.user_id === DB_USER?.uid;
+  if (_modoLeitura || !dbConfigured() || (DB_IS_GM && !fichaEPropia)) {
     labelEl.style.display = 'none';
     if (btnEl) btnEl.style.display = 'none';
     return;
   }
 
-  const f = getFicha(fichaId);
   if (!f) return;
 
   labelEl.style.display = 'inline-flex';
@@ -450,7 +451,13 @@ async function abrirModalVincular() {
   document.getElementById('modal-vincular-camp').classList.add('open');
 
   try {
-    const campanhas = await dbGetCampanhasJogador();
+    const [comoJogador, comoMestre] = await Promise.all([
+      dbGetCampanhasJogador(),
+      dbGetCampanhasMestre(),
+    ]);
+    // Mescla sem duplicatas (caso o mestre também seja jogador na própria campanha)
+    const vistas = new Set(comoJogador.map(c => c.id));
+    const campanhas = [...comoJogador, ...comoMestre.filter(c => !vistas.has(c.id))];
     const f = getFicha(abaAtiva);
     // Exclui a campanha que já está vinculada (se houver)
     const disponiveis = campanhas.filter(c => c.id !== f?.campanhaId);
@@ -469,7 +476,7 @@ async function abrirModalVincular() {
                onchange="_selecionarVincularCamp(this)">
         <div class="vincular-camp-radio"></div>
         <div>
-          <div class="vincular-camp-nome">${c.nome}</div>
+          <div class="vincular-camp-nome">${c.nome}${c.isMestre ? ' <span style="font-size:11px;opacity:.7">(mestre)</span>' : ''}</div>
           <div class="vincular-camp-status">${c.status}</div>
         </div>
       </label>`).join('');
