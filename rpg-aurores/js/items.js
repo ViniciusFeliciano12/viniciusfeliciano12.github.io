@@ -6,11 +6,11 @@ const ITEMS_DATA = [
   // ── Rank 1 — Cadete ──────────────────────────────────────────
   {
     id: 'pocao_cura_menor',
-    nome: 'Poção de Cura Menor',
+    nome: 'Poção de PM Menor',
     rank: 1, rankNome: 'Cadete', tipo: 'Poção',
     peso: 1, usos: 2, categoria: 'Cura',
-    descricao: 'Uma poção simples de cura rápida, padrão do kit de campo de todo Cadete.',
-    efeito: 'Restaura 1d4 HP ao ser consumida. Pode ser usada na Ação de Combate.',
+    descricao: 'Uma poção simples de PM rápida, padrão do kit de campo de todo Cadete.',
+    efeito: 'Restaura 1d3 de PM ao ser consumida. Pode ser usada na Ação de Combate.',
   },
   {
     id: 'pocao_wiggenweld',
@@ -58,7 +58,7 @@ const ITEMS_DATA = [
     nome: 'Poção de Cura Padrão',
     rank: 2, rankNome: 'Investigador', tipo: 'Poção',
     peso: 1, usos: 2, categoria: 'Cura',
-    descricao: 'Versão aprimorada da poção de cura básica, com ingredientes de maior concentração.',
+    descricao: 'Versão aprimorada da poção Wiggenweld, com ingredientes de maior concentração.',
     efeito: 'Restaura 1d6+1 HP ao ser consumida.',
   },
   {
