@@ -552,6 +552,14 @@
   font-size: 10.5px;
 }
 
+/* ─── EVOLUÇÃO DE PERÍCIA ────────────────────────────────────── */
+.skill-item.evolve-ativo label {
+  color: #3d9e4a;
+}
+.skill-item.evolve-ativo [data-total] {
+  color: #3d9e4a;
+}
+
 .sdbadge {
   display: inline-flex;
   align-items: center;

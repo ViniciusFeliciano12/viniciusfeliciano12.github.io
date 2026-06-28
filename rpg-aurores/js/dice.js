@@ -69,7 +69,7 @@
     el.querySelector('.dice-popup-close').addEventListener('click', closePopup);
   }
 
-  function showResult(skillName, skillTotal, rolls, mode, valueLabel) {
+  function showResult(skillName, skillTotal, rolls, mode, valueLabel, skillKey, fichaId) {
     const el = getOrCreatePopup();
     clearTimers();
     el.classList.remove('fade-out');
@@ -123,6 +123,10 @@
 
     const res = classifyResult(selectedRoll, skillTotal);
 
+    if (res.success && skillKey && fichaId) {
+      _marcarEvolucaoAposSucesso(skillKey, fichaId);
+    }
+
     let modeLabel = '';
     if (mode === 'advantage') modeLabel = `<span class="dice-mode-tag">⬆ Vantagem ×${rolls.length}</span>`;
     if (mode === 'disadvantage') modeLabel = `<span class="dice-mode-tag">⬇ Desvantagem ×${rolls.length}</span>`;
@@ -162,7 +166,7 @@
     autoCloseTimer = setTimeout(closePopup, 5000);
   }
 
-  function executeRoll(skillName, skillTotal, mode, valueLabel) {
+  function executeRoll(skillName, skillTotal, mode, valueLabel, skillKey, fichaId) {
     showRolling(skillName);
 
     let numDice;
@@ -174,7 +178,7 @@
 
     setTimeout(() => {
       const rolls = Array.from({ length: numDice }, rollD100);
-      showResult(skillName, skillTotal, rolls, mode, valueLabel);
+      showResult(skillName, skillTotal, rolls, mode, valueLabel, skillKey, fichaId);
     }, 450);
   }
 
@@ -184,7 +188,9 @@
     const item = totalEl.closest('.skill-item');
     const labelText = item?.querySelector('.skill-label-text')?.textContent?.trim() || 'Perícia';
     const name = labelText.replace(/\(.*?\)/g, '').trim();
-    return { name, total, label: 'Perícia' };
+    const skillKey = totalEl.dataset.total || null;
+    const fichaId = totalEl.closest('[id^="content-"]')?.id?.replace('content-', '') || null;
+    return { name, total, label: 'Perícia', skillKey, fichaId };
   }
 
   function getSorteInfo(sorteBox) {
@@ -208,10 +214,14 @@
     if (ctxMenuEl) { ctxMenuEl.remove(); ctxMenuEl = null; }
   }
 
-  function showCtxMenu(x, y, skillName, skillTotal, valueLabel) {
+  function showCtxMenu(x, y, skillName, skillTotal, valueLabel, skillKey, fichaId) {
     removeCtxMenu();
     ctxMenuEl = document.createElement('div');
     ctxMenuEl.className = 'dice-ctx-menu';
+
+    const evolveChecked = skillKey && fichaId
+      ? (document.getElementById('content-' + fichaId)?.querySelector(`[data-field="${skillKey}_evolve"]`)?.value === '1')
+      : false;
 
     ctxMenuEl.innerHTML = `
       <div class="dice-ctx-title">Modo de Rolagem — ${skillName}</div>
@@ -234,6 +244,12 @@
         <span class="adv-qty-val" id="adv-qty-display">${advQty}</span>
         <button class="adv-qty-btn" id="adv-qty-plus">+</button>
       </div>
+      ${skillKey && fichaId ? `
+      <hr class="dice-ctx-sep">
+      <div class="dice-ctx-item dice-ctx-evolve ${evolveChecked ? 'evolve-ativo' : ''}" id="ctx-evolve-toggle">
+        <span class="ctx-icon">${evolveChecked ? '🟢' : '⬜'}</span>
+        <span>Pode evoluir ao fim da sessão</span>
+      </div>` : ''}
     `;
     document.body.appendChild(ctxMenuEl);
 
@@ -261,9 +277,26 @@
         e.stopPropagation();
         const mode = item.dataset.mode;
         removeCtxMenu();
-        executeRoll(skillName, skillTotal, mode, valueLabel);
+        executeRoll(skillName, skillTotal, mode, valueLabel, skillKey, fichaId);
       });
     });
+
+    const evolveToggleEl = ctxMenuEl.querySelector('#ctx-evolve-toggle');
+    if (evolveToggleEl && skillKey && fichaId) {
+      evolveToggleEl.addEventListener('click', e => {
+        e.stopPropagation();
+        if (typeof _toggleEvolucao === 'function') {
+          const c = document.getElementById('content-' + fichaId);
+          const skillItem = c?.querySelector(`[data-total="${skillKey}"]`)?.closest('.skill-item');
+          if (skillItem) {
+            _toggleEvolucao(skillItem, skillKey, fichaId);
+            const ativo = skillItem.classList.contains('evolve-ativo');
+            evolveToggleEl.querySelector('.ctx-icon').textContent = ativo ? '🟢' : '⬜';
+            evolveToggleEl.classList.toggle('evolve-ativo', ativo);
+          }
+        }
+      });
+    }
 
     setTimeout(() => {
       document.addEventListener('click', removeCtxMenu, { once: true });
@@ -276,29 +309,29 @@
       e.preventDefault();
       e.stopPropagation();
       if (longPressFired) { longPressFired = false; return; }
-      const { name, total, label } = getInfo(el);
+      const { name, total, label, skillKey, fichaId } = getInfo(el);
       if (!total) return;
-      executeRoll(name, total, 'normal', label);
+      executeRoll(name, total, 'normal', label, skillKey, fichaId);
     });
 
     el.addEventListener('contextmenu', e => {
       if (e.target.tagName === 'INPUT') return;
       e.preventDefault();
-      const { name, total, label } = getInfo(el);
+      const { name, total, label, skillKey, fichaId } = getInfo(el);
       if (!total) return;
-      showCtxMenu(e.clientX, e.clientY, name, total, label);
+      showCtxMenu(e.clientX, e.clientY, name, total, label, skillKey, fichaId);
     });
 
     el.addEventListener('touchstart', e => {
       if (e.target.tagName === 'INPUT') return;
       longPressFired = false;
       const touch = e.touches[0];
-      const { name, total, label } = getInfo(el);
+      const { name, total, label, skillKey, fichaId } = getInfo(el);
       if (!total) return;
       longPressTimer = setTimeout(() => {
         longPressFired = true;
         if (navigator.vibrate) navigator.vibrate(40);
-        showCtxMenu(touch.clientX, touch.clientY, name, total, label);
+        showCtxMenu(touch.clientX, touch.clientY, name, total, label, skillKey, fichaId);
       }, 550);
     }, { passive: true });
 

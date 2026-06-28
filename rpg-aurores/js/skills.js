@@ -354,6 +354,63 @@ function inicializarInputsPericia(id) {
   });
 }
 
+/* ═══ TOGGLES DE EVOLUÇÃO POR PERÍCIA ═════════════════════════ */
+function inicializarTogglesEvolucao(id) {
+  const c = document.getElementById('content-' + id);
+  if (!c) return;
+  const allSkills = Object.keys(SKILL_BASE).concat(['sk_esquiva']);
+  allSkills.forEach(sk => {
+    const item = c.querySelector(`[data-total="${sk}"]`)?.closest('.skill-item');
+    if (!item) return;
+    if (item.dataset.evolveInit) return;
+    item.dataset.evolveInit = '1';
+
+    const key = sk + '_evolve';
+    if (!item.querySelector(`[data-field="${key}"]`)) {
+      const inp = document.createElement('input');
+      inp.type = 'hidden';
+      inp.dataset.field = key;
+      inp.value = '0';
+      item.appendChild(inp);
+    }
+
+    // cursor já é dado pelo dice.js; só garantimos o hidden input acima
+  });
+  _sincronizarVisuaisEvolucao(c);
+}
+
+function _marcarEvolucaoAposSucesso(sk, id) {
+  const c = document.getElementById('content-' + id);
+  if (!c) return;
+  const item = c.querySelector(`[data-total="${sk}"]`)?.closest('.skill-item');
+  if (!item) return;
+  const inp = item.querySelector(`[data-field="${sk}_evolve"]`);
+  if (!inp || inp.value === '1') return; // já marcado, não faz nada
+  inp.value = '1';
+  item.classList.add('evolve-ativo');
+  if (typeof coletarDados === 'function') coletarDados(id);
+}
+
+function _toggleEvolucao(item, sk, id) {
+  const c = document.getElementById('content-' + id);
+  if (!c) return;
+  const inp = item.querySelector(`[data-field="${sk}_evolve"]`);
+  if (!inp) return;
+  const ativo = inp.value === '1';
+  inp.value = ativo ? '0' : '1';
+  item.classList.toggle('evolve-ativo', !ativo);
+  if (typeof coletarDados === 'function') coletarDados(id);
+}
+
+function _sincronizarVisuaisEvolucao(c) {
+  c.querySelectorAll('[data-evolve-init]').forEach(item => {
+    const sk = item.querySelector('[data-total]')?.dataset.total;
+    if (!sk) return;
+    const inp = item.querySelector(`[data-field="${sk}_evolve"]`);
+    item.classList.toggle('evolve-ativo', inp?.value === '1');
+  });
+}
+
 /* ═══ POPUP DE PERÍCIA ═════════════════════════════════════════ */
 let _popupCurrentId = null;
 let _popupCurrentSkill = null;

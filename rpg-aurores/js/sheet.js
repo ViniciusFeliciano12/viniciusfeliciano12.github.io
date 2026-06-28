@@ -147,6 +147,7 @@ function preencherFicha(id, dados) {
   setTimeout(() => atualizarTodasPericias(id), 0);
   setTimeout(() => atualizarPontosDistrib(id), 0);
   setTimeout(() => restaurarEstiloRank(id, dados['estilo_rank'] || 'D'), 50);
+  setTimeout(() => { const c = document.getElementById('content-' + id); if (c) _sincronizarVisuaisEvolucao(c); }, 0);
   const ficha = fichas.find(f => f.id === id);
   if (ficha) ficha._itens_mochila = dados._itens_mochila || [];
   renderizarItensMochila(id);
@@ -224,6 +225,7 @@ function aplicarCamposRemoto(fichaId, dadosRemoto, nomeRemoto) {
 
   // Atualiza o snapshot para que o próximo diff parta do estado atual do Firebase
   sincronizarLastSaved(fichaId, dadosRemoto, nomeRemoto);
+  setTimeout(() => { const c2 = document.getElementById('content-' + fichaId); if (c2 && typeof _sincronizarVisuaisEvolucao === 'function') _sincronizarVisuaisEvolucao(c2); }, 0);
 }
 
 /* ═══ BIND DE EVENTOS ═════════════════════════════════════════ */
@@ -392,6 +394,7 @@ function renderConteudo() {
     div.innerHTML = criarFichaHTML(f.id);
     area.appendChild(div);
     inicializarInputsPericia(f.id);
+    inicializarTogglesEvolucao(f.id);
     preencherFicha(f.id, f.dados);
     criaturaInicializar(f.id);
     criaturaPreencherDados(f.id, f.dados);
@@ -433,6 +436,7 @@ function novaAba() {
   div.innerHTML = criarFichaHTML(id);
   area.appendChild(div);
   inicializarInputsPericia(id);
+  inicializarTogglesEvolucao(id);
   preencherFicha(id, {});
   criaturaInicializar(id);
   coletarDados(id);

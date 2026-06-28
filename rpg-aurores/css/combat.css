@@ -268,6 +268,19 @@
   color: #888;
 }
 
+.dice-ctx-evolve {
+  border-top: 1px solid rgba(255,255,255,.07);
+  font-size: 12px;
+  color: #aaa;
+}
+.dice-ctx-evolve:hover {
+  background: rgba(61,158,74,.15);
+  color: #6ec97a;
+}
+.dice-ctx-evolve.evolve-ativo {
+  color: #6ec97a;
+}
+
 .adv-controls-bar {
   display: flex;
   align-items: center;
