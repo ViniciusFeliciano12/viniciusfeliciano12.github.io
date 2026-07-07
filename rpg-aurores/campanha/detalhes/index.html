@@ -7,12 +7,12 @@
   <title>Campanha — Aurores RPG</title>
   <link rel="stylesheet" href="../../css/base.css?v=202606242341">
   <link rel="stylesheet" href="../../css/content.css?v=202606242341">
-  <link rel="stylesheet" href="../../css/campanha.css?v=202606242341">
+  <link rel="stylesheet" href="../../css/campanha.css?v=202607072500">
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script src="../../js/firebase-config.js?v=202606242341"></script>
-  <script src="../../js/db.js?v=202606242341"></script>
+  <script src="../../js/db.js?v=202607072500"></script>
   <script src="../../js/header.js?v=202606242341" data-page="campanha" data-root="../../"></script>
 </head>
 
@@ -102,6 +102,53 @@
         <div id="jogadores-content"></div>
       </div>
 
+      <!-- ── PANEL: Escudo do Mestre (GM) ── -->
+      <div class="camp-panel escudo-panel" id="panel-escudo" style="display:none">
+        <div class="escudo-toolbar">
+          <div class="escudo-turno-track">
+            <button class="escudo-nav-btn" onclick="escudoTurnoAnterior()" title="Turno anterior" aria-label="Turno anterior">‹</button>
+            <div class="escudo-turno-display">
+              <span class="escudo-rodada-pill">Rodada <strong id="escudo-rodada-valor">1</strong></span>
+              <div class="escudo-turno-nome-row">
+                <span class="escudo-turno-dot"></span>
+                <span class="escudo-turno-nome" id="escudo-turno-atual">—</span>
+              </div>
+            </div>
+            <button class="escudo-nav-btn" onclick="escudoProximoTurno()" title="Próximo turno" aria-label="Próximo turno">›</button>
+          </div>
+          <div class="escudo-toolbar-acoes">
+            <button class="escudo-btn" onclick="escudoReiniciarRodadas()">↺ Reiniciar Rodadas</button>
+            <button class="escudo-btn escudo-btn--perigo" onclick="escudoConfirmarReiniciarCombate()">🗑 Reiniciar Combate</button>
+            <button class="escudo-btn escudo-btn--destaque" onclick="abrirModalAddNpc()">+ Adicionar NPC/Monstro</button>
+          </div>
+        </div>
+        <div id="escudo-content"></div>
+        <div class="escudo-regras-footer" id="escudo-regras-footer">
+          <button class="escudo-regras-toggle" onclick="escudoToggleRegras()">📖 Resumo de Regras — Medidor de Estilo</button>
+          <div class="escudo-regras-body gain-lose">
+            <div>
+              <h4 class="green">Ganha 1 nível quando:</h4>
+              <ul>
+                <li>Usa um feitiço diferente dos anteriores.</li>
+                <li>Combina Efeito + Dano em sequência.</li>
+                <li>Realiza uma Esquiva bem sucedida.</li>
+                <li>Descrição memorável ou vence confronto difícil.</li>
+                <li>Flanqueio Perfeito (Aparatação no flanco/costas).</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="red">Perde 1 nível quando:</h4>
+              <ul>
+                <li>Repete o mesmo feitiço de combate já usado no duelo.</li>
+                <li>Erra uma Ação de Ataque e uma de Cenário no mesmo turno.</li>
+                <li>Usa sempre a mesma tática sem variação.</li>
+                <li>Falha ao contestar o cenário no Embate Ambiental.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- ── PANEL: Solicitações (GM) ── -->
       <div class="camp-panel" id="panel-solicitacoes" style="display:none">
         <div class="camp-loading" id="loading-solicitacoes" style="display:none">Carregando…</div>
@@ -139,6 +186,24 @@
     </div>
   </div>
 
+  <!-- ═══ MODAL: Adicionar NPC/Monstro ao combate ═══════════════ -->
+  <div class="modal-overlay" id="modal-add-npc">
+    <div class="modal-box camp-modal camp-modal--wide">
+      <h3>Adicionar NPC/Monstro ao combate</h3>
+      <p class="camp-modal-subtitle">Selecione uma ficha de sua autoria para clonar como NPC transitório (não altera a ficha original):</p>
+      <div class="ficha-picker" id="add-npc-picker">
+        <div class="camp-loading" id="add-npc-loading">Carregando fichas…</div>
+        <div id="add-npc-empty" style="display:none"></div>
+        <div class="ficha-picker-list" id="add-npc-list" role="radiogroup"></div>
+      </div>
+      <div id="add-npc-error" class="auth-error" style="display:none"></div>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-cancel" onclick="fecharModalAddNpc()">Cancelar</button>
+        <button class="modal-btn modal-btn-confirm" id="btn-confirmar-add-npc" disabled onclick="confirmarAddNpc()">Adicionar ao combate</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ MODAL: Confirmação de ação destrutiva ═════════════════ -->
   <div class="modal-overlay" id="modal-confirm">
     <div class="modal-box camp-modal">
@@ -154,7 +219,8 @@
 
   <div class="save-toast" id="save-toast"></div>
 
-  <script src="detalhes.js?v=202606242341"></script>
+  <script src="detalhes.js?v=202607072500"></script>
+  <script src="escudo.js?v=202607072500"></script>
 </body>
 
 </html>

@@ -183,6 +183,7 @@ function _renderTabs() {
     ? [
         { key: 'fichas',       label: 'Fichas' },
         { key: 'jogadores',    label: 'Jogadores' },
+        { key: 'escudo',       label: 'Escudo do Mestre' },
         { key: 'solicitacoes', label: 'Solicitações', badge: true },
         { key: 'config',       label: 'Configurações' },
       ]
@@ -205,7 +206,7 @@ function trocarTabDetail(tab) {
     b.setAttribute('aria-selected', ativo ? 'true' : 'false');
   });
 
-  const allPanels = ['panel-fichas', 'panel-jogadores', 'panel-solicitacoes', 'panel-minha-part', 'panel-config'];
+  const allPanels = ['panel-fichas', 'panel-jogadores', 'panel-escudo', 'panel-solicitacoes', 'panel-minha-part', 'panel-config'];
   allPanels.forEach(id => {
     document.getElementById(id).style.display = 'none';
   });
@@ -213,6 +214,7 @@ function trocarTabDetail(tab) {
   const panelMap = {
     'fichas':       'panel-fichas',
     'jogadores':    'panel-jogadores',
+    'escudo':       'panel-escudo',
     'solicitacoes': 'panel-solicitacoes',
     'minha-part':   'panel-minha-part',
     'config':       'panel-config',
@@ -223,6 +225,7 @@ function trocarTabDetail(tab) {
   // Carrega dados da tab ao abrir
   if (tab === 'fichas') carregarFichas();
   if (tab === 'jogadores') carregarJogadores();
+  if (tab === 'escudo') carregarEscudoMestre();
   if (tab === 'solicitacoes') carregarSolicitacoes();
   if (tab === 'minha-part') renderMinhaParticipacao();
   if (tab === 'config') renderConfiguracoesCampanha();

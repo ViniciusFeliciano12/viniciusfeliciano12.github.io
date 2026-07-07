@@ -511,3 +511,30 @@ async function dbSairDaCampanha(campanhaId) {
     await batch.commit();
   }
 }
+
+// ─── Escudo do Mestre ───────────────────────────────────────────
+// Só os PCs (fichas reais) são lidos daqui, em tempo real. Estado de combate
+// (iniciativa/turno/rodada) e NPCs transitórios NÃO usam Firestore — ver
+// escudo.js, que persiste tudo isso em localStorage, namespaced por campanha.
+
+let _escudoUnsubFichas = null;
+
+// Listener em tempo real para todas as fichas (PCs) vinculadas a uma campanha.
+// onChange(fichaId, fichaObj | null) — mesmo contrato de dbListenFicha/dbListenFichas.
+function dbListenCampanhaFichas(campanhaId, onChange) {
+  if (_escudoUnsubFichas) { _escudoUnsubFichas(); _escudoUnsubFichas = null; }
+  _escudoUnsubFichas = _db.collection('fichas')
+    .where('campanhaId', '==', campanhaId)
+    .onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        if (change.doc.metadata.hasPendingWrites) return;
+        if (change.type === 'removed') { onChange(change.doc.id, null); return; }
+        onChange(change.doc.id, _docToFicha(change.doc));
+      });
+    });
+}
+
+// Cancela o listener do Escudo do Mestre (chamar ao sair da aba/página).
+function dbPararEscudoListeners() {
+  if (_escudoUnsubFichas) { _escudoUnsubFichas(); _escudoUnsubFichas = null; }
+}
