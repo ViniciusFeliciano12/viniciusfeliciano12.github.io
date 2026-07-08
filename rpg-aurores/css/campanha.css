@@ -724,113 +724,123 @@
   margin: 0;
 }
 
-/* ─── Grupos de fichas ───────────────────────────────────────── */
-.detail-player-group {
+/* ─── Grid de cards: Fichas e Jogadores ──────────────────────── */
+.detail-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 14px;
+}
+
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  background: linear-gradient(180deg, var(--parch) 0%, var(--parch-alt) 100%);
   border: 1.5px solid var(--parch-deep);
-  border-radius: var(--r);
-  margin-bottom: 14px;
+  border-radius: 16px;
+  padding: 18px 14px 14px;
+  transition: border-color .15s, box-shadow .15s, transform .1s;
+}
+
+.detail-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 4px 14px rgba(30, 26, 23, .1);
+  transform: translateY(-2px);
+}
+
+.detail-card-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
   overflow: hidden;
-}
-
-.detail-player-label {
-  background: var(--parch-alt);
-  padding: 9px 14px;
-  font-size: 12px;
+  background: var(--ink);
+  color: var(--gold-lt);
+  font-size: 19px;
   font-weight: 700;
-  color: var(--ink-soft);
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  border-bottom: 1px solid var(--parch-deep);
-}
-
-.detail-you-tag {
-  font-weight: 400;
-  text-transform: none;
-  font-style: italic;
-  color: var(--gold);
-  letter-spacing: 0;
-}
-
-.detail-ficha-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--parch-deep);
-  gap: 10px;
+  justify-content: center;
+  border: 2px solid var(--parch-deep);
+  flex-shrink: 0;
 }
 
-.detail-ficha-row:last-of-type {
-  border-bottom: none;
+.detail-card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.detail-ficha-name {
-  font-size: 13px;
+.detail-card-name {
+  font-size: 14px;
+  font-weight: 700;
   color: var(--ink);
-  flex: 1;
-  min-width: 0;
+  max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.detail-ficha-actions {
-  flex-shrink: 0;
-  display: flex;
-  gap: 6px;
-}
-
-/* Botão adicionar ficha (dentro do grupo) */
-.btn-adicionar-ficha {
-  display: block;
-  width: 100%;
-  background: none;
-  border: none;
-  border-top: 1px dashed var(--parch-deep);
-  padding: 9px 14px;
-  text-align: left;
-  font-family: 'Georgia', serif;
-  font-size: 12px;
-  color: var(--gold);
-  cursor: pointer;
-  transition: background .15s;
-}
-
-.btn-adicionar-ficha:hover {
-  background: var(--parch-alt);
-}
-
-/* ─── Lista de jogadores (GM) ────────────────────────────────── */
-.detail-player-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--parch-deep);
-  gap: 12px;
-}
-
-.detail-player-row:last-child {
-  border-bottom: none;
-}
-
-.detail-player-row-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-  min-width: 0;
-}
-
-.detail-player-row-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.detail-player-row-email {
+.detail-card-owner {
   font-size: 11px;
   color: var(--ink-soft);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.detail-you-tag {
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gold);
+}
+
+.detail-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.detail-card-actions .btn-ver-ficha,
+.detail-card-actions .btn-desvincular,
+.detail-card-actions .btn-clonar,
+.detail-card-actions .btn-expulsar {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Card especial: tile de "adicionar ficha" ao final do grid */
+.detail-card--add {
+  align-items: center;
+  justify-content: center;
+  min-height: 148px;
+  background: none;
+  border: 1.5px dashed var(--parch-deep);
+  color: var(--gold);
+  cursor: pointer;
+  font-family: 'Georgia', serif;
+}
+
+.detail-card--add:hover {
+  border-color: var(--gold);
+  background: var(--parch-alt);
+  transform: translateY(-2px);
+}
+
+.detail-add-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.detail-add-label {
+  font-size: 12.5px;
+  font-weight: 700;
 }
 
 /* ─── Solicitações (GM) ──────────────────────────────────────── */
@@ -948,6 +958,24 @@
 .btn-desvincular:hover {
   border-color: var(--crimson);
   color: var(--crimson);
+}
+
+.btn-clonar {
+  background: none;
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Georgia', serif;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+
+.btn-clonar:hover {
+  background: var(--gold);
+  color: #fff;
 }
 
 .btn-expulsar {
@@ -1073,8 +1101,7 @@
 @media (max-width: 520px) {
   .detail-request-card { flex-direction: column; align-items: flex-start; }
   .detail-request-actions { width: 100%; justify-content: flex-end; }
-  .detail-player-row { flex-wrap: wrap; }
-  .btn-expulsar { width: 100%; text-align: center; }
+  .detail-card-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
 }
 
 /* ═══════════════════════════════════════════════════════════════

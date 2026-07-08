@@ -245,73 +245,57 @@ async function carregarFichas() {
 
   try {
     const fichas = await dbGetCampanhaFichas(_campanhaId);
+    loadEl.style.display = 'none';
 
-    if (!fichas.length) {
-      loadEl.style.display = 'none';
-      content.innerHTML = `
-        <div class="camp-empty" style="padding:32px 0">
+    const cards = fichas.map(_renderFichaCard).join('');
+    const addCard = `
+      <button type="button" class="detail-card detail-card--add" onclick="abrirModalAddFicha()">
+        <div class="detail-add-icon">+</div>
+        <div class="detail-add-label">Adicionar ficha</div>
+      </button>`;
+
+    content.innerHTML = `
+      ${!fichas.length ? `
+        <div class="camp-empty" style="padding:8px 0 28px">
           <div class="camp-empty-icon">📄</div>
           <p>Nenhuma ficha vinculada a esta campanha ainda.</p>
-        </div>`;
-      return;
-    }
-
-    // Agrupa por userId
-    const grupos = {};
-    fichas.forEach(f => {
-      if (!grupos[f.user_id]) grupos[f.user_id] = [];
-      grupos[f.user_id].push(f);
-    });
-
-    loadEl.style.display = 'none';
-    content.innerHTML = Object.entries(grupos).map(([uid, uFichas]) => {
-      const membro = _campanha.membros[uid];
-      const label = membro
-        ? (membro.username || membro.email)
-        : (uid === _campanha.gmId ? (_campanha.gmUsername || _campanha.gmEmail) : uid.slice(0, 8) + '…');
-      const isOwn = uid === DB_USER.uid;
-
-      const fichaRows = uFichas.map(f => {
-        const abrirLabel = (_role === 'gm' || isOwn) ? 'Editar ficha' : 'Ver ficha';
-        const abrirLink = `<a href="../../ficha/?ficha=${_esc(f.id)}" class="btn-ver-ficha" target="_blank">${abrirLabel}</a>`;
-        const desvincularBtn = (_role === 'gm' || isOwn)
-          ? `<button class="btn-desvincular" onclick="solicitarDesvinculaFicha('${_esc(f.id)}','${_esc(f.nome)}')">Desvincular</button>`
-          : '';
-        return `
-          <div class="detail-ficha-row">
-            <span class="detail-ficha-name">${_esc(f.nome)}</span>
-            <div class="detail-ficha-actions">${abrirLink}${desvincularBtn}</div>
-          </div>`;
-      }).join('');
-
-      const addBtn = isOwn
-        ? `<button class="btn-adicionar-ficha" onclick="abrirModalAddFicha()">+ Adicionar ficha</button>`
-        : '';
-
-      return `
-        <div class="detail-player-group">
-          <div class="detail-player-label">${_esc(label)}${isOwn ? ' <span class="detail-you-tag">(você)</span>' : ''}</div>
-          ${fichaRows}
-          ${addBtn}
-        </div>`;
-    }).join('');
-
-    // Se o usuário (jogador ou mestre) não tem fichas ainda, oferece adicionar
-    if (!grupos[DB_USER.uid]) {
-      const semFichasMsg = _role === 'gm'
-        ? 'Você ainda não adicionou suas próprias fichas a esta campanha.'
-        : 'Você ainda não tem fichas nesta campanha.';
-      content.innerHTML += `
-        <div class="detail-player-group">
-          <div class="detail-player-label">${_esc(DB_USER.email)} <span class="detail-you-tag">(você)</span></div>
-          <p style="font-size:13px;color:var(--ink-soft);padding:8px 0">${semFichasMsg}</p>
-          <button class="btn-adicionar-ficha" onclick="abrirModalAddFicha()">+ Adicionar ficha</button>
-        </div>`;
-    }
+        </div>` : ''}
+      <div class="detail-card-grid">${cards}${addCard}</div>`;
   } catch (e) {
     loadEl.style.display = 'none';
     content.innerHTML = `<p class="auth-error" style="display:block">Erro ao carregar fichas: ${_esc(e.message)}</p>`;
   }
+}
+
+function _fichaCardAvatar(f) {
+  const foto = f.dados && f.dados._foto;
+  return foto
+    ? `<img src="${foto}" alt="">`
+    : `<span>${_esc((f.nome || '?')[0]).toUpperCase()}</span>`;
+}
+
+function _renderFichaCard(f) {
+  const membro = _campanha.membros[f.user_id];
+  const label = membro
+    ? (membro.username || membro.email)
+    : (f.user_id === _campanha.gmId ? (_campanha.gmUsername || _campanha.gmEmail) : f.user_id.slice(0, 8) + '…');
+  const isOwn = f.user_id === DB_USER.uid;
+  const abrirLabel = (_role === 'gm' || isOwn) ? '📝 Editar' : '👁 Ver';
+  const desvincularBtn = (_role === 'gm' || isOwn)
+    ? `<button class="btn-desvincular" onclick="solicitarDesvinculaFicha('${_esc(f.id)}','${_esc(f.nome)}')">Desvincular</button>`
+    : '';
+
+  return `
+    <div class="detail-card detail-ficha-card">
+      <div class="detail-card-avatar">${_fichaCardAvatar(f)}</div>
+      <div class="detail-card-name" title="${_esc(f.nome)}">${_esc(f.nome)}</div>
+      <div class="detail-card-owner">${_esc(label)}${isOwn ? ' <span class="detail-you-tag">(você)</span>' : ''}</div>
+      <div class="detail-card-actions">
+        <a href="../../ficha/?ficha=${_esc(f.id)}" class="btn-ver-ficha" target="_blank">${abrirLabel} ficha</a>
+        <button class="btn-clonar" title="Clonar personagem para você" onclick="clonarPersonagem('${_esc(f.id)}','${_esc(f.nome)}')">🧬 Clonar</button>
+        ${desvincularBtn}
+      </div>
+    </div>`;
 }
 
 function solicitarDesvinculaFicha(fichaId, fichaNome) {
@@ -324,6 +308,38 @@ function solicitarDesvinculaFicha(fichaId, fichaNome) {
       carregarFichas();
     }
   );
+}
+
+// Clona a ficha de qualquer participante (inclusive a própria) para uma ficha
+// nova e independente do clicante — não fica vinculada a esta (ou nenhuma)
+// campanha, e editar a cópia não afeta o personagem original.
+function clonarPersonagem(fichaId, fichaNome) {
+  abrirConfirm(
+    'Clonar personagem',
+    `Deseja criar uma cópia de "${fichaNome}" para você? A cópia é uma ficha independente — não afeta a campanha nem o personagem original.`,
+    async () => {
+      const original = await dbGetFichaById(fichaId);
+      if (!original) throw new Error('Ficha não encontrada.');
+      const clone = {
+        id: _gerarFichaCloneId(original.nome),
+        user_id: DB_USER.uid,
+        nome: (original.nome || 'Personagem') + ' (cópia)',
+        dados: JSON.parse(JSON.stringify(original.dados || {})),
+      };
+      await dbCreateFicha(clone);
+      mostrarToast('✓ Personagem clonado! Veja na aba "Fichas" fora da campanha.');
+    }
+  );
+}
+
+function _gerarFichaCloneId(nome) {
+  const slug = (nome || 'personagem')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_]/g, '')
+    .slice(0, 32) || 'personagem';
+  return 'ficha_' + slug + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 }
 
 // ─── Tab: Jogadores (GM) ──────────────────────────────────────
@@ -342,18 +358,21 @@ function carregarJogadores() {
     return;
   }
 
-  content.innerHTML = ids.map(uid => {
+  const cards = ids.map(uid => {
     const m = membros[uid] || {};
     const label = m.username || m.email || uid.slice(0, 12) + '…';
     return `
-      <div class="detail-player-row">
-        <div class="detail-player-row-info">
-          <span class="detail-player-row-name">${_esc(label)}</span>
-          ${m.email && m.username ? `<span class="detail-player-row-email">${_esc(m.email)}</span>` : ''}
+      <div class="detail-card detail-player-card">
+        <div class="detail-card-avatar"><span>${_esc(label[0] || '?').toUpperCase()}</span></div>
+        <div class="detail-card-name" title="${_esc(label)}">${_esc(label)}</div>
+        ${m.email && m.username ? `<div class="detail-card-owner">${_esc(m.email)}</div>` : ''}
+        <div class="detail-card-actions">
+          <button class="btn-expulsar" onclick="solicitarExpulsao('${_esc(uid)}','${_esc(label)}')">Expulsar</button>
         </div>
-        <button class="btn-expulsar" onclick="solicitarExpulsao('${_esc(uid)}','${_esc(label)}')">Expulsar</button>
       </div>`;
   }).join('');
+
+  content.innerHTML = `<div class="detail-card-grid">${cards}</div>`;
 }
 
 function solicitarExpulsao(uid, label) {
