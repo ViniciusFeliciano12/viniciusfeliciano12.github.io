@@ -34,10 +34,13 @@ Roda inteiramente no navegador — sem frameworks, sem build step — usando Fir
 | Área | Recursos |
 |------|----------|
 | **Fichas de Auror** | Atributos, 40+ perícias com escolas de magia, equipamentos, objetivos pessoais |
+| **Rolagem de Atributos** | Modal guiado (3d6×5) para distribuição de atributos na criação da ficha, com reroll forçado |
 | **Sistema de Combate** | Rolagem d100, tipos de ataque (Normal, Vulnerável, Assinatura), cálculo de dano e efeitos |
+| **Evolução de Perícias** | Marcação automática (ou manual, via clique direito) de perícias aptas a evoluir ao rolar sucesso |
 | **Medidor de Estilo** | Ranking D → SSS com bônus progressivos em Magia de Combate |
 | **Catálogo de Itens** | 50+ itens organizados por rank (Cadete → SSS) em categorias por tipo |
-| **Campanhas** | Criação de sessões, convites a jogadores, aprovação de candidatos, acesso por Mestre |
+| **Campanhas** | Criação de sessões, convites a jogadores, aprovação de candidatos, GM pode criar fichas para jogadores |
+| **Escudo do Mestre** | Painel de combate da campanha: iniciativa, turnos e rodadas, edição rápida de HP/Postura/PM/Sorte/Estilo de PCs e NPCs, clonagem de fichas como NPCs transitórios e anotações por combatente |
 | **Painel do Mestre** | Visão geral de todos os jogadores registrados e suas fichas |
 | **Perfil** | Upload de foto com compressão automática, configurações de conta |
 | **Sync em Tempo Real** | Firestore com proteção contra conflito entre múltiplas abas |
@@ -114,7 +117,11 @@ ViniciusFeliciano12.github.io/
 └── rpg-aurores/
     ├── ficha/index.html         # Ficha do personagem
     ├── campanha/index.html      # Lista de campanhas
+    ├── campanha/campanha.js     # Lógica de listagem/criação de campanhas
     ├── campanha/detalhes/       # Detalhes de uma campanha
+    │   ├── index.html           # Abas: visão geral, membros, Escudo do Mestre
+    │   ├── detalhes.js          # Membros, candidatos, vínculo de fichas
+    │   └── escudo.js            # Escudo do Mestre (painel de combate da campanha)
     ├── painel/index.html        # Painel do Mestre
     ├── regras/index.html        # Referência de regras d100
     ├── glossario/index.html     # Glossário mágico
@@ -129,19 +136,23 @@ ViniciusFeliciano12.github.io/
     │   ├── content.css          # Regras e glossário
     │   ├── painel.css           # Painel do Mestre
     │   ├── perfil.css           # Perfil
-    │   └── campanha.css         # Campanhas
+    │   └── campanha.css         # Campanhas + Escudo do Mestre
     │
     └── js/                      # Módulos JavaScript
         ├── firebase-config.example.js  # ← Template de configuração
         ├── db.js                # Wrapper Firebase (auth + CRUD)
         ├── app.js               # Inicialização principal
         ├── sheet.js             # Renderização da ficha
-        ├── skills.js            # Sistema de perícias e escolas
+        ├── skills.js            # Sistema de perícias, escolas e evolução
         ├── combat.js            # Sistema de combate
+        ├── attrs-roll.js        # Modal de rolagem de atributos (3d6×5)
         ├── items.js             # Banco de dados de itens
         ├── dice.js              # Rolagem e probabilidades
         ├── header.js            # Componente de cabeçalho
+        ├── painel.js            # Lógica do Painel do Mestre
         ├── perfil.js            # Gerenciamento de perfil
+        ├── glossario.js         # Filtro de busca do glossário
+        ├── storage.js           # Persistência local/sync incremental de fichas
         └── utils.js             # Utilitários gerais
 ```
 
