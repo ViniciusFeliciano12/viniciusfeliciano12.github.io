@@ -302,7 +302,8 @@ function _renderCombatRow(e, posicao) {
     : '';
 
   return `
-    <div class="escudo-row${ativo ? ' escudo-row--ativo' : ''}${e.tipo === 'npc' ? ' escudo-row--npc' : ''}">
+    <div class="escudo-row${ativo ? ' escudo-row--ativo' : ''}${e.tipo === 'npc' ? ' escudo-row--npc' : ''}"
+         onclick="_escudoSelecionarTurno('${_esc(e.id)}', event)" title="Clique para definir como turno atual">
       <div class="escudo-row-rank">${posicao}º</div>
       <div class="escudo-row-main">
         <div class="escudo-row-top">
@@ -401,6 +402,18 @@ async function _escudoRemoverNpc(npcId) {
 }
 
 // ─── Gerenciador de turnos/rodadas ──────────────────────────────
+
+// Clicar no card de um combatente "em combate" o torna o turno atual direto
+// (sem avançar rodada). Ignora cliques em controles internos do card (inputs,
+// botões, select, textarea) para não roubar o turno enquanto o Mestre ajusta
+// HP/iniciativa/anotações etc.
+function _escudoSelecionarTurno(id, ev) {
+  if (ev?.target?.closest('input, button, select, textarea, a')) return;
+  if (_escudoEstado.turnoAtual === id) return;
+  _escudoEstado = { ..._escudoEstado, turnoAtual: id };
+  _escudoSalvarEstadoLocal();
+  _renderEscudo();
+}
 
 function escudoProximoTurno() {
   const ordem = _escudoOrdemAtual();
