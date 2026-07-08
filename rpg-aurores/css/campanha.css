@@ -1553,14 +1553,21 @@
 .escudo-chip-name { font-size: 12.5px; font-weight: 700; white-space: nowrap; }
 
 .escudo-chip-iniciativa {
-  width: 68px;
-  padding: 3px 6px;
-  border: 1px solid var(--parch-deep);
+  width: 92px;
+  padding: 5px 8px;
+  border: 1px solid var(--gold);
   border-radius: 10px;
   font-family: 'Georgia', serif;
-  font-size: 11px;
+  font-weight: 700;
+  font-size: 13px;
   text-align: center;
-  background: var(--parch);
+  color: var(--crimson);
+  background: var(--parch-alt);
+}
+
+.escudo-chip-iniciativa::placeholder {
+  font-weight: 400;
+  color: var(--ink-soft);
 }
 
 /* ─── Anotações do Mestre — expansível/retrátil, por participante ─── */
@@ -1683,7 +1690,7 @@
   .escudo-res { flex-basis: calc(50% - 6px); min-width: 0; }
 
   .escudo-chip { padding: 4px 8px 4px 4px; }
-  .escudo-chip-iniciativa { width: 58px; }
+  .escudo-chip-iniciativa { width: 78px; }
   .escudo-chip-wrap--aberto { flex-basis: 100%; }
 
   /* font-size >= 16px evita o zoom automático do iOS ao focar o campo */
