@@ -1726,71 +1726,102 @@
   border-bottom: 1px solid var(--parch-deep);
 }
 
-.mini-pericia-grid {
+.mini-ficha-aviso {
+  background: rgba(184, 136, 10, .12);
+  border: 1px solid var(--gold-lt);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+.mini-pericia-sorte-wrap { margin-bottom: 16px; }
+
+/* Colunas de perícias — mesmo agrupamento e layout de 3 colunas da ficha
+   (skills-grid/skill-col), só sem negrito/decoração extra. */
+.mini-skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 6px 14px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 24px;
+  margin-bottom: 8px;
+}
+
+.mini-skill-col h5 {
+  font-size: 10.5px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  background: var(--parch-alt);
+  padding: 5px 8px;
+  margin: 0 0 6px;
+  border-bottom: 2px solid var(--parch-deep);
+  color: var(--ink-soft);
 }
 
 .mini-pericia-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 32px 1fr;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 5px 0;
+  gap: 0 6px;
+  padding: 3px 4px;
   border-bottom: 1px dotted var(--parch-deep);
+  border-radius: 3px;
 }
 
 .mini-pericia-row--sorte {
-  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: var(--parch-alt);
   border: 1px solid var(--gold-lt);
   border-radius: 8px;
   padding: 6px 10px;
-  border-bottom: 1px solid var(--gold-lt);
+  transition: box-shadow .15s, border-color .15s;
 }
 
-.mini-pericia-nome { flex: 1; font-size: 12.5px; min-width: 0; }
+.mini-pericia-row--sorte:hover { box-shadow: 0 0 0 2px var(--crimson); }
 
+.mini-pericia-row--sorte .mini-pericia-nome { flex: 1; }
+
+.mini-pericia-nome {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* .skill-total e .der-box.sorte são as classes que o dice.js (mesmo sistema
+   de rolagem da ficha) usa para saber onde ligar o clique — o resultado sai
+   no popup fixo do canto inferior direito, igual à ficha real. */
 .mini-pericia-total {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--crimson);
+  font-family: sans-serif;
+  text-align: right;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 1px 3px;
+  transition: background .15s;
+}
+
+.mini-pericia-total:hover { background: var(--parch-deep); }
+.mini-pericia-total:active { transform: scale(.93); }
+
+.mini-sorte-input {
+  border: none;
+  background: transparent;
+  font-family: sans-serif;
   font-weight: 700;
   font-size: 12.5px;
   color: var(--crimson);
-  font-family: sans-serif;
-  min-width: 32px;
   text-align: right;
-}
-
-.mini-pericia-roll {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 1px solid var(--parch-deep);
-  background: var(--parch-alt);
+  width: 34px;
   cursor: pointer;
-  font-size: 12px;
-  flex-shrink: 0;
 }
-
-.mini-pericia-roll:hover { border-color: var(--gold); background: #fff; }
-
-.mini-pericia-resultado {
-  font-size: 11px;
-  font-family: sans-serif;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.mini-pericia-resultado:not(:empty) { flex-basis: 100%; margin-top: 2px; }
-
-.mini-roll-valor { font-weight: 700; font-size: 13px; }
-.mini-roll-label { font-weight: 700; }
-.mini-roll-thresh { color: var(--ink-soft); }
-
-/* Ajuste de contraste: res-falha é claro demais sobre o pergaminho claro */
-.mini-pericia-resultado .res-falha { color: var(--ink-soft); }
 
 /* ─── Rodapé fixo: resumo de regras ──────────────────────────── */
 .escudo-regras-footer {
@@ -1866,7 +1897,7 @@
 
   .escudo-btn-fichabtn { padding: 3px 8px; font-size: 10px; }
   .mini-ficha-box { max-height: 92vh; padding: 16px 14px; }
-  .mini-pericia-grid { grid-template-columns: 1fr; }
+  .mini-skills-grid { grid-template-columns: repeat(2, 1fr); gap: 0 16px; }
 
   .escudo-regras-body { grid-template-columns: 1fr; }
 }
@@ -1880,4 +1911,6 @@
 
   .escudo-row-top { flex-wrap: wrap; }
   .escudo-res { flex-basis: 100%; }
+
+  .mini-skills-grid { grid-template-columns: 1fr; }
 }

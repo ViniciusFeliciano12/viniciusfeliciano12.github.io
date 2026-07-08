@@ -19,6 +19,29 @@ let _escudoFichasMoldes = []; // cache das fichas do GM ao abrir o modal de NPC
 
 const ESCUDO_RANKS = ['D', 'C', 'B', 'A', 'S', 'SS', 'SSS'];
 
+// Mesmo agrupamento em 3 colunas usado na ficha (ver ficha/index.html,
+// seção "Perícias do Auror").
+const ESCUDO_SKILL_GROUPS = [
+  {
+    titulo: 'Combate e Físico',
+    skills: ['sk_arremessar', 'sk_atletismo', 'sk_conjuracao', 'sk_defesa', 'sk_encantamento',
+      'sk_esquiva', 'sk_furtividade', 'sk_luta', 'sk_trevas', 'sk_magia_combate', 'sk_natacao',
+      'sk_transfiguracao', 'sk_voo'],
+  },
+  {
+    titulo: 'Conhecimento e Magia',
+    skills: ['sk_alquimia', 'sk_antiguidades', 'sk_aritmancia', 'sk_arqueologia', 'sk_curandeirismo',
+      'sk_trouxas', 'sk_herbologia', 'sk_historia', 'sk_leis', 'sk_pocoes', 'sk_teoria',
+      'sk_criaturas', 'sk_biblioteca'],
+  },
+  {
+    titulo: 'Sociais e Práticas',
+    skills: ['sk_arte', 'sk_charme', 'sk_disfarce', 'sk_esconder', 'sk_escutar', 'sk_intimidacao',
+      'sk_labia', 'sk_linguas', 'sk_percepcao', 'sk_prestidigi', 'sk_psicologia',
+      'sk_rastreamento', 'sk_sobrevivencia'],
+  },
+];
+
 // ─── NPCs — persistência local por campanha ─────────────────────
 
 function _escudoNpcsKey() {
@@ -599,55 +622,36 @@ function _escudoPericiaTotal(dados, skillKey) {
   return Math.min(99, Math.max(0, base + bonusEsc + bonusEstilo + ip + oc + livre));
 }
 
-// Mesma classificação usada em combat.js/dice.js (Crítico/Extremo/Difícil/
-// Regular/Falha/Falha Crítica), reimplementada aqui pois dice.js roda dentro
-// de uma IIFE e não expõe sua função globalmente.
-function _escudoClassificar(r, total) {
-  const extremo = Math.floor(total / 5);
-  const dificil = Math.floor(total / 2);
-  if (r === 1) return { label: 'Crítico!', cls: 'res-critico' };
-  if (r <= extremo) return { label: 'Sucesso Extremo', cls: 'res-extremo' };
-  if (r <= dificil) return { label: 'Sucesso Difícil', cls: 'res-dificil' };
-  if (r <= total) return { label: 'Sucesso Regular', cls: 'res-regular' };
-  if (r >= 96) return { label: 'Falha Crítica!', cls: 'res-falha-crit' };
-  return { label: 'Falha', cls: 'res-falha' };
-}
-
-function _escudoRolar(btn, total) {
-  const row = btn.closest('.mini-pericia-row');
-  const resultEl = row?.querySelector('.mini-pericia-resultado');
-  if (!resultEl) return;
-
-  const dificil = Math.floor(total / 2);
-  const extremo = Math.floor(total / 5);
-  const r = Math.floor(Math.random() * 100) + 1;
-  const { label, cls } = _escudoClassificar(r, total);
-
-  resultEl.innerHTML = `
-    <span class="mini-roll-valor ${cls}">${r}</span>
-    <span class="mini-roll-label ${cls}">${label}</span>
-    <span class="mini-roll-thresh">${total} / ${dificil} / ${extremo}</span>`;
-}
-
+// A rolagem em si é feita pelo dice.js (o mesmo sistema da ficha real) — não
+// reimplementamos nada aqui. dice.js observa o DOM inteiro via MutationObserver
+// e liga automaticamente o clique em qualquer `.skill-total[data-total]`
+// (perícia) ou `.der-box.sorte` (Sorte) que aparecer, então basta usar a MESMA
+// marcação que a ficha usa. O popup de resultado sai no canto inferior direito,
+// com o mesmo estilo (número grande colorido + tipo de sucesso + threshold),
+// exatamente como na ficha.
 function _renderMiniPericiaRow(dados, skillKey, nome) {
   const total = _escudoPericiaTotal(dados, skillKey);
   return `
     <div class="mini-pericia-row">
-      <span class="mini-pericia-nome">${_esc(nome)}</span>
-      <span class="mini-pericia-total" data-total="${skillKey}">${total}%</span>
-      <button type="button" class="mini-pericia-roll" onclick="_escudoRolar(this,${total})" title="Rolar">🎲</button>
-      <span class="mini-pericia-resultado"></span>
+      <span class="skill-total mini-pericia-total" data-total="${skillKey}" title="Clique para rolar">${total}%</span>
+      <label><span class="skill-label-text mini-pericia-nome">${_esc(nome)}</span></label>
     </div>`;
 }
 
 function _renderMiniSorteRow(dados) {
   const total = parseInt(dados?.sorte_atual) || 0;
   return `
-    <div class="mini-pericia-row mini-pericia-row--sorte">
+    <div class="der-box sorte mini-pericia-row mini-pericia-row--sorte" title="Clique para rolar Sorte">
       <span class="mini-pericia-nome">🍀 Sorte</span>
-      <span class="mini-pericia-total">${total}</span>
-      <button type="button" class="mini-pericia-roll" onclick="_escudoRolar(this,${total})" title="Rolar">🎲</button>
-      <span class="mini-pericia-resultado"></span>
+      <input type="text" class="mini-pericia-total mini-sorte-input" data-field="sorte_atual" value="${total}" readonly>
+    </div>`;
+}
+
+function _renderMiniSkillCol(dados, grupo) {
+  return `
+    <div class="mini-skill-col">
+      <h5>${_esc(grupo.titulo)}</h5>
+      ${grupo.skills.map(sk => _renderMiniPericiaRow(dados, sk, SKILL_NAMES[sk] || sk)).join('')}
     </div>`;
 }
 
@@ -669,18 +673,23 @@ function abrirMiniFicha(entityId) {
   const nomeEl = document.getElementById('mini-ficha-nome');
   if (nomeEl) nomeEl.textContent = nome;
 
-  const skills = Object.keys(SKILL_BASE).concat(['sk_esquiva'])
-    .map(sk => ({ key: sk, nome: SKILL_NAMES[sk] || sk }))
-    .sort((a, b) => a.nome.localeCompare(b.nome));
+  // NPCs adicionados antes do clone completo de dados (versão anterior desta
+  // funcionalidade) só têm os recursos básicos — sem 'escola' nem nenhum
+  // sk_*_ip/_oc/_livre, campos que uma ficha real sempre tem (mesmo vazios).
+  // Nesse caso avisamos, já que não há como recuperar os dados retroativamente.
+  const avisoLegado = (!ficha && npc && !('escola' in npc))
+    ? `<div class="mini-ficha-aviso">⚠️ Este NPC foi adicionado antes do clone completo de perícias/atributos. Remova-o e adicione novamente para ver os valores corretos.</div>`
+    : '';
 
   const conteudo = document.getElementById('mini-ficha-conteudo');
   if (conteudo) {
     conteudo.innerHTML = `
       <div id="content-${entityId}">
+        ${avisoLegado}
         <h4 class="mini-ficha-sec-title">📖 Perícias</h4>
-        <div class="mini-pericia-grid">
-          ${_renderMiniSorteRow(dados)}
-          ${skills.map(s => _renderMiniPericiaRow(dados, s.key, s.nome)).join('')}
+        <div class="mini-pericia-sorte-wrap">${_renderMiniSorteRow(dados)}</div>
+        <div class="mini-skills-grid">
+          ${ESCUDO_SKILL_GROUPS.map(g => _renderMiniSkillCol(dados, g)).join('')}
         </div>
         ${_escudoCriarPainelCombateHTML(entityId)}
       </div>`;
