@@ -1658,6 +1658,140 @@
   background: #fff;
 }
 
+/* ─── Botão "Perícias" (abre a mini-ficha) ────────────────────── */
+.escudo-btn-fichabtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(160deg, var(--gold-lt), var(--gold));
+  border: 1px solid var(--gold);
+  color: #fff;
+  font-family: 'Georgia', serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  transition: transform .1s, box-shadow .15s;
+}
+
+.escudo-btn-fichabtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(184,136,10,.35);
+}
+
+.escudo-btn-fichabtn--chip {
+  padding: 3px 6px;
+  border-radius: 50%;
+  font-size: 11px;
+}
+
+/* ─── Mini-ficha: perícias (leitura) + painel de combate ──────── */
+.mini-ficha-box {
+  max-width: 760px;
+  width: 94%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mini-ficha-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.mini-ficha-header h3 { margin: 0; }
+
+#mini-ficha-conteudo {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.mini-ficha-sec-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--ink-soft);
+  margin: 0 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--parch-deep);
+}
+
+.mini-pericia-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 6px 14px;
+  margin-bottom: 20px;
+}
+
+.mini-pericia-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px dotted var(--parch-deep);
+}
+
+.mini-pericia-row--sorte {
+  grid-column: 1 / -1;
+  background: var(--parch-alt);
+  border: 1px solid var(--gold-lt);
+  border-radius: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--gold-lt);
+}
+
+.mini-pericia-nome { flex: 1; font-size: 12.5px; min-width: 0; }
+
+.mini-pericia-total {
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--crimson);
+  font-family: sans-serif;
+  min-width: 32px;
+  text-align: right;
+}
+
+.mini-pericia-roll {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--parch-deep);
+  background: var(--parch-alt);
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.mini-pericia-roll:hover { border-color: var(--gold); background: #fff; }
+
+.mini-pericia-resultado {
+  font-size: 11px;
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mini-pericia-resultado:not(:empty) { flex-basis: 100%; margin-top: 2px; }
+
+.mini-roll-valor { font-weight: 700; font-size: 13px; }
+.mini-roll-label { font-weight: 700; }
+.mini-roll-thresh { color: var(--ink-soft); }
+
+/* Ajuste de contraste: res-falha é claro demais sobre o pergaminho claro */
+.mini-pericia-resultado .res-falha { color: var(--ink-soft); }
+
 /* ─── Rodapé fixo: resumo de regras ──────────────────────────── */
 .escudo-regras-footer {
   position: sticky;
@@ -1729,6 +1863,10 @@
 
   /* font-size >= 16px evita o zoom automático do iOS ao focar o campo */
   .escudo-nota-textarea { font-size: 16px; }
+
+  .escudo-btn-fichabtn { padding: 3px 8px; font-size: 10px; }
+  .mini-ficha-box { max-height: 92vh; padding: 16px 14px; }
+  .mini-pericia-grid { grid-template-columns: 1fr; }
 
   .escudo-regras-body { grid-template-columns: 1fr; }
 }

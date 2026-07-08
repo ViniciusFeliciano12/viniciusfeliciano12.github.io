@@ -7,7 +7,8 @@
   <title>Campanha — Aurores RPG</title>
   <link rel="stylesheet" href="../../css/base.css?v=202606242341">
   <link rel="stylesheet" href="../../css/content.css?v=202606242341">
-  <link rel="stylesheet" href="../../css/campanha.css?v=202607072600">
+  <link rel="stylesheet" href="../../css/campanha.css?v=202607072800">
+  <link rel="stylesheet" href="../../css/combat.css?v=202606281200">
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -204,6 +205,237 @@
     </div>
   </div>
 
+  <!-- ═══ MODAL: Mini-ficha (perícias + painel de combate) ═══════ -->
+  <div class="modal-overlay" id="modal-mini-ficha">
+    <div class="modal-box camp-modal mini-ficha-box">
+      <div class="mini-ficha-header">
+        <h3 id="mini-ficha-nome">Ficha</h3>
+        <button class="modal-btn modal-btn-cancel" onclick="fecharMiniFicha()">Fechar</button>
+      </div>
+      <div id="mini-ficha-conteudo"></div>
+    </div>
+  </div>
+
+  <!-- Template do Painel de Combate (cópia do template-ficha, sem o restante da ficha) -->
+  <template id="template-escudo-combat">
+    <div class="combat-panel">
+
+      <!-- Modo de ataque -->
+      <div class="combat-mode-row">
+        <span class="combat-mode-label">Tipo de ataque:</span>
+        <div class="combat-mode-btns">
+          <button class="combat-mode-btn active" data-cmode="feitico" onclick="selectCombatMode(this,'${id}')">
+            <span>✨</span> Feitiço
+          </button>
+          <button class="combat-mode-btn" data-cmode="corporal" onclick="selectCombatMode(this,'${id}')">
+            <span>👊</span> Luta Corporal
+          </button>
+        </div>
+        <span class="combat-mode-skill-hint">Rola com Magia de Combate</span>
+      </div>
+
+      <!-- Nota: Luta Corporal -->
+      <div class="combat-corporal-note" id="corporal-note-${id}">
+        <div class="ccnote-icon">👊</div>
+        <div class="ccnote-body">
+          <p class="ccnote-title">Regras de Luta Corporal</p>
+          <ul class="ccnote-list">
+            <li><strong>Adjacência obrigatória:</strong> o personagem precisa estar ao alcance imediato do adversário para realizar um ataque físico.</li>
+            <li><strong>Perícia:</strong> rola com <em>Luta Corporal</em> (não Magia de Combate). As mesmas categorias de sucesso se aplicam: Crítico, Extremo, Difícil, Regular, Falha e Falha Crítica.</li>
+            <li><strong>Dano e Postura:</strong> declare antes de rolar se o golpe vai na <em>Postura</em> (aba Efeito / Guarda) ou na <em>Vida</em> (aba Ataque). As mesmas tabelas de dano dos feitiços são usadas.</li>
+            <li><strong>Assinatura Corporal:</strong> para receber o bônus de Assinatura, o jogador deve ter definido previamente um <em>golpe específico de alguma arte marcial</em> (ex.: Harai Goshi, Cruzado de Esquerda, Kick Giratório). Esse golpe não pode ter sua faixa de alcance aumentada — é sempre adjacente.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Abas internas -->
+      <div class="combat-tabs">
+        <button class="combat-tab-btn active" data-ctab="ataque" onclick="switchCombatTab(this,'ataque','${id}')">⚔
+          Ataque</button>
+        <button class="combat-tab-btn" data-ctab="efeito" onclick="switchCombatTab(this,'efeito','${id}')">🌀 Efeito
+          / Guarda</button>
+        <button class="combat-tab-btn" data-ctab="custom" onclick="switchCombatTab(this,'custom','${id}')">🎲 Dados
+          Livres</button>
+      </div>
+
+      <!-- ═══ ABA: ATAQUE DE DANO ═══ -->
+      <div class="combat-tab-pane active" id="ctab-ataque-${id}">
+        <div class="damage-options-title">Tipo de ataque</div>
+        <div class="attack-type-row">
+          <button class="attack-type-btn selected" data-atype="normal" onclick="selectAttackType(this,'${id}')">
+            <span class="atk-icon">🗲</span>
+            <span class="atk-label">Normal</span>
+            <span class="atk-sub">1d6 HP</span>
+          </button>
+          <button class="attack-type-btn" data-atype="vulneravel" onclick="selectAttackType(this,'${id}')">
+            <span class="atk-icon">💀</span>
+            <span class="atk-label">Vulnerável</span>
+            <span class="atk-sub">1d6 + 1d6 HP</span>
+          </button>
+          <button class="attack-type-btn" data-atype="assinatura" onclick="selectAttackType(this,'${id}')">
+            <span class="atk-icon">✨</span>
+            <span class="atk-label">Assinatura</span>
+            <span class="atk-sub">1d6 + 1d4 HP</span>
+          </button>
+          <button class="attack-type-btn" data-atype="assinatura_vuln" onclick="selectAttackType(this,'${id}')">
+            <span class="atk-icon">⚡</span>
+            <span class="atk-label">Assinatura + Vuln.</span>
+            <span class="atk-sub">1d6 + 1d4 + 1d6 HP</span>
+          </button>
+        </div>
+
+        <div class="damage-options">
+          <div class="damage-options-title">Modificadores adicionais</div>
+          <div class="damage-checkboxes">
+            <label class="damage-check-item">
+              <input type="checkbox" data-dmg-mod="rank_b" onchange="updateDamagePreview('${id}','ataque')">
+              <label>Rank <strong>B</strong> (Medidor de Estilo) <small>— +5% em Magia de Combate</small></label>
+            </label>
+            <label class="damage-check-item">
+              <input type="checkbox" data-dmg-mod="rank_a" onchange="updateDamagePreview('${id}','ataque')">
+              <label>Rank <strong>A</strong> (Medidor de Estilo) <small>— +1d dado de Postura extra</small></label>
+            </label>
+          </div>
+        </div>
+
+        <div class="damage-preview" id="dmg-preview-ataque-${id}">
+          <span class="damage-preview-formula" id="dmg-formula-ataque-${id}">1d6</span>
+          <span class="damage-preview-desc" id="dmg-desc-ataque-${id}">Dano em HP</span>
+        </div>
+
+        <div class="arm-qty-row">
+          <span class="arm-qty-label">Qtd. de dados para rolagens múltiplas</span>
+          <button class="arm-qty-btn" onclick="armQtyChange('${id}',-1)">−</button>
+          <span class="arm-qty-val" id="arm-qty-val-${id}">2</span>
+          <button class="arm-qty-btn" onclick="armQtyChange('${id}',1)">+</button>
+        </div>
+
+        <div class="attack-roll-modes">
+          <button class="arm-btn" onclick="rollAttack('${id}','ataque','normal')">
+            <span class="arm-icon">🎲</span>Normal
+          </button>
+          <button class="arm-btn adv" onclick="rollAttack('${id}','ataque','advantage')">
+            <span class="arm-icon">⬆</span>Vantagem
+          </button>
+          <button class="arm-btn disadv" onclick="rollAttack('${id}','ataque','disadvantage')">
+            <span class="arm-icon">⬇</span>Desvantagem
+          </button>
+          <button class="arm-btn multi" onclick="rollAttack('${id}','ataque','multi')" style="grid-column:1/-1">
+            <span class="arm-icon">🔁</span>Múltiplas rolagens (sem escolha)
+          </button>
+        </div>
+
+        <div class="attack-result-area" id="atk-result-${id}">
+          <span>Selecione o tipo de ataque e clique em rolar.</span>
+        </div>
+      </div>
+
+      <!-- ═══ ABA: EFEITO / GUARDA ═══ -->
+      <div class="combat-tab-pane" id="ctab-efeito-${id}">
+        <div class="damage-options-title">Tipo de efeito sobre Postura</div>
+        <div class="attack-type-row">
+          <button class="attack-type-btn selected" data-etype="bloqueado" onclick="selectEffectType(this,'${id}')">
+            <span class="atk-icon">🛡</span>
+            <span class="atk-label">Bloqueado</span>
+            <span class="atk-sub">1d6 Postura</span>
+          </button>
+          <button class="attack-type-btn" data-etype="acertou" onclick="selectEffectType(this,'${id}')">
+            <span class="atk-icon">💥</span>
+            <span class="atk-label">Acertou direto</span>
+            <span class="atk-sub">2d6 Postura</span>
+          </button>
+          <button class="attack-type-btn" data-etype="assinatura_ef" onclick="selectEffectType(this,'${id}')">
+            <span class="atk-icon">✨</span>
+            <span class="atk-label">Assinatura</span>
+            <span class="atk-sub">+1d4 Postura extra</span>
+          </button>
+          <button class="attack-type-btn" data-etype="assinatura_ef_acertou"
+            onclick="selectEffectType(this,'${id}')">
+            <span class="atk-icon">⚡</span>
+            <span class="atk-label">Assinatura + Acertou</span>
+            <span class="atk-sub">2d6 + 1d4 Postura</span>
+          </button>
+          <button class="attack-type-btn" data-etype="ambiental" onclick="selectEffectType(this,'${id}')">
+            <span class="atk-icon">🪨</span>
+            <span class="atk-label">Impacto Ambiental</span>
+            <span class="atk-sub">1d4 Postura direto</span>
+          </button>
+        </div>
+
+        <div class="damage-options">
+          <div class="damage-options-title">Modificadores</div>
+          <div class="damage-checkboxes">
+            <label class="damage-check-item">
+              <input type="checkbox" data-eff-mod="rank_a_ef" onchange="updateDamagePreview('${id}','efeito')">
+              <label>Rank <strong>A</strong> (Medidor de Estilo) <small>— +1d dado de Postura extra</small></label>
+            </label>
+          </div>
+        </div>
+
+        <div class="damage-preview" id="dmg-preview-efeito-${id}">
+          <span class="damage-preview-formula" id="dmg-formula-efeito-${id}">1d6</span>
+          <span class="damage-preview-desc" id="dmg-desc-efeito-${id}">Dano de Postura</span>
+        </div>
+
+        <div class="arm-qty-row">
+          <span class="arm-qty-label">Qtd. de dados para rolagens múltiplas</span>
+          <button class="arm-qty-btn" onclick="armQtyChange('${id}',-1)">−</button>
+          <span class="arm-qty-val" id="arm-qty-val-ef-${id}">2</span>
+          <button class="arm-qty-btn" onclick="armQtyChange('${id}',1,true)">+</button>
+        </div>
+
+        <div class="attack-roll-modes">
+          <button class="arm-btn" onclick="rollAttack('${id}','efeito','normal')">
+            <span class="arm-icon">🎲</span>Normal
+          </button>
+          <button class="arm-btn adv" onclick="rollAttack('${id}','efeito','advantage')">
+            <span class="arm-icon">⬆</span>Vantagem
+          </button>
+          <button class="arm-btn disadv" onclick="rollAttack('${id}','efeito','disadvantage')">
+            <span class="arm-icon">⬇</span>Desvantagem
+          </button>
+          <button class="arm-btn multi" onclick="rollAttack('${id}','efeito','multi')" style="grid-column:1/-1">
+            <span class="arm-icon">🔁</span>Múltiplas rolagens (sem escolha)
+          </button>
+        </div>
+
+        <div class="attack-result-area" id="eff-result-${id}">
+          <span>Selecione o tipo de efeito e clique em rolar.</span>
+        </div>
+      </div>
+
+      <!-- ═══ ABA: DADOS LIVRES ═══ -->
+      <div class="combat-tab-pane" id="ctab-custom-${id}">
+        <div class="custom-dice-panel">
+          <div class="custom-dice-input-row">
+            <input class="custom-dice-input" type="text" id="custom-dice-expr-${id}"
+              placeholder="Ex: 2d6, 1d4+3, 3d8+1d4..." onkeydown="if(event.key==='Enter')rollCustomDice('${id}')">
+            <button class="custom-dice-roll-btn" onclick="rollCustomDice('${id}')">🎲 Rolar</button>
+          </div>
+          <div class="custom-dice-shortcuts">
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','1d4')">d4</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','1d6')">d6</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','1d8')">d8</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','1d10')">d10</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','1d12')">d12</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','1d20')">d20</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','1d100')">d100</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','2d6')">2d6</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','3d6')">3d6</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','1d6+1d4')">1d6+1d4</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','2d6+1d4')">2d6+1d4</button>
+            <button class="shortcut-btn" onclick="setCustomExpr('${id}','2d6+1d6')">2d6+1d6</button>
+          </div>
+          <div class="custom-dice-result" id="custom-result-${id}">
+            <span>Digite uma expressão como <strong>2d6</strong> ou <strong>1d6+1d4</strong> e pressione
+              Rolar.</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /combat-panel -->
+  </template>
+
   <!-- ═══ MODAL: Confirmação de ação destrutiva ═════════════════ -->
   <div class="modal-overlay" id="modal-confirm">
     <div class="modal-box camp-modal">
@@ -219,8 +451,10 @@
 
   <div class="save-toast" id="save-toast"></div>
 
+  <script src="../../js/skills.js?v=202606281200"></script>
+  <script src="../../js/combat.js?v=202606281200"></script>
   <script src="detalhes.js?v=202607072600"></script>
-  <script src="escudo.js?v=202607072500"></script>
+  <script src="escudo.js?v=202607072700"></script>
 </body>
 
 </html>

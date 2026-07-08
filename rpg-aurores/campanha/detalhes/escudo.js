@@ -317,6 +317,7 @@ function _renderCombatRow(e, posicao) {
               <input type="number" min="1" max="100" value="${e.iniciativa}"
                      onchange="_escudoSetIniciativa('${_esc(e.id)}', this.value)">
             </span>
+            <button type="button" class="escudo-btn-fichabtn" title="Perícias e painel de combate" onclick="abrirMiniFicha('${_esc(e.id)}')">📖 Perícias</button>
             ${removerBtn}
           </div>
         </div>
@@ -345,6 +346,7 @@ function _renderForaChip(e) {
         ${e.tipo === 'npc' ? '<span class="escudo-npc-tag">NPC</span>' : ''}
         <input type="number" min="1" max="100" class="escudo-chip-iniciativa" placeholder="Iniciativa"
                onchange="_escudoSetIniciativa('${_esc(e.id)}', this.value)">
+        <button type="button" class="escudo-btn-fichabtn escudo-btn-fichabtn--chip" title="Perícias e painel de combate" onclick="abrirMiniFicha('${_esc(e.id)}')">📖</button>
         ${removerBtn}
       </div>
       ${_renderNotaBox(e)}
@@ -517,9 +519,11 @@ function _selecionarFichaNpc(el) {
   document.getElementById('btn-confirmar-add-npc').disabled = false;
 }
 
-// Clona os campos de recurso da ficha-molde para uma instância local nova —
-// cada clique gera um id novo (Date.now + random), então adicionar a mesma
-// ficha várias vezes sempre cria NPCs distintos e independentes entre si.
+// Clona TODOS os campos da ficha-molde (recursos, perícias, atributos) para
+// uma instância local nova — cada clique gera um id novo (Date.now + random),
+// então adicionar a mesma ficha várias vezes sempre cria NPCs distintos e
+// independentes entre si. Clonar tudo (não só recursos) é o que permite o
+// popup de perícias/combate funcionar igual para NPCs e PCs.
 function confirmarAddNpc() {
   const sel = document.querySelector('#add-npc-list .ficha-option--selected');
   if (!sel) return;
@@ -528,6 +532,7 @@ function confirmarAddNpc() {
 
   const d = molde.dados || {};
   const npc = {
+    ...d,
     id: _escudoGerarNpcId(),
     nome: molde.nome || 'NPC',
     foto: d._foto || null,
@@ -543,6 +548,155 @@ function confirmarAddNpc() {
 
   fecharModalAddNpc();
   mostrarToast('✓ NPC adicionado ao combate!');
+}
+
+// ─── Mini-ficha: perícias (somente leitura) + painel de combate ────
+// Depende também de skills.js (SKILL_BASE, SKILL_NAMES, ESCOLA_BONUSES,
+// RANK_B_PLUS) e combat.js (selectCombatMode, rollAttack, etc.), incluídos
+// em index.html. As funções abaixo recalculam os totais direto de `dados`
+// (sem tocar DOM de ficha nenhuma) — só para exibir, nunca salvam nada.
+
+function _escudoBasePericia(dados, skillKey) {
+  if (skillKey === 'sk_esquiva') {
+    const des = parseInt(dados?.des) || 0;
+    return Math.floor(des / 2);
+  }
+  return SKILL_BASE[skillKey] || 0;
+}
+
+function _escudoBonusEscola(dados, skillKey) {
+  const escola = dados?.escola || '';
+  if (!escola) return 0;
+
+  if (escola === 'domiciliar') {
+    const sk1 = dados?.domiciliar_sk1 || '';
+    const sk2 = dados?.domiciliar_sk2 || '';
+    if (!sk1) return 0;
+    if (sk2 && sk2 !== sk1) return (skillKey === sk1 || skillKey === sk2) ? 5 : 0;
+    return skillKey === sk1 ? 12 : 0;
+  }
+
+  const bonus = ESCOLA_BONUSES[escola];
+  if (!bonus) return 0;
+  let total = 0;
+  bonus.fixed.forEach(([sk, pct]) => { if (sk === skillKey) total += pct; });
+  if (escola === 'hogwarts' && (dados?.hogwarts_escolha || '') === skillKey) total += 10;
+  return total;
+}
+
+function _escudoBonusEstilo(dados, skillKey) {
+  if (skillKey !== 'sk_magia_combate') return 0;
+  return RANK_B_PLUS.includes(dados?.estilo_rank || '') ? 5 : 0;
+}
+
+function _escudoPericiaTotal(dados, skillKey) {
+  const base = _escudoBasePericia(dados, skillKey);
+  const bonusEsc = _escudoBonusEscola(dados, skillKey);
+  const bonusEstilo = _escudoBonusEstilo(dados, skillKey);
+  const ip = parseInt(dados?.[`${skillKey}_ip`]) || 0;
+  const oc = parseInt(dados?.[`${skillKey}_oc`]) || 0;
+  const livre = parseInt(dados?.[`${skillKey}_livre`]) || 0;
+  return Math.min(99, Math.max(0, base + bonusEsc + bonusEstilo + ip + oc + livre));
+}
+
+// Mesma classificação usada em combat.js/dice.js (Crítico/Extremo/Difícil/
+// Regular/Falha/Falha Crítica), reimplementada aqui pois dice.js roda dentro
+// de uma IIFE e não expõe sua função globalmente.
+function _escudoClassificar(r, total) {
+  const extremo = Math.floor(total / 5);
+  const dificil = Math.floor(total / 2);
+  if (r === 1) return { label: 'Crítico!', cls: 'res-critico' };
+  if (r <= extremo) return { label: 'Sucesso Extremo', cls: 'res-extremo' };
+  if (r <= dificil) return { label: 'Sucesso Difícil', cls: 'res-dificil' };
+  if (r <= total) return { label: 'Sucesso Regular', cls: 'res-regular' };
+  if (r >= 96) return { label: 'Falha Crítica!', cls: 'res-falha-crit' };
+  return { label: 'Falha', cls: 'res-falha' };
+}
+
+function _escudoRolar(btn, total) {
+  const row = btn.closest('.mini-pericia-row');
+  const resultEl = row?.querySelector('.mini-pericia-resultado');
+  if (!resultEl) return;
+
+  const dificil = Math.floor(total / 2);
+  const extremo = Math.floor(total / 5);
+  const r = Math.floor(Math.random() * 100) + 1;
+  const { label, cls } = _escudoClassificar(r, total);
+
+  resultEl.innerHTML = `
+    <span class="mini-roll-valor ${cls}">${r}</span>
+    <span class="mini-roll-label ${cls}">${label}</span>
+    <span class="mini-roll-thresh">${total} / ${dificil} / ${extremo}</span>`;
+}
+
+function _renderMiniPericiaRow(dados, skillKey, nome) {
+  const total = _escudoPericiaTotal(dados, skillKey);
+  return `
+    <div class="mini-pericia-row">
+      <span class="mini-pericia-nome">${_esc(nome)}</span>
+      <span class="mini-pericia-total" data-total="${skillKey}">${total}%</span>
+      <button type="button" class="mini-pericia-roll" onclick="_escudoRolar(this,${total})" title="Rolar">🎲</button>
+      <span class="mini-pericia-resultado"></span>
+    </div>`;
+}
+
+function _renderMiniSorteRow(dados) {
+  const total = parseInt(dados?.sorte_atual) || 0;
+  return `
+    <div class="mini-pericia-row mini-pericia-row--sorte">
+      <span class="mini-pericia-nome">🍀 Sorte</span>
+      <span class="mini-pericia-total">${total}</span>
+      <button type="button" class="mini-pericia-roll" onclick="_escudoRolar(this,${total})" title="Rolar">🎲</button>
+      <span class="mini-pericia-resultado"></span>
+    </div>`;
+}
+
+function abrirMiniFicha(entityId) {
+  const ficha = _escudoFichas[entityId];
+  const npc = _escudoNpcs[entityId];
+  if (!ficha && !npc) return;
+
+  // O painel de combate é recriado do zero a cada abertura, mas combat.js
+  // guarda o último estado (tipo de ataque, modo, etc.) em memória por id —
+  // sem limpar, reabrir a mesma ficha mostraria os botões "normal/feitiço"
+  // selecionados visualmente enquanto a lógica interna ainda usaria a
+  // escolha da vez anterior.
+  if (typeof combatState !== 'undefined') delete combatState[entityId];
+
+  const dados = ficha ? (ficha.dados || {}) : npc;
+  const nome = ficha ? ficha.nome : (npc.nome || 'NPC');
+
+  const nomeEl = document.getElementById('mini-ficha-nome');
+  if (nomeEl) nomeEl.textContent = nome;
+
+  const skills = Object.keys(SKILL_BASE).concat(['sk_esquiva'])
+    .map(sk => ({ key: sk, nome: SKILL_NAMES[sk] || sk }))
+    .sort((a, b) => a.nome.localeCompare(b.nome));
+
+  const conteudo = document.getElementById('mini-ficha-conteudo');
+  if (conteudo) {
+    conteudo.innerHTML = `
+      <div id="content-${entityId}">
+        <h4 class="mini-ficha-sec-title">📖 Perícias</h4>
+        <div class="mini-pericia-grid">
+          ${_renderMiniSorteRow(dados)}
+          ${skills.map(s => _renderMiniPericiaRow(dados, s.key, s.nome)).join('')}
+        </div>
+        ${_escudoCriarPainelCombateHTML(entityId)}
+      </div>`;
+  }
+
+  document.getElementById('modal-mini-ficha')?.classList.add('open');
+}
+
+function fecharMiniFicha() {
+  document.getElementById('modal-mini-ficha')?.classList.remove('open');
+}
+
+function _escudoCriarPainelCombateHTML(id) {
+  const templateEl = document.getElementById('template-escudo-combat');
+  if (!templateEl) return '';
+  return templateEl.innerHTML.replaceAll('${id}', id);
 }
 
 // ─── Rodapé: resumo de regras ───────────────────────────────────
