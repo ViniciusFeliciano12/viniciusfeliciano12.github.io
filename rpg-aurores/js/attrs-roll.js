@@ -7,14 +7,14 @@
   'use strict';
 
   const ATTRS = [
-    { key: 'for',      name: 'FOR — Força' },
-    { key: 'des',      name: 'DES — Destreza' },
+    { key: 'for', name: 'FOR — Força' },
+    { key: 'des', name: 'DES — Destreza' },
     { key: 'int_attr', name: 'INT — Inteligência' },
-    { key: 'con',      name: 'CON — Constituição' },
-    { key: 'apa',      name: 'APA — Aparência' },
-    { key: 'pod',      name: 'POD — Poder' },
-    { key: 'tam',      name: 'TAM — Tamanho' },
-    { key: 'edu',      name: 'EDU — Educação' },
+    { key: 'con', name: 'CON — Constituição' },
+    { key: 'apa', name: 'APA — Aparência' },
+    { key: 'pod', name: 'POD — Poder' },
+    { key: 'tam', name: 'TAM — Tamanho' },
+    { key: 'edu', name: 'EDU — Educação' },
   ];
 
   const RANKS_BELOW_20_THRESHOLD = 3;

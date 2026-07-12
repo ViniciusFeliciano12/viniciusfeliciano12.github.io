@@ -60,8 +60,8 @@ function salvarFichas(fichaId) {
         .catch(e => {
           console.error('[salvarFichas]', e);
           const msg = e?.code === 'permission-denied' ? 'Sem permissão para salvar.' :
-                      e?.code === 'resource-exhausted' ? 'Documento muito grande (reduza o tamanho da foto).' :
-                      'Erro ao salvar. Verifique sua conexão.';
+            e?.code === 'resource-exhausted' ? 'Documento muito grande (reduza o tamanho da foto).' :
+              'Erro ao salvar. Verifique sua conexão.';
           if (typeof mostrarToast === 'function') mostrarToast('⚠ ' + msg);
         });
     });

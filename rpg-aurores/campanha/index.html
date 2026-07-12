@@ -37,18 +37,24 @@
         <div id="auth-form-login">
           <input class="auth-input" type="email" id="auth-email" placeholder="seu@email.com" autocomplete="email">
           <div class="pass-wrap">
-            <input class="auth-input" type="password" id="auth-password" placeholder="Senha" autocomplete="current-password">
-            <button type="button" class="btn-olho" onclick="toggleSenha('auth-password',this)" title="Mostrar senha"></button>
+            <input class="auth-input" type="password" id="auth-password" placeholder="Senha"
+              autocomplete="current-password">
+            <button type="button" class="btn-olho" onclick="toggleSenha('auth-password',this)"
+              title="Mostrar senha"></button>
           </div>
           <button class="auth-btn" id="auth-login-btn" onclick="authLogin()">Entrar</button>
         </div>
 
         <div id="auth-form-signup" style="display:none">
-          <input class="auth-input" type="email" id="auth-signup-email" placeholder="seu@email.com" autocomplete="email">
-          <input class="auth-input" type="text" id="auth-signup-username" placeholder="Nome de usuário (opcional)" maxlength="40" autocomplete="username">
+          <input class="auth-input" type="email" id="auth-signup-email" placeholder="seu@email.com"
+            autocomplete="email">
+          <input class="auth-input" type="text" id="auth-signup-username" placeholder="Nome de usuário (opcional)"
+            maxlength="40" autocomplete="username">
           <div class="pass-wrap">
-            <input class="auth-input" type="password" id="auth-signup-password" placeholder="Senha (mínimo 6 chars)" autocomplete="new-password">
-            <button type="button" class="btn-olho" onclick="toggleSenha('auth-signup-password',this)" title="Mostrar senha"></button>
+            <input class="auth-input" type="password" id="auth-signup-password" placeholder="Senha (mínimo 6 chars)"
+              autocomplete="new-password">
+            <button type="button" class="btn-olho" onclick="toggleSenha('auth-signup-password',this)"
+              title="Mostrar senha"></button>
           </div>
           <button class="auth-btn" id="auth-signup-btn" onclick="authSignup()">Criar conta</button>
           <p class="auth-note">Confirme seu e-mail para ativar o acesso.</p>
@@ -77,10 +83,12 @@
       <!-- Barra de tabs + botão nova campanha -->
       <div class="camp-tabs-bar">
         <div class="camp-tabs" role="tablist">
-          <button class="camp-tab active" data-tab="minhas" role="tab" aria-selected="true" aria-controls="panel-minhas">
+          <button class="camp-tab active" data-tab="minhas" role="tab" aria-selected="true"
+            aria-controls="panel-minhas">
             Minhas Campanhas
           </button>
-          <button class="camp-tab" data-tab="participo" role="tab" aria-selected="false" aria-controls="panel-participo">
+          <button class="camp-tab" data-tab="participo" role="tab" aria-selected="false"
+            aria-controls="panel-participo">
             Participo
           </button>
         </div>
@@ -107,14 +115,8 @@
           <div class="camp-search-bar">
             <div class="camp-search-input-wrap">
               <span class="camp-search-icon">&#128269;</span>
-              <input
-                type="text"
-                class="camp-search-input"
-                id="inp-busca-camp"
-                placeholder="Nome da campanha…"
-                maxlength="60"
-                autocomplete="off"
-              >
+              <input type="text" class="camp-search-input" id="inp-busca-camp" placeholder="Nome da campanha…"
+                maxlength="60" autocomplete="off">
             </div>
             <button class="btn-buscar" id="btn-buscar-camp">Buscar</button>
           </div>
@@ -129,7 +131,7 @@
             <div class="camp-search-empty" id="value-empty" style="display:none">
               <p>Insira um nome para a campanha.</p>
             </div>
-            <div style="margin-top: 8px"  class="camp-grid" id="grid-busca"></div>
+            <div style="margin-top: 8px" class="camp-grid" id="grid-busca"></div>
           </div>
         </div>
 
@@ -157,9 +159,11 @@
     <div class="modal-box camp-modal">
       <h3>Nova Campanha</h3>
       <label class="camp-field-label" for="inp-camp-nome">Nome da campanha *</label>
-      <input type="text" class="auth-input" id="inp-camp-nome" placeholder="Ex: A Queda dos Aurores" maxlength="60" autocomplete="off">
+      <input type="text" class="auth-input" id="inp-camp-nome" placeholder="Ex: A Queda dos Aurores" maxlength="60"
+        autocomplete="off">
       <label class="camp-field-label" for="inp-camp-desc">Descrição</label>
-      <textarea class="auth-input camp-textarea" id="inp-camp-desc" placeholder="Breve resumo da história…" rows="3" maxlength="200"></textarea>
+      <textarea class="auth-input camp-textarea" id="inp-camp-desc" placeholder="Breve resumo da história…" rows="3"
+        maxlength="200"></textarea>
       <div id="camp-modal-error" class="auth-error" style="display:none"></div>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" id="btn-cancel-camp">Cancelar</button>
@@ -178,7 +182,8 @@
         <div class="camp-loading ficha-picker-loading" id="ficha-picker-loading">Carregando fichas…</div>
         <div class="ficha-picker-empty" id="ficha-picker-empty" style="display:none">
           <p>Você ainda não tem nenhuma ficha criada.</p>
-          <a href="../ficha/" class="btn-nova-camp-inline" style="display:inline-block;text-decoration:none;margin-top:12px;">Criar ficha →</a>
+          <a href="../ficha/" class="btn-nova-camp-inline"
+            style="display:inline-block;text-decoration:none;margin-top:12px;">Criar ficha →</a>
         </div>
         <div class="ficha-picker-list" id="ficha-picker-list" role="radiogroup" aria-label="Escolher ficha"></div>
       </div>

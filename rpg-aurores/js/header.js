@@ -8,12 +8,12 @@
 (function () {
   const CACHE_KEY = 'hp_header_user';
   const PAGES = [
-    { key: 'ficha',     label: '⚡ Ficha',     slug: 'ficha/' },
-    { key: 'campanha',  label: '📢 Campanha',  slug: 'campanha/' },
-    { key: 'regras',    label: '📖 Regras de Combate',  slug: 'regras/' },
+    { key: 'ficha', label: '⚡ Ficha', slug: 'ficha/' },
+    { key: 'campanha', label: '📢 Campanha', slug: 'campanha/' },
+    { key: 'regras', label: '📖 Regras de Combate', slug: 'regras/' },
     { key: 'regras-criacao', label: '📝 Regras de Criação', slug: 'regras-criacao/' },
     { key: 'glossario', label: '📚 Glossário', slug: 'glossario/' },
-    { key: 'itens',     label: '🧪 Itens',     slug: 'itens/' },
+    { key: 'itens', label: '🧪 Itens', slug: 'itens/' },
   ];
 
   const currentScript = document.currentScript;
@@ -28,11 +28,11 @@
 
   function _cacheSet(data) {
     try { sessionStorage.setItem(CACHE_KEY, JSON.stringify(data)); }
-    catch {}
+    catch { }
   }
 
   function _cacheClear() {
-    try { sessionStorage.removeItem(CACHE_KEY); } catch {}
+    try { sessionStorage.removeItem(CACHE_KEY); } catch { }
   }
 
   // ── Geração do HTML do user-bar ────────────────────────────
@@ -169,9 +169,9 @@
    */
   window.headerLogout = async function () {
     window.headerClear();
-    try { localStorage.removeItem('hp_auror_fichas_v3'); } catch {}
+    try { localStorage.removeItem('hp_auror_fichas_v3'); } catch { }
     if (typeof dbLogout === 'function') {
-      try { await dbLogout(); } catch {}
+      try { await dbLogout(); } catch { }
     }
     if (typeof window._onHeaderLogout === 'function') {
       window._onHeaderLogout();

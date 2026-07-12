@@ -81,8 +81,11 @@
   <div class="page active" id="page-ficha">
     <div class="export-bar" id="export-bar">
       <span id="sync-status-label">💾 Dados salvos localmente no navegador</span>
-      <span id="ficha-camp-label" style="display:none;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft)">📋 <span id="ficha-camp-text">—</span></span>
-      <button class="btn-export" id="btn-vincular-camp" onclick="abrirModalVincular()" style="display:none">🔗 Vincular à campanha</button>
+      <span id="ficha-camp-label"
+        style="display:none;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft)">📋 <span
+          id="ficha-camp-text">—</span></span>
+      <button class="btn-export" id="btn-vincular-camp" onclick="abrirModalVincular()" style="display:none">🔗 Vincular
+        à campanha</button>
       <button class="btn-export" onclick="exportarFichas()">⬇ Exportar fichas (.json)</button>
       <label class="btn-import-lbl" title="Importar fichas de um arquivo .json">
         ⬆ Importar fichas
@@ -114,7 +117,8 @@
       <div id="modal-vincular-error" class="auth-error" style="display:none"></div>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" onclick="fecharModalVincular()">Cancelar</button>
-        <button class="modal-btn modal-btn-confirm" id="btn-confirmar-vincular" disabled onclick="confirmarVincular()">Vincular</button>
+        <button class="modal-btn modal-btn-confirm" id="btn-confirmar-vincular" disabled
+          onclick="confirmarVincular()">Vincular</button>
       </div>
     </div>
   </div>
@@ -147,783 +151,803 @@
 
         <!-- PANE: PERFIL -->
         <div class="section-nav-pane" id="stab-perfil-${id}">
-        <h2 class="sec-title" style="margin-top:18px"><span class="sec-icon">✦</span> Perfil do Personagem</h2>
-        <div class="perfil-layout">
-          <div class="foto-box">
-            <div class="foto-area" onclick="this.closest('.foto-box').querySelector('.foto-file-input').click()">
-              <img class="foto-preview-img" src="" alt="Foto" style="display:none">
-              <div class="foto-placeholder-div foto-placeholder">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <polyline points="21 15 16 10 5 21" />
-                </svg>
-                Clique para<br>adicionar foto
-              </div>
-            </div>
-            <input type="file" class="foto-file-input" accept="image/*" style="display:none">
-            <button class="foto-btn"
-              onclick="this.closest('.foto-box').querySelector('.foto-file-input').click()">Alterar Foto</button>
-          </div>
-          <div>
-            <div class="info-grid" style="margin-bottom:14px">
-              <div class="field">
-                <label>Nome Completo</label>
-                <input type="text" data-field="nome_completo" placeholder="Nome do personagem">
-              </div>
-              <div class="field">
-                <label>Idade</label>
-                <input type="number" data-field="idade" placeholder="Ex: 24" min="1" max="200">
-              </div>
-              <div class="field">
-                <label>Especialização</label>
-                <select data-field="especializacao">
-                  <option value="">— Selecione —</option>
-                  <optgroup label="⚔ Linha de Combate">
-                    <option>Duelista de Linha</option>
-                    <option>Artilheiro de Cerco</option>
-                    <option>Caçador das Trevas</option>
-                    <option>Combatente Corpo-a-Corpo</option>
-                    <option>Cavaleiro de Vassoura (Aéreo)</option>
-                  </optgroup>
-                  <optgroup label="🔍 Linha de Investigação">
-                    <option>Investigador Forense</option>
-                    <option>Especialista em Necro-investigação</option>
-                    <option>Rastreador Mágico</option>
-                    <option>Analista Arcano</option>
-                    <option>Agente de Inteligência</option>
-                  </optgroup>
-                  <optgroup label="🗣 Linha Social">
-                    <option>Diplomata do Ministério</option>
-                    <option>Infiltrador Social</option>
-                    <option>Negociador de Crise</option>
-                    <option>Especialista em Trouxas</option>
-                    <option>Mediador Mágico-Criatura</option>
-                  </optgroup>
-                  <optgroup label="🌲 Linha de Campo">
-                    <option>Batedor de Fronteira</option>
-                    <option>Magizoologista</option>
-                    <option>Curandeiro de Campo</option>
-                    <option>Alquimista de Campo</option>
-                    <option>Explorador de Ruínas</option>
-                  </optgroup>
-                </select>
-              </div>
-              <div class="field">
-                <label>Naturalidade</label>
-                <input type="text" data-field="naturalidade" placeholder="Ex: Liverpool, Salvador...">
-              </div>
-              <div class="field">
-                <label>Patente</label>
-                <select data-field="patente">
-                  <option value="">— Selecione —</option>
-                  <option value="Cadete">🔵 Cadete</option>
-                  <option value="Investigador">🟢 Investigador</option>
-                  <option value="Auror">🟡 Auror</option>
-                  <option value="Inspetor">🟠 Inspetor</option>
-                  <option value="Comandante">🔴 Comandante</option>
-                </select>
-              </div>
-              <div class="field">
-                <label>Progresso da Patente (%)</label>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <input type="number" data-field="patente_progresso" placeholder="0" min="0" max="100" style="flex:1">
-                  <span style="font-size:12px;color:var(--ink-soft)">%</span>
+          <h2 class="sec-title" style="margin-top:18px"><span class="sec-icon">✦</span> Perfil do Personagem</h2>
+          <div class="perfil-layout">
+            <div class="foto-box">
+              <div class="foto-area" onclick="this.closest('.foto-box').querySelector('.foto-file-input').click()">
+                <img class="foto-preview-img" src="" alt="Foto" style="display:none">
+                <div class="foto-placeholder-div foto-placeholder">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                  </svg>
+                  Clique para<br>adicionar foto
                 </div>
               </div>
-              <div class="field">
-                <label>Criação</label>
-                <select data-field="criacao">
-                  <option value="">— Selecione —</option>
-                  <option>Sangue-Puro</option>
-                  <option>Mestiço</option>
-                  <option>Nascido Trouxa</option>
-                  <option>Não-Humano Mágico</option>
-                </select>
-              </div>
-              <div class="field">
-                <label>Patrono</label>
-                <input type="text" data-field="patrono" placeholder="Ex: Cervo, Lontra...">
-              </div>
-              <div class="field">
-                <label>Condição Atual</label>
-                <input type="text" data-field="condicao_atual" placeholder="Ex: Exausto, Envenenado, Saudável...">
-              </div>
-              <div class="field" id="field-escola-wrap-${id}">
-                <label>Método de Ensino (Nacionalidade)</label>
-                <select data-field="escola" id="select-escola-${id}" onchange="onEscolaChange('${id}')">
-                  <option value="">— Selecione —</option>
-                  <option value="hogwarts">Hogwarts (Reino Unido)</option>
-                  <option value="ilvermorny">Ilvermorny (Estados Unidos)</option>
-                  <option value="beauxbatons">Beauxbatons (França)</option>
-                  <option value="mahoutokoro">Mahoutokoro (Japão)</option>
-                  <option value="uagadou">Uagadou (África)</option>
-                  <option value="castelobruxo">Castelobruxo (Brasil)</option>
-                  <option value="koldovstoretz">Koldovstoretz (Europa Oriental)</option>
-                  <option value="durmstrang">Durmstrang (Norte da Europa)</option>
-                  <option value="domiciliar">Ensino Domiciliar (Sem escola fixa)</option>
-                </select>
-              </div>
-              <div class="field" id="hogwarts-choose-field-${id}" style="display:none">
-                <label>Bônus (+10%)</label>
-                <select data-field="hogwarts_escolha" id="hogwarts-escolha-${id}"
-                  onchange="onHogwartsChoiceChange('${id}')">
-                  <option value="">— Escolha —</option>
-                  <option value="sk_encantamento">Encantamento</option>
-                  <option value="sk_defesa">Defesa / Protego</option>
-                </select>
-              </div>
-              <div class="field" id="dom-sk1-field-${id}" style="display:none">
-                <label>Perícia (+12% ou +5%)</label>
-                <select data-field="domiciliar_sk1" id="dom-sk1-${id}" onchange="onDomiciliarChange('${id}')">
-                  <option value="">— Selecione —</option>
-                  <option value="sk_arremessar">Arremessar</option>
-                  <option value="sk_atletismo">Atletismo/Pular</option>
-                  <option value="sk_conjuracao">Conjuração</option>
-                  <option value="sk_defesa">Defesa / Protego</option>
-                  <option value="sk_encantamento">Encantamento</option>
-                  <option value="sk_esquiva">Esquiva</option>
-                  <option value="sk_furtividade">Furtividade</option>
-                  <option value="sk_luta">Luta Corporal</option>
-                  <option value="sk_trevas">Magia das Trevas</option>
-                  <option value="sk_magia_combate">Magia de Combate</option>
-                  <option value="sk_natacao">Natação</option>
-                  <option value="sk_transfiguracao">Transfiguração</option>
-                  <option value="sk_voo">Voo com Vassoura</option>
-                  <option value="sk_alquimia">Alquimia</option>
-                  <option value="sk_antiguidades">Antiguidades Mágicas</option>
-                  <option value="sk_aritmancia">Aritmancia</option>
-                  <option value="sk_arqueologia">Arqueologia/Geologia</option>
-                  <option value="sk_curandeirismo">Curandeirismo</option>
-                  <option value="sk_trouxas">Estudo dos Trouxas</option>
-                  <option value="sk_herbologia">Herbologia</option>
-                  <option value="sk_historia">História da Magia</option>
-                  <option value="sk_leis">Leis do Ministério</option>
-                  <option value="sk_pocoes">Poções</option>
-                  <option value="sk_teoria">Teoria da Magia/Runas</option>
-                  <option value="sk_criaturas">Trato de Criaturas</option>
-                  <option value="sk_biblioteca">Usar Biblioteca</option>
-                  <option value="sk_arte">Arte/Criação</option>
-                  <option value="sk_charme">Charme</option>
-                  <option value="sk_disfarce">Disfarce / Polissuco</option>
-                  <option value="sk_esconder">Esconder</option>
-                  <option value="sk_escutar">Escutar</option>
-                  <option value="sk_intimidacao">Intimidação</option>
-                  <option value="sk_labia">Lábia</option>
-                  <option value="sk_linguas">Línguas Mágicas</option>
-                  <option value="sk_percepcao">Percepção / Revelare</option>
-                  <option value="sk_prestidigi">Prestidigitação</option>
-                  <option value="sk_psicologia">Psicologia</option>
-                  <option value="sk_rastreamento">Rastreamento Mágico</option>
-                  <option value="sk_sobrevivencia">Sobrevivência</option>
-                </select>
-              </div>
-              <div class="field" id="dom-sk2-field-${id}" style="display:none">
-                <label>2ª Perícia (opcional · +5% cada)</label>
-                <select data-field="domiciliar_sk2" id="dom-sk2-${id}" onchange="onDomiciliarChange('${id}')">
-                  <option value="">— Selecione —</option>
-                  <option value="sk_arremessar">Arremessar</option>
-                  <option value="sk_atletismo">Atletismo/Pular</option>
-                  <option value="sk_conjuracao">Conjuração</option>
-                  <option value="sk_defesa">Defesa / Protego</option>
-                  <option value="sk_encantamento">Encantamento</option>
-                  <option value="sk_esquiva">Esquiva</option>
-                  <option value="sk_furtividade">Furtividade</option>
-                  <option value="sk_luta">Luta Corporal</option>
-                  <option value="sk_trevas">Magia das Trevas</option>
-                  <option value="sk_magia_combate">Magia de Combate</option>
-                  <option value="sk_natacao">Natação</option>
-                  <option value="sk_transfiguracao">Transfiguração</option>
-                  <option value="sk_voo">Voo com Vassoura</option>
-                  <option value="sk_alquimia">Alquimia</option>
-                  <option value="sk_antiguidades">Antiguidades Mágicas</option>
-                  <option value="sk_aritmancia">Aritmancia</option>
-                  <option value="sk_arqueologia">Arqueologia/Geologia</option>
-                  <option value="sk_curandeirismo">Curandeirismo</option>
-                  <option value="sk_trouxas">Estudo dos Trouxas</option>
-                  <option value="sk_herbologia">Herbologia</option>
-                  <option value="sk_historia">História da Magia</option>
-                  <option value="sk_leis">Leis do Ministério</option>
-                  <option value="sk_pocoes">Poções</option>
-                  <option value="sk_teoria">Teoria da Magia/Runas</option>
-                  <option value="sk_criaturas">Trato de Criaturas</option>
-                  <option value="sk_biblioteca">Usar Biblioteca</option>
-                  <option value="sk_arte">Arte/Criação</option>
-                  <option value="sk_charme">Charme</option>
-                  <option value="sk_disfarce">Disfarce / Polissuco</option>
-                  <option value="sk_esconder">Esconder</option>
-                  <option value="sk_escutar">Escutar</option>
-                  <option value="sk_intimidacao">Intimidação</option>
-                  <option value="sk_labia">Lábia</option>
-                  <option value="sk_linguas">Línguas Mágicas</option>
-                  <option value="sk_percepcao">Percepção / Revelare</option>
-                  <option value="sk_prestidigi">Prestidigitação</option>
-                  <option value="sk_psicologia">Psicologia</option>
-                  <option value="sk_rastreamento">Rastreamento Mágico</option>
-                  <option value="sk_sobrevivencia">Sobrevivência</option>
-                </select>
-              </div>
+              <input type="file" class="foto-file-input" accept="image/*" style="display:none">
+              <button class="foto-btn"
+                onclick="this.closest('.foto-box').querySelector('.foto-file-input').click()">Alterar Foto</button>
             </div>
-            <p class="sub-label">Aparência Física</p>
-            <div class="info-grid">
-              <div class="field">
-                <label>Cor de Pele</label>
-                <input type="text" data-field="cor_pele" placeholder="Ex: Morena, Clara...">
-              </div>
-              <div class="field">
-                <label>Cor de Cabelo</label>
-                <input type="text" data-field="cor_cabelo" placeholder="Ex: Preto, Ruivo...">
-              </div>
-              <div class="field">
-                <label>Tipo de Corpo</label>
-                <select data-field="tipo_corpo">
-                  <option value="">— Selecione —</option>
-                  <option>Esguio</option>
-                  <option>Atlético</option>
-                  <option>Médio</option>
-                  <option>Musculoso</option>
-                  <option>Encorpado</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- VARINHA / CRIATURAS TOGGLE -->
-        <div class="itens-toggle-wrap">
-          <div class="itens-toggle-tabs">
-            <button class="itens-toggle-tab active" data-itab="varinha" onclick="switchItensTab(this,'${id}')">
-              <span>🪄</span> Varinha &amp; Itens de Missão
-            </button>
-            <button class="itens-toggle-tab" data-itab="criaturas" onclick="switchItensTab(this,'${id}')">
-              <span>🐾</span> Criaturas Mágicas
-            </button>
-          </div>
-
-          <!-- PANE: VARINHA & ITENS -->
-          <div class="itens-toggle-pane" id="itab-varinha-${id}">
-            <div class="varinha-grid">
-              <div class="field"><label>Madeira</label><input type="text" data-field="varinha_madeira"
-                  placeholder="Ex: Azevinho..."></div>
-              <div class="field"><label>Núcleo</label><input type="text" data-field="varinha_nucleo"
-                  placeholder="Ex: Pena de Fênix..."></div>
-              <div class="field"><label>Comprimento</label><input type="text" data-field="varinha_comprimento"
-                  placeholder="Ex: 28 cm"></div>
-              <div class="field">
-                <label>Flexibilidade</label>
-                <select data-field="varinha_flexibilidade">
-                  <option value="">— Selecione —</option>
-                  <option>Muito Flexível</option>
-                  <option>Flexível</option>
-                  <option>Levemente Flexível</option>
-                  <option>Rígida</option>
-                  <option>Muito Rígida</option>
-                  <option>Dura como Pedra</option>
-                </select>
-              </div>
-            </div>
-            <div class="itens-missao-wrap">
-              <div class="carga-header">
-                <div class="carga-info">
-                  <span class="carga-label">Capacidade de Carga</span>
-                  <span class="carga-formula">(FOR ÷ 20, mín. 1)</span>
-                  <span class="carga-valor" data-calc="carga_display" id="carga-display-${id}">0 / 0</span>
+            <div>
+              <div class="info-grid" style="margin-bottom:14px">
+                <div class="field">
+                  <label>Nome Completo</label>
+                  <input type="text" data-field="nome_completo" placeholder="Nome do personagem">
                 </div>
-                <button class="btn-add-item" onclick="abrirSeletorItens('${id}')">🧪 Adicionar Item</button>
+                <div class="field">
+                  <label>Idade</label>
+                  <input type="number" data-field="idade" placeholder="Ex: 24" min="1" max="200">
+                </div>
+                <div class="field">
+                  <label>Especialização</label>
+                  <select data-field="especializacao">
+                    <option value="">— Selecione —</option>
+                    <optgroup label="⚔ Linha de Combate">
+                      <option>Duelista de Linha</option>
+                      <option>Artilheiro de Cerco</option>
+                      <option>Caçador das Trevas</option>
+                      <option>Combatente Corpo-a-Corpo</option>
+                      <option>Cavaleiro de Vassoura (Aéreo)</option>
+                    </optgroup>
+                    <optgroup label="🔍 Linha de Investigação">
+                      <option>Investigador Forense</option>
+                      <option>Especialista em Necro-investigação</option>
+                      <option>Rastreador Mágico</option>
+                      <option>Analista Arcano</option>
+                      <option>Agente de Inteligência</option>
+                    </optgroup>
+                    <optgroup label="🗣 Linha Social">
+                      <option>Diplomata do Ministério</option>
+                      <option>Infiltrador Social</option>
+                      <option>Negociador de Crise</option>
+                      <option>Especialista em Trouxas</option>
+                      <option>Mediador Mágico-Criatura</option>
+                    </optgroup>
+                    <optgroup label="🌲 Linha de Campo">
+                      <option>Batedor de Fronteira</option>
+                      <option>Magizoologista</option>
+                      <option>Curandeiro de Campo</option>
+                      <option>Alquimista de Campo</option>
+                      <option>Explorador de Ruínas</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Naturalidade</label>
+                  <input type="text" data-field="naturalidade" placeholder="Ex: Liverpool, Salvador...">
+                </div>
+                <div class="field">
+                  <label>Patente</label>
+                  <select data-field="patente">
+                    <option value="">— Selecione —</option>
+                    <option value="Cadete">🔵 Cadete</option>
+                    <option value="Investigador">🟢 Investigador</option>
+                    <option value="Auror">🟡 Auror</option>
+                    <option value="Inspetor">🟠 Inspetor</option>
+                    <option value="Comandante">🔴 Comandante</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Progresso da Patente (%)</label>
+                  <div style="display:flex;gap:8px;align-items:center">
+                    <input type="number" data-field="patente_progresso" placeholder="0" min="0" max="100"
+                      style="flex:1">
+                    <span style="font-size:12px;color:var(--ink-soft)">%</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Criação</label>
+                  <select data-field="criacao">
+                    <option value="">— Selecione —</option>
+                    <option>Sangue-Puro</option>
+                    <option>Mestiço</option>
+                    <option>Nascido Trouxa</option>
+                    <option>Não-Humano Mágico</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Patrono</label>
+                  <input type="text" data-field="patrono" placeholder="Ex: Cervo, Lontra...">
+                </div>
+                <div class="field">
+                  <label>Condição Atual</label>
+                  <input type="text" data-field="condicao_atual" placeholder="Ex: Exausto, Envenenado, Saudável...">
+                </div>
+                <div class="field" id="field-escola-wrap-${id}">
+                  <label>Método de Ensino (Nacionalidade)</label>
+                  <select data-field="escola" id="select-escola-${id}" onchange="onEscolaChange('${id}')">
+                    <option value="">— Selecione —</option>
+                    <option value="hogwarts">Hogwarts (Reino Unido)</option>
+                    <option value="ilvermorny">Ilvermorny (Estados Unidos)</option>
+                    <option value="beauxbatons">Beauxbatons (França)</option>
+                    <option value="mahoutokoro">Mahoutokoro (Japão)</option>
+                    <option value="uagadou">Uagadou (África)</option>
+                    <option value="castelobruxo">Castelobruxo (Brasil)</option>
+                    <option value="koldovstoretz">Koldovstoretz (Europa Oriental)</option>
+                    <option value="durmstrang">Durmstrang (Norte da Europa)</option>
+                    <option value="domiciliar">Ensino Domiciliar (Sem escola fixa)</option>
+                  </select>
+                </div>
+                <div class="field" id="hogwarts-choose-field-${id}" style="display:none">
+                  <label>Bônus (+10%)</label>
+                  <select data-field="hogwarts_escolha" id="hogwarts-escolha-${id}"
+                    onchange="onHogwartsChoiceChange('${id}')">
+                    <option value="">— Escolha —</option>
+                    <option value="sk_encantamento">Encantamento</option>
+                    <option value="sk_defesa">Defesa / Protego</option>
+                  </select>
+                </div>
+                <div class="field" id="dom-sk1-field-${id}" style="display:none">
+                  <label>Perícia (+12% ou +5%)</label>
+                  <select data-field="domiciliar_sk1" id="dom-sk1-${id}" onchange="onDomiciliarChange('${id}')">
+                    <option value="">— Selecione —</option>
+                    <option value="sk_arremessar">Arremessar</option>
+                    <option value="sk_atletismo">Atletismo/Pular</option>
+                    <option value="sk_conjuracao">Conjuração</option>
+                    <option value="sk_defesa">Defesa / Protego</option>
+                    <option value="sk_encantamento">Encantamento</option>
+                    <option value="sk_esquiva">Esquiva</option>
+                    <option value="sk_furtividade">Furtividade</option>
+                    <option value="sk_luta">Luta Corporal</option>
+                    <option value="sk_trevas">Magia das Trevas</option>
+                    <option value="sk_magia_combate">Magia de Combate</option>
+                    <option value="sk_natacao">Natação</option>
+                    <option value="sk_transfiguracao">Transfiguração</option>
+                    <option value="sk_voo">Voo com Vassoura</option>
+                    <option value="sk_alquimia">Alquimia</option>
+                    <option value="sk_antiguidades">Antiguidades Mágicas</option>
+                    <option value="sk_aritmancia">Aritmancia</option>
+                    <option value="sk_arqueologia">Arqueologia/Geologia</option>
+                    <option value="sk_curandeirismo">Curandeirismo</option>
+                    <option value="sk_trouxas">Estudo dos Trouxas</option>
+                    <option value="sk_herbologia">Herbologia</option>
+                    <option value="sk_historia">História da Magia</option>
+                    <option value="sk_leis">Leis do Ministério</option>
+                    <option value="sk_pocoes">Poções</option>
+                    <option value="sk_teoria">Teoria da Magia/Runas</option>
+                    <option value="sk_criaturas">Trato de Criaturas</option>
+                    <option value="sk_biblioteca">Usar Biblioteca</option>
+                    <option value="sk_arte">Arte/Criação</option>
+                    <option value="sk_charme">Charme</option>
+                    <option value="sk_disfarce">Disfarce / Polissuco</option>
+                    <option value="sk_esconder">Esconder</option>
+                    <option value="sk_escutar">Escutar</option>
+                    <option value="sk_intimidacao">Intimidação</option>
+                    <option value="sk_labia">Lábia</option>
+                    <option value="sk_linguas">Línguas Mágicas</option>
+                    <option value="sk_percepcao">Percepção / Revelare</option>
+                    <option value="sk_prestidigi">Prestidigitação</option>
+                    <option value="sk_psicologia">Psicologia</option>
+                    <option value="sk_rastreamento">Rastreamento Mágico</option>
+                    <option value="sk_sobrevivencia">Sobrevivência</option>
+                  </select>
+                </div>
+                <div class="field" id="dom-sk2-field-${id}" style="display:none">
+                  <label>2ª Perícia (opcional · +5% cada)</label>
+                  <select data-field="domiciliar_sk2" id="dom-sk2-${id}" onchange="onDomiciliarChange('${id}')">
+                    <option value="">— Selecione —</option>
+                    <option value="sk_arremessar">Arremessar</option>
+                    <option value="sk_atletismo">Atletismo/Pular</option>
+                    <option value="sk_conjuracao">Conjuração</option>
+                    <option value="sk_defesa">Defesa / Protego</option>
+                    <option value="sk_encantamento">Encantamento</option>
+                    <option value="sk_esquiva">Esquiva</option>
+                    <option value="sk_furtividade">Furtividade</option>
+                    <option value="sk_luta">Luta Corporal</option>
+                    <option value="sk_trevas">Magia das Trevas</option>
+                    <option value="sk_magia_combate">Magia de Combate</option>
+                    <option value="sk_natacao">Natação</option>
+                    <option value="sk_transfiguracao">Transfiguração</option>
+                    <option value="sk_voo">Voo com Vassoura</option>
+                    <option value="sk_alquimia">Alquimia</option>
+                    <option value="sk_antiguidades">Antiguidades Mágicas</option>
+                    <option value="sk_aritmancia">Aritmancia</option>
+                    <option value="sk_arqueologia">Arqueologia/Geologia</option>
+                    <option value="sk_curandeirismo">Curandeirismo</option>
+                    <option value="sk_trouxas">Estudo dos Trouxas</option>
+                    <option value="sk_herbologia">Herbologia</option>
+                    <option value="sk_historia">História da Magia</option>
+                    <option value="sk_leis">Leis do Ministério</option>
+                    <option value="sk_pocoes">Poções</option>
+                    <option value="sk_teoria">Teoria da Magia/Runas</option>
+                    <option value="sk_criaturas">Trato de Criaturas</option>
+                    <option value="sk_biblioteca">Usar Biblioteca</option>
+                    <option value="sk_arte">Arte/Criação</option>
+                    <option value="sk_charme">Charme</option>
+                    <option value="sk_disfarce">Disfarce / Polissuco</option>
+                    <option value="sk_esconder">Esconder</option>
+                    <option value="sk_escutar">Escutar</option>
+                    <option value="sk_intimidacao">Intimidação</option>
+                    <option value="sk_labia">Lábia</option>
+                    <option value="sk_linguas">Línguas Mágicas</option>
+                    <option value="sk_percepcao">Percepção / Revelare</option>
+                    <option value="sk_prestidigi">Prestidigitação</option>
+                    <option value="sk_psicologia">Psicologia</option>
+                    <option value="sk_rastreamento">Rastreamento Mágico</option>
+                    <option value="sk_sobrevivencia">Sobrevivência</option>
+                  </select>
+                </div>
               </div>
-              <div class="itens-lista" id="itens-lista-${id}">
-                <p class="itens-vazio">Nenhum item na mochila. Clique em "Adicionar Item" para equipar itens disponíveis
-                  para sua patente.</p>
+              <p class="sub-label">Aparência Física</p>
+              <div class="info-grid">
+                <div class="field">
+                  <label>Cor de Pele</label>
+                  <input type="text" data-field="cor_pele" placeholder="Ex: Morena, Clara...">
+                </div>
+                <div class="field">
+                  <label>Cor de Cabelo</label>
+                  <input type="text" data-field="cor_cabelo" placeholder="Ex: Preto, Ruivo...">
+                </div>
+                <div class="field">
+                  <label>Tipo de Corpo</label>
+                  <select data-field="tipo_corpo">
+                    <option value="">— Selecione —</option>
+                    <option>Esguio</option>
+                    <option>Atlético</option>
+                    <option>Médio</option>
+                    <option>Musculoso</option>
+                    <option>Encorpado</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- PANE: CRIATURAS -->
-          <div class="itens-toggle-pane" id="itab-criaturas-${id}" style="display:none">
-            <div class="criaturas-lista" id="criaturas-lista-${id}"></div>
-            <div class="criaturas-footer">
-              <button class="btn-add-criatura" id="btn-add-criatura-${id}" onclick="criaturaAdicionar('${id}')">+ Adicionar Criatura</button>
-              <button class="btn-add-criatura btn-add-criatura-gm" id="btn-add-criatura-gm-${id}" onclick="criaturaAdicionar('${id}', true)" style="display:none" title="Mestre: adicionar criatura extra (sem limite)">+ Extra (Mestre)</button>
+          <!-- VARINHA / CRIATURAS TOGGLE -->
+          <div class="itens-toggle-wrap">
+            <div class="itens-toggle-tabs">
+              <button class="itens-toggle-tab active" data-itab="varinha" onclick="switchItensTab(this,'${id}')">
+                <span>🪄</span> Varinha &amp; Itens de Missão
+              </button>
+              <button class="itens-toggle-tab" data-itab="criaturas" onclick="switchItensTab(this,'${id}')">
+                <span>🐾</span> Criaturas Mágicas
+              </button>
             </div>
-          </div>
-        </div>
 
-        <!-- ATRIBUTOS BASE -->
-        <h2 class="sec-title"><span class="sec-icon">⚗</span> Atributos Base <button class="btn-rolar-atributos"
-            onclick="abrirRolarAtributos('${id}')">🎲 Rolar Atributos</button></h2>
-        <div class="attrs-grid">
-          <div class="attr-box" data-attr-label="FOR — Força"><span>FOR — Força</span><input type="text"
-              data-field="for" value="50"></div>
-          <div class="attr-box" data-attr-label="DES — Destreza"><span>DES — Destreza</span><input type="text"
-              data-field="des" value="60"></div>
-          <div class="attr-box" data-attr-label="INT — Inteligência"><span>INT — Inteligência</span><input type="text"
-              data-field="int_attr" value="65">
-          </div>
-          <div class="attr-box" data-attr-label="CON — Constituição"><span>CON — Constituição</span><input type="text"
-              data-field="con" value="55"></div>
-          <div class="attr-box" data-attr-label="APA — Aparência"><span>APA — Aparência</span><input type="text"
-              data-field="apa" value="50"></div>
-          <div class="attr-box" data-attr-label="POD — Poder"><span>POD — Poder</span><input type="text"
-              data-field="pod" value="70"></div>
-          <div class="attr-box" data-attr-label="TAM — Tamanho"><span>TAM — Tamanho</span><input type="text"
-              data-field="tam" value="65"></div>
-          <div class="attr-box" data-attr-label="EDU — Educação"><span>EDU — Educação</span><input type="text"
-              data-field="edu" value="70"></div>
-        </div>
+            <!-- PANE: VARINHA & ITENS -->
+            <div class="itens-toggle-pane" id="itab-varinha-${id}">
+              <div class="varinha-grid">
+                <div class="field"><label>Madeira</label><input type="text" data-field="varinha_madeira"
+                    placeholder="Ex: Azevinho..."></div>
+                <div class="field"><label>Núcleo</label><input type="text" data-field="varinha_nucleo"
+                    placeholder="Ex: Pena de Fênix..."></div>
+                <div class="field"><label>Comprimento</label><input type="text" data-field="varinha_comprimento"
+                    placeholder="Ex: 28 cm"></div>
+                <div class="field">
+                  <label>Flexibilidade</label>
+                  <select data-field="varinha_flexibilidade">
+                    <option value="">— Selecione —</option>
+                    <option>Muito Flexível</option>
+                    <option>Flexível</option>
+                    <option>Levemente Flexível</option>
+                    <option>Rígida</option>
+                    <option>Muito Rígida</option>
+                    <option>Dura como Pedra</option>
+                  </select>
+                </div>
+              </div>
+              <div class="itens-missao-wrap">
+                <div class="carga-header">
+                  <div class="carga-info">
+                    <span class="carga-label">Capacidade de Carga</span>
+                    <span class="carga-formula">(FOR ÷ 20, mín. 1)</span>
+                    <span class="carga-valor" data-calc="carga_display" id="carga-display-${id}">0 / 0</span>
+                  </div>
+                  <button class="btn-add-item" onclick="abrirSeletorItens('${id}')">🧪 Adicionar Item</button>
+                </div>
+                <div class="itens-lista" id="itens-lista-${id}">
+                  <p class="itens-vazio">Nenhum item na mochila. Clique em "Adicionar Item" para equipar itens
+                    disponíveis
+                    para sua patente.</p>
+                </div>
+              </div>
+            </div>
 
-        <!-- RECURSOS DERIVADOS -->
-        <h2 class="sec-title"><span class="sec-icon">🛡</span> Recursos e Atributos Derivados</h2>
-        <div class="derived-grid">
-          <div class="der-box">
-            <h4>Pontos de Vida (HP)</h4>
-            <small>(CON + TAM) / 5</small>
-            <div class="der-values">
-              <input type="text" data-field="hp_atual" value="24">
-              <span>/</span>
-              <input type="text" data-field="hp_max" value="24">
+            <!-- PANE: CRIATURAS -->
+            <div class="itens-toggle-pane" id="itab-criaturas-${id}" style="display:none">
+              <div class="criaturas-lista" id="criaturas-lista-${id}"></div>
+              <div class="criaturas-footer">
+                <button class="btn-add-criatura" id="btn-add-criatura-${id}" onclick="criaturaAdicionar('${id}')">+
+                  Adicionar Criatura</button>
+                <button class="btn-add-criatura btn-add-criatura-gm" id="btn-add-criatura-gm-${id}"
+                  onclick="criaturaAdicionar('${id}', true)" style="display:none"
+                  title="Mestre: adicionar criatura extra (sem limite)">+ Extra (Mestre)</button>
+              </div>
             </div>
           </div>
-          <div class="der-box">
-            <h4>Postura (Guarda)</h4>
-            <small>(CON + POD) / 5</small>
-            <div class="der-values">
-              <input type="text" data-field="postura_atual" value="25">
-              <span>/</span>
-              <input type="text" data-field="postura_max" value="25">
-            </div>
-            <div data-calc="postura_status" class="postura-status" style="color:var(--forest)">SAUDÁVEL</div>
-          </div>
-          <div class="der-box">
-            <h4>Pontos de Magia (PM)</h4>
-            <small>(POD / 5)</small>
-            <div class="der-values">
-              <input type="text" data-field="pm_atual" value="14">
-              <span>/</span>
-              <input type="text" data-field="pm_max" value="14">
-            </div>
-          </div>
-          <div class="der-box sorte">
-            <h4>Sorte</h4>
-            <small>Gaste para ajustar dados</small>
-            <div class="der-values">
-              <input type="text" data-field="sorte_atual" value="99">
-              <span>/ 99</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- FEITIÇOS PROFICIENTES -->
-        <h2 class="sec-title"><span class="sec-icon">✨</span> Feitiços Proficientes (Assinatura)</h2>
-        <div class="feiticos-intro">
-          Escolha <strong>APENAS 2 feitiços</strong> na criação. São lançados com Vantagem. Defina a melhoria de cada
-          um:
-          <ul>
-            <li><strong>Aumentar Efeito/Dano:</strong> +1d4 de Dano (HP) para magias ofensivas, ou +1d4 de redução de
-              Postura para magias de controle.</li>
-            <li><strong>Dobrar Alcance Base:</strong> Anula 1 nível de penalidade de distância passivamente — só
-              afeta o alcance, nada além disso.</li>
-            <li><strong>Área sem Custo:</strong> O feitiço também pode afetar <strong>2 alvos</strong> (o primeiro +
-              1 extra) sem gastar PM por isso, mantendo a Vantagem normal do feitiço de Assinatura — só afeta a
-              área, nada além disso. A partir do <strong>3º alvo</strong>, volta a valer a regra normal de Overcast
-              (1 PM por alvo extra adicional).</li>
-          </ul>
-        </div>
-        <div class="feiticos-grid">
-          <div class="feitico-card">
-            <input type="text" data-field="feitico1" placeholder="Feitiço 1 (Ex: Expelliarmus — Efeito)">
-            <select data-field="feitico1_upg">
-              <option value="">— Escolha a Melhoria —</option>
-              <option value="dano">Aumentar Efeito/Dano</option>
-              <option value="alcance">Dobrar Alcance Base</option>
-              <option value="area">Área sem Custo (2 alvos, c/ Vantagem)</option>
-            </select>
+          <!-- ATRIBUTOS BASE -->
+          <h2 class="sec-title"><span class="sec-icon">⚗</span> Atributos Base <button class="btn-rolar-atributos"
+              onclick="abrirRolarAtributos('${id}')">🎲 Rolar Atributos</button></h2>
+          <div class="attrs-grid">
+            <div class="attr-box" data-attr-label="FOR — Força"><span>FOR — Força</span><input type="text"
+                data-field="for" value="50"></div>
+            <div class="attr-box" data-attr-label="DES — Destreza"><span>DES — Destreza</span><input type="text"
+                data-field="des" value="60"></div>
+            <div class="attr-box" data-attr-label="INT — Inteligência"><span>INT — Inteligência</span><input type="text"
+                data-field="int_attr" value="65">
+            </div>
+            <div class="attr-box" data-attr-label="CON — Constituição"><span>CON — Constituição</span><input type="text"
+                data-field="con" value="55"></div>
+            <div class="attr-box" data-attr-label="APA — Aparência"><span>APA — Aparência</span><input type="text"
+                data-field="apa" value="50"></div>
+            <div class="attr-box" data-attr-label="POD — Poder"><span>POD — Poder</span><input type="text"
+                data-field="pod" value="70"></div>
+            <div class="attr-box" data-attr-label="TAM — Tamanho"><span>TAM — Tamanho</span><input type="text"
+                data-field="tam" value="65"></div>
+            <div class="attr-box" data-attr-label="EDU — Educação"><span>EDU — Educação</span><input type="text"
+                data-field="edu" value="70"></div>
           </div>
-          <div class="feitico-card">
-            <input type="text" data-field="feitico2" placeholder="Feitiço 2 (Ex: Estupefaça — Dano)">
-            <select data-field="feitico2_upg">
-              <option value="">— Escolha a Melhoria —</option>
-              <option value="dano">Aumentar Efeito/Dano</option>
-              <option value="alcance">Dobrar Alcance Base</option>
-              <option value="area">Área sem Custo (2 alvos, c/ Vantagem)</option>
-            </select>
-          </div>
-        </div>
 
-        <!-- PERÍCIAS -->
-        <h2 class="sec-title" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <span><span class="sec-icon">📋</span> Perícias do Auror</span>
-          <span class="pts-distrib-wrap" id="pts-distrib-${id}" style="display:flex;gap:8px;margin-left:auto;font-size:12px;font-weight:400">
-            <span class="pts-badge pts-badge-ip" title="Interesse Pessoal — INT × 2 — distribua livremente em qualquer perícia" style="background:rgba(100,180,255,.12);border:1px solid rgba(100,180,255,.3);color:#7bc4ff;padding:3px 9px;border-radius:20px;white-space:nowrap">🧠 IP: <strong id="pts-ip-${id}">0/—</strong></span>
-            <span class="pts-badge pts-badge-oc" title="Ocupação — EDU × 4 — apenas nas 8 perícias da Especialização" style="background:rgba(255,200,80,.10);border:1px solid rgba(255,200,80,.3);color:#ffc85a;padding:3px 9px;border-radius:20px;white-space:nowrap">📚 OC: <strong id="pts-oc-${id}">0/—</strong></span>
-          </span>
-        </h2>
-        <div class="skills-grid">
-          <div class="skill-col">
-            <h3>Combate e Físico</h3>
-            <div class="skill-item"><span class="skill-total" data-total="sk_arremessar">—</span><label
-                data-skill-label="sk_arremessar"><span class="skill-label-text">Arremessar (20%)<span
-                    class="escola-bonus" data-skill="sk_arremessar"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_arremessar"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_atletismo">—</span><label
-                data-skill-label="sk_atletismo"><span class="skill-label-text">Atletismo/Pular (20%)<span
-                    class="escola-bonus" data-skill="sk_atletismo"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_atletismo"></span>
+          <!-- RECURSOS DERIVADOS -->
+          <h2 class="sec-title"><span class="sec-icon">🛡</span> Recursos e Atributos Derivados</h2>
+          <div class="derived-grid">
+            <div class="der-box">
+              <h4>Pontos de Vida (HP)</h4>
+              <small>(CON + TAM) / 5</small>
+              <div class="der-values">
+                <input type="text" data-field="hp_atual" value="24">
+                <span>/</span>
+                <input type="text" data-field="hp_max" value="24">
+              </div>
             </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_conjuracao">—</span><label
-                data-skill-label="sk_conjuracao"><span class="skill-label-text">Conjuração (05%)<span
-                    class="escola-bonus" data-skill="sk_conjuracao"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_conjuracao"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_defesa">—</span><label
-                data-skill-label="sk_defesa"><span class="skill-label-text">Defesa / Protego (20%)<span
-                    class="escola-bonus" data-skill="sk_defesa"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_defesa"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_encantamento">—</span><label
-                data-skill-label="sk_encantamento"><span class="skill-label-text">Encantamento (20%)<span
-                    class="escola-bonus" data-skill="sk_encantamento"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_encantamento"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_esquiva">—</span><label
-                data-skill-label="sk_esquiva"><span class="skill-label-text">Esquiva (Metade DES)<span
-                    class="escola-bonus" data-skill="sk_esquiva"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_esquiva"></span>
+            <div class="der-box">
+              <h4>Postura (Guarda)</h4>
+              <small>(CON + POD) / 5</small>
+              <div class="der-values">
+                <input type="text" data-field="postura_atual" value="25">
+                <span>/</span>
+                <input type="text" data-field="postura_max" value="25">
+              </div>
+              <div data-calc="postura_status" class="postura-status" style="color:var(--forest)">SAUDÁVEL</div>
             </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_furtividade">—</span><label
-                data-skill-label="sk_furtividade"><span class="skill-label-text">Furtividade (20%)<span
-                    class="escola-bonus" data-skill="sk_furtividade"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_furtividade"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_luta">—</span><label
-                data-skill-label="sk_luta"><span class="skill-label-text">Luta Corporal (15%)<span class="escola-bonus"
-                    data-skill="sk_luta"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_luta"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_trevas">—</span><label
-                data-skill-label="sk_trevas"><span class="skill-label-text">Magia das Trevas (01%)<span
-                    class="escola-bonus" data-skill="sk_trevas"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_trevas"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_magia_combate">—</span><label
-                data-skill-label="sk_magia_combate"><span class="skill-label-text">Magia de Combate (20%)<span
-                    class="escola-bonus" data-skill="sk_magia_combate"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span><span
-                    class="estilo-bonus" data-estilo-skill="sk_magia_combate"
-                    style="color:#a78bfa;font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_magia_combate"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_natacao">—</span><label
-                data-skill-label="sk_natacao"><span class="skill-label-text">Natação (20%)<span class="escola-bonus"
-                    data-skill="sk_natacao"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_natacao"></span>
+            <div class="der-box">
+              <h4>Pontos de Magia (PM)</h4>
+              <small>(POD / 5)</small>
+              <div class="der-values">
+                <input type="text" data-field="pm_atual" value="14">
+                <span>/</span>
+                <input type="text" data-field="pm_max" value="14">
+              </div>
             </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_transfiguracao">—</span><label
-                data-skill-label="sk_transfiguracao"><span class="skill-label-text">Transfiguração (05%)<span
-                    class="escola-bonus" data-skill="sk_transfiguracao"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_transfiguracao"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_voo">—</span><label
-                data-skill-label="sk_voo"><span class="skill-label-text">Voo com Vassoura (10%)<span
-                    class="escola-bonus" data-skill="sk_voo"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_voo"></span></div>
+            <div class="der-box sorte">
+              <h4>Sorte</h4>
+              <small>Gaste para ajustar dados</small>
+              <div class="der-values">
+                <input type="text" data-field="sorte_atual" value="99">
+                <span>/ 99</span>
+              </div>
+            </div>
           </div>
-          <div class="skill-col">
-            <h3>Conhecimento e Magia</h3>
-            <div class="skill-item"><span class="skill-total" data-total="sk_alquimia">—</span><label
-                data-skill-label="sk_alquimia"><span class="skill-label-text">Alquimia (01%)<span class="escola-bonus"
-                    data-skill="sk_alquimia"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_alquimia"></span>
-            </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_antiguidades">—</span><label
-                data-skill-label="sk_antiguidades"><span class="skill-label-text">Antiguidades Mágicas (05%)<span
-                    class="escola-bonus" data-skill="sk_antiguidades"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_antiguidades"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_aritmancia">—</span><label
-                data-skill-label="sk_aritmancia"><span class="skill-label-text">Aritmancia (01%)<span
-                    class="escola-bonus" data-skill="sk_aritmancia"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_aritmancia"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_arqueologia">—</span><label
-                data-skill-label="sk_arqueologia"><span class="skill-label-text">Arqueologia/Geologia (01%)<span
-                    class="escola-bonus" data-skill="sk_arqueologia"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_arqueologia"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_curandeirismo">—</span><label
-                data-skill-label="sk_curandeirismo"><span class="skill-label-text">Curandeirismo (10%)<span
-                    class="escola-bonus" data-skill="sk_curandeirismo"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_curandeirismo"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_trouxas">—</span><label
-                data-skill-label="sk_trouxas"><span class="skill-label-text">Estudo dos Trouxas (10%)<span
-                    class="escola-bonus" data-skill="sk_trouxas"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_trouxas"></span>
-            </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_herbologia">—</span><label
-                data-skill-label="sk_herbologia"><span class="skill-label-text">Herbologia (10%)<span
-                    class="escola-bonus" data-skill="sk_herbologia"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_herbologia"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_historia">—</span><label
-                data-skill-label="sk_historia"><span class="skill-label-text">História da Magia (05%)<span
-                    class="escola-bonus" data-skill="sk_historia"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_historia"></span>
-            </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_leis">—</span><label
-                data-skill-label="sk_leis"><span class="skill-label-text">Leis do Ministério (05%)<span
-                    class="escola-bonus" data-skill="sk_leis"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_leis"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_pocoes">—</span><label
-                data-skill-label="sk_pocoes"><span class="skill-label-text">Poções (10%)<span class="escola-bonus"
-                    data-skill="sk_pocoes"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_pocoes"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_teoria">—</span><label
-                data-skill-label="sk_teoria"><span class="skill-label-text">Teoria da Magia/Runas (01%)<span
-                    class="escola-bonus" data-skill="sk_teoria"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_teoria"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_criaturas">—</span><label
-                data-skill-label="sk_criaturas"><span class="skill-label-text">Trato de Criaturas (10%)<span
-                    class="escola-bonus" data-skill="sk_criaturas"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_criaturas"></span>
-            </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_biblioteca">—</span><label
-                data-skill-label="sk_biblioteca"><span class="skill-label-text">Usar Biblioteca (20%)<span
-                    class="escola-bonus" data-skill="sk_biblioteca"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_biblioteca"></span></div>
+
+          <!-- FEITIÇOS PROFICIENTES -->
+          <h2 class="sec-title"><span class="sec-icon">✨</span> Feitiços Proficientes (Assinatura)</h2>
+          <div class="feiticos-intro">
+            Escolha <strong>APENAS 2 feitiços</strong> na criação. São lançados com Vantagem. Defina a melhoria de cada
+            um:
+            <ul>
+              <li><strong>Aumentar Efeito/Dano:</strong> +1d4 de Dano (HP) para magias ofensivas, ou +1d4 de redução de
+                Postura para magias de controle.</li>
+              <li><strong>Dobrar Alcance Base:</strong> Anula 1 nível de penalidade de distância passivamente — só
+                afeta o alcance, nada além disso.</li>
+              <li><strong>Área sem Custo:</strong> O feitiço também pode afetar <strong>2 alvos</strong> (o primeiro +
+                1 extra) sem gastar PM por isso, mantendo a Vantagem normal do feitiço de Assinatura — só afeta a
+                área, nada além disso. A partir do <strong>3º alvo</strong>, volta a valer a regra normal de Overcast
+                (1 PM por alvo extra adicional).</li>
+            </ul>
           </div>
-          <div class="skill-col">
-            <h3>Sociais e Práticas</h3>
-            <div class="skill-item"><span class="skill-total" data-total="sk_arte">—</span><label
-                data-skill-label="sk_arte"><span class="skill-label-text">Arte/Criação (05%)<span class="escola-bonus"
-                    data-skill="sk_arte"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_arte"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_charme">—</span><label
-                data-skill-label="sk_charme"><span class="skill-label-text">Charme (15%)<span class="escola-bonus"
-                    data-skill="sk_charme"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_charme"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_disfarce">—</span><label
-                data-skill-label="sk_disfarce"><span class="skill-label-text">Disfarce / Polissuco (05%)<span
-                    class="escola-bonus" data-skill="sk_disfarce"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_disfarce"></span>
+          <div class="feiticos-grid">
+            <div class="feitico-card">
+              <input type="text" data-field="feitico1" placeholder="Feitiço 1 (Ex: Expelliarmus — Efeito)">
+              <select data-field="feitico1_upg">
+                <option value="">— Escolha a Melhoria —</option>
+                <option value="dano">Aumentar Efeito/Dano</option>
+                <option value="alcance">Dobrar Alcance Base</option>
+                <option value="area">Área sem Custo (2 alvos, c/ Vantagem)</option>
+              </select>
             </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_esconder">—</span><label
-                data-skill-label="sk_esconder"><span class="skill-label-text">Esconder (10%)<span class="escola-bonus"
-                    data-skill="sk_esconder"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_esconder"></span>
+            <div class="feitico-card">
+              <input type="text" data-field="feitico2" placeholder="Feitiço 2 (Ex: Estupefaça — Dano)">
+              <select data-field="feitico2_upg">
+                <option value="">— Escolha a Melhoria —</option>
+                <option value="dano">Aumentar Efeito/Dano</option>
+                <option value="alcance">Dobrar Alcance Base</option>
+                <option value="area">Área sem Custo (2 alvos, c/ Vantagem)</option>
+              </select>
             </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_escutar">—</span><label
-                data-skill-label="sk_escutar"><span class="skill-label-text">Escutar (20%)<span class="escola-bonus"
-                    data-skill="sk_escutar"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_escutar"></span>
-            </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_intimidacao">—</span><label
-                data-skill-label="sk_intimidacao"><span class="skill-label-text">Intimidação (15%)<span
-                    class="escola-bonus" data-skill="sk_intimidacao"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_intimidacao"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_labia">—</span><label
-                data-skill-label="sk_labia"><span class="skill-label-text">Lábia (05%)<span class="escola-bonus"
-                    data-skill="sk_labia"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_labia"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_linguas">—</span><label
-                data-skill-label="sk_linguas"><span class="skill-label-text">Línguas Mágicas (01%)<span
-                    class="escola-bonus" data-skill="sk_linguas"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_linguas"></span>
-            </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_percepcao">—</span><label
-                data-skill-label="sk_percepcao"><span class="skill-label-text">Percepção / Revelare (25%)<span
-                    class="escola-bonus" data-skill="sk_percepcao"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_percepcao"></span>
-            </div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_prestidigi">—</span><label
-                data-skill-label="sk_prestidigi"><span class="skill-label-text">Prestidigitação (10%)<span
-                    class="escola-bonus" data-skill="sk_prestidigi"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_prestidigi"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_psicologia">—</span><label
-                data-skill-label="sk_psicologia"><span class="skill-label-text">Psicologia (10%)<span
-                    class="escola-bonus" data-skill="sk_psicologia"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_psicologia"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_rastreamento">—</span><label
-                data-skill-label="sk_rastreamento"><span class="skill-label-text">Rastreamento Mágico (10%)<span
-                    class="escola-bonus" data-skill="sk_rastreamento"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_rastreamento"></span></div>
-            <div class="skill-item"><span class="skill-total" data-total="sk_sobrevivencia">—</span><label
-                data-skill-label="sk_sobrevivencia"><span class="skill-label-text">Sobrevivência (10%)<span
-                    class="escola-bonus" data-skill="sk_sobrevivencia"
-                    style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
-                class="skill-thresholds" data-thresh="sk_sobrevivencia"></span></div>
           </div>
-        </div>
-        <p class="skills-footnote">💡 Clique no nome de uma perícia para distribuir pontos de <strong>Interesse Pessoal</strong>, <strong>Ocupação</strong> e <strong>Livre/Melhoria</strong>. O total é calculado automaticamente.</p>
+
+          <!-- PERÍCIAS -->
+          <h2 class="sec-title" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span><span class="sec-icon">📋</span> Perícias do Auror</span>
+            <span class="pts-distrib-wrap" id="pts-distrib-${id}"
+              style="display:flex;gap:8px;margin-left:auto;font-size:12px;font-weight:400">
+              <span class="pts-badge pts-badge-ip"
+                title="Interesse Pessoal — INT × 2 — distribua livremente em qualquer perícia"
+                style="background:rgba(100,180,255,.12);border:1px solid rgba(100,180,255,.3);color:#7bc4ff;padding:3px 9px;border-radius:20px;white-space:nowrap">🧠
+                IP: <strong id="pts-ip-${id}">0/—</strong></span>
+              <span class="pts-badge pts-badge-oc" title="Ocupação — EDU × 4 — apenas nas 8 perícias da Especialização"
+                style="background:rgba(255,200,80,.10);border:1px solid rgba(255,200,80,.3);color:#ffc85a;padding:3px 9px;border-radius:20px;white-space:nowrap">📚
+                OC: <strong id="pts-oc-${id}">0/—</strong></span>
+            </span>
+          </h2>
+          <div class="skills-grid">
+            <div class="skill-col">
+              <h3>Combate e Físico</h3>
+              <div class="skill-item"><span class="skill-total" data-total="sk_arremessar">—</span><label
+                  data-skill-label="sk_arremessar"><span class="skill-label-text">Arremessar (20%)<span
+                      class="escola-bonus" data-skill="sk_arremessar"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_arremessar"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_atletismo">—</span><label
+                  data-skill-label="sk_atletismo"><span class="skill-label-text">Atletismo/Pular (20%)<span
+                      class="escola-bonus" data-skill="sk_atletismo"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_atletismo"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_conjuracao">—</span><label
+                  data-skill-label="sk_conjuracao"><span class="skill-label-text">Conjuração (05%)<span
+                      class="escola-bonus" data-skill="sk_conjuracao"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_conjuracao"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_defesa">—</span><label
+                  data-skill-label="sk_defesa"><span class="skill-label-text">Defesa / Protego (20%)<span
+                      class="escola-bonus" data-skill="sk_defesa"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_defesa"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_encantamento">—</span><label
+                  data-skill-label="sk_encantamento"><span class="skill-label-text">Encantamento (20%)<span
+                      class="escola-bonus" data-skill="sk_encantamento"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_encantamento"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_esquiva">—</span><label
+                  data-skill-label="sk_esquiva"><span class="skill-label-text">Esquiva (Metade DES)<span
+                      class="escola-bonus" data-skill="sk_esquiva"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_esquiva"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_furtividade">—</span><label
+                  data-skill-label="sk_furtividade"><span class="skill-label-text">Furtividade (20%)<span
+                      class="escola-bonus" data-skill="sk_furtividade"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_furtividade"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_luta">—</span><label
+                  data-skill-label="sk_luta"><span class="skill-label-text">Luta Corporal (15%)<span
+                      class="escola-bonus" data-skill="sk_luta"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_luta"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_trevas">—</span><label
+                  data-skill-label="sk_trevas"><span class="skill-label-text">Magia das Trevas (01%)<span
+                      class="escola-bonus" data-skill="sk_trevas"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_trevas"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_magia_combate">—</span><label
+                  data-skill-label="sk_magia_combate"><span class="skill-label-text">Magia de Combate (20%)<span
+                      class="escola-bonus" data-skill="sk_magia_combate"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span><span class="estilo-bonus"
+                      data-estilo-skill="sk_magia_combate"
+                      style="color:#a78bfa;font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_magia_combate"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_natacao">—</span><label
+                  data-skill-label="sk_natacao"><span class="skill-label-text">Natação (20%)<span class="escola-bonus"
+                      data-skill="sk_natacao"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_natacao"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_transfiguracao">—</span><label
+                  data-skill-label="sk_transfiguracao"><span class="skill-label-text">Transfiguração (05%)<span
+                      class="escola-bonus" data-skill="sk_transfiguracao"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_transfiguracao"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_voo">—</span><label
+                  data-skill-label="sk_voo"><span class="skill-label-text">Voo com Vassoura (10%)<span
+                      class="escola-bonus" data-skill="sk_voo"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_voo"></span></div>
+            </div>
+            <div class="skill-col">
+              <h3>Conhecimento e Magia</h3>
+              <div class="skill-item"><span class="skill-total" data-total="sk_alquimia">—</span><label
+                  data-skill-label="sk_alquimia"><span class="skill-label-text">Alquimia (01%)<span class="escola-bonus"
+                      data-skill="sk_alquimia"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_alquimia"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_antiguidades">—</span><label
+                  data-skill-label="sk_antiguidades"><span class="skill-label-text">Antiguidades Mágicas (05%)<span
+                      class="escola-bonus" data-skill="sk_antiguidades"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_antiguidades"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_aritmancia">—</span><label
+                  data-skill-label="sk_aritmancia"><span class="skill-label-text">Aritmancia (01%)<span
+                      class="escola-bonus" data-skill="sk_aritmancia"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_aritmancia"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_arqueologia">—</span><label
+                  data-skill-label="sk_arqueologia"><span class="skill-label-text">Arqueologia/Geologia (01%)<span
+                      class="escola-bonus" data-skill="sk_arqueologia"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_arqueologia"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_curandeirismo">—</span><label
+                  data-skill-label="sk_curandeirismo"><span class="skill-label-text">Curandeirismo (10%)<span
+                      class="escola-bonus" data-skill="sk_curandeirismo"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_curandeirismo"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_trouxas">—</span><label
+                  data-skill-label="sk_trouxas"><span class="skill-label-text">Estudo dos Trouxas (10%)<span
+                      class="escola-bonus" data-skill="sk_trouxas"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_trouxas"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_herbologia">—</span><label
+                  data-skill-label="sk_herbologia"><span class="skill-label-text">Herbologia (10%)<span
+                      class="escola-bonus" data-skill="sk_herbologia"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_herbologia"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_historia">—</span><label
+                  data-skill-label="sk_historia"><span class="skill-label-text">História da Magia (05%)<span
+                      class="escola-bonus" data-skill="sk_historia"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_historia"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_leis">—</span><label
+                  data-skill-label="sk_leis"><span class="skill-label-text">Leis do Ministério (05%)<span
+                      class="escola-bonus" data-skill="sk_leis"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_leis"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_pocoes">—</span><label
+                  data-skill-label="sk_pocoes"><span class="skill-label-text">Poções (10%)<span class="escola-bonus"
+                      data-skill="sk_pocoes"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_pocoes"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_teoria">—</span><label
+                  data-skill-label="sk_teoria"><span class="skill-label-text">Teoria da Magia/Runas (01%)<span
+                      class="escola-bonus" data-skill="sk_teoria"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_teoria"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_criaturas">—</span><label
+                  data-skill-label="sk_criaturas"><span class="skill-label-text">Trato de Criaturas (10%)<span
+                      class="escola-bonus" data-skill="sk_criaturas"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_criaturas"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_biblioteca">—</span><label
+                  data-skill-label="sk_biblioteca"><span class="skill-label-text">Usar Biblioteca (20%)<span
+                      class="escola-bonus" data-skill="sk_biblioteca"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_biblioteca"></span></div>
+            </div>
+            <div class="skill-col">
+              <h3>Sociais e Práticas</h3>
+              <div class="skill-item"><span class="skill-total" data-total="sk_arte">—</span><label
+                  data-skill-label="sk_arte"><span class="skill-label-text">Arte/Criação (05%)<span class="escola-bonus"
+                      data-skill="sk_arte"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_arte"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_charme">—</span><label
+                  data-skill-label="sk_charme"><span class="skill-label-text">Charme (15%)<span class="escola-bonus"
+                      data-skill="sk_charme"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_charme"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_disfarce">—</span><label
+                  data-skill-label="sk_disfarce"><span class="skill-label-text">Disfarce / Polissuco (05%)<span
+                      class="escola-bonus" data-skill="sk_disfarce"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_disfarce"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_esconder">—</span><label
+                  data-skill-label="sk_esconder"><span class="skill-label-text">Esconder (10%)<span class="escola-bonus"
+                      data-skill="sk_esconder"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_esconder"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_escutar">—</span><label
+                  data-skill-label="sk_escutar"><span class="skill-label-text">Escutar (20%)<span class="escola-bonus"
+                      data-skill="sk_escutar"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_escutar"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_intimidacao">—</span><label
+                  data-skill-label="sk_intimidacao"><span class="skill-label-text">Intimidação (15%)<span
+                      class="escola-bonus" data-skill="sk_intimidacao"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_intimidacao"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_labia">—</span><label
+                  data-skill-label="sk_labia"><span class="skill-label-text">Lábia (05%)<span class="escola-bonus"
+                      data-skill="sk_labia"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_labia"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_linguas">—</span><label
+                  data-skill-label="sk_linguas"><span class="skill-label-text">Línguas Mágicas (01%)<span
+                      class="escola-bonus" data-skill="sk_linguas"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_linguas"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_percepcao">—</span><label
+                  data-skill-label="sk_percepcao"><span class="skill-label-text">Percepção / Revelare (25%)<span
+                      class="escola-bonus" data-skill="sk_percepcao"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_percepcao"></span>
+              </div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_prestidigi">—</span><label
+                  data-skill-label="sk_prestidigi"><span class="skill-label-text">Prestidigitação (10%)<span
+                      class="escola-bonus" data-skill="sk_prestidigi"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_prestidigi"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_psicologia">—</span><label
+                  data-skill-label="sk_psicologia"><span class="skill-label-text">Psicologia (10%)<span
+                      class="escola-bonus" data-skill="sk_psicologia"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_psicologia"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_rastreamento">—</span><label
+                  data-skill-label="sk_rastreamento"><span class="skill-label-text">Rastreamento Mágico (10%)<span
+                      class="escola-bonus" data-skill="sk_rastreamento"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_rastreamento"></span></div>
+              <div class="skill-item"><span class="skill-total" data-total="sk_sobrevivencia">—</span><label
+                  data-skill-label="sk_sobrevivencia"><span class="skill-label-text">Sobrevivência (10%)<span
+                      class="escola-bonus" data-skill="sk_sobrevivencia"
+                      style="color:var(--gold);font-size:10px;font-weight:700"></span></span></label><span
+                  class="skill-thresholds" data-thresh="sk_sobrevivencia"></span></div>
+            </div>
+          </div>
+          <p class="skills-footnote">💡 Clique no nome de uma perícia para distribuir pontos de <strong>Interesse
+              Pessoal</strong>, <strong>Ocupação</strong> e <strong>Livre/Melhoria</strong>. O total é calculado
+            automaticamente.</p>
         </div><!-- /stab-perfil -->
 
         <!-- PANE: HISTÓRIA & PERSONALIDADE -->
         <div class="section-nav-pane" id="stab-historia-${id}" style="display:none">
-        <h2 class="sec-title" style="margin-top:18px"><span class="sec-icon">📜</span> História &amp; Personalidade</h2>
-        <div class="lore-grid">
+          <h2 class="sec-title" style="margin-top:18px"><span class="sec-icon">📜</span> História &amp; Personalidade
+          </h2>
+          <div class="lore-grid">
 
-          <!-- Linha 1: Alinhamento + Objetivos -->
-          <div class="lore-row lore-row-2">
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">⚖</span>
-                <label class="lore-card-title">Alinhamento Moral</label>
+            <!-- Linha 1: Alinhamento + Objetivos -->
+            <div class="lore-row lore-row-2">
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">⚖</span>
+                  <label class="lore-card-title">Alinhamento Moral</label>
+                </div>
+                <select data-field="alinhamento" class="lore-alignment-select">
+                  <option value="">— Escolha o alinhamento —</option>
+                  <option value="Leal e Bom">Leal e Bom</option>
+                  <option value="Neutro e Bom">Neutro e Bom</option>
+                  <option value="Caótico e Bom">Caótico e Bom</option>
+                  <option value="Leal e Neutro">Leal e Neutro</option>
+                  <option value="Neutro Verdadeiro">Neutro Verdadeiro</option>
+                  <option value="Caótico e Neutro">Caótico e Neutro</option>
+                </select>
               </div>
-              <select data-field="alinhamento" class="lore-alignment-select">
-                <option value="">— Escolha o alinhamento —</option>
-                <option value="Leal e Bom">Leal e Bom</option>
-                <option value="Neutro e Bom">Neutro e Bom</option>
-                <option value="Caótico e Bom">Caótico e Bom</option>
-                <option value="Leal e Neutro">Leal e Neutro</option>
-                <option value="Neutro Verdadeiro">Neutro Verdadeiro</option>
-                <option value="Caótico e Neutro">Caótico e Neutro</option>
-              </select>
-            </div>
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">🎯</span>
-                <label class="lore-card-title">Objetivos Pessoais</label>
-              </div>
-              <div class="lore-goals-list" id="lore-goals-${id}"
-                placeholder="Clique em ＋ para adicionar objetivos…"></div>
-              <button class="lore-add-btn" onclick="loreAddGoal('${id}')">＋ Adicionar objetivo</button>
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">🎯</span>
+                  <label class="lore-card-title">Objetivos Pessoais</label>
+                </div>
+                <div class="lore-goals-list" id="lore-goals-${id}" placeholder="Clique em ＋ para adicionar objetivos…">
+                </div>
+                <button class="lore-add-btn" onclick="loreAddGoal('${id}')">＋ Adicionar objetivo</button>
 
+              </div>
             </div>
-          </div>
 
-          <!-- Linha 2: Traços + Ideais + Vínculos + Fraquezas (4 colunas) -->
-          <div class="lore-row lore-row-4">
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">🧠</span>
-                <label class="lore-card-title">Traços de Personalidade</label>
+            <!-- Linha 2: Traços + Ideais + Vínculos + Fraquezas (4 colunas) -->
+            <div class="lore-row lore-row-4">
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">🧠</span>
+                  <label class="lore-card-title">Traços de Personalidade</label>
+                </div>
+                <textarea data-field="tracos_personalidade" class="lore-textarea"
+                  placeholder="Como o personagem age no dia a dia? Maneirismos, hábitos, jeito de falar…"
+                  rows="5"></textarea>
               </div>
-              <textarea data-field="tracos_personalidade" class="lore-textarea"
-                placeholder="Como o personagem age no dia a dia? Maneirismos, hábitos, jeito de falar…"
-                rows="5"></textarea>
-            </div>
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">💡</span>
-                <label class="lore-card-title">Ideais</label>
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">💡</span>
+                  <label class="lore-card-title">Ideais</label>
+                </div>
+                <textarea data-field="ideais" class="lore-textarea"
+                  placeholder="O que o personagem acredita ser certo? Valores que guiam suas decisões…"
+                  rows="5"></textarea>
               </div>
-              <textarea data-field="ideais" class="lore-textarea"
-                placeholder="O que o personagem acredita ser certo? Valores que guiam suas decisões…"
-                rows="5"></textarea>
-            </div>
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">🔗</span>
-                <label class="lore-card-title">Vínculos</label>
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">🔗</span>
+                  <label class="lore-card-title">Vínculos</label>
+                </div>
+                <textarea data-field="vinculos" class="lore-textarea"
+                  placeholder="Pessoas, lugares ou coisas que o personagem não abriria mão…" rows="5"></textarea>
               </div>
-              <textarea data-field="vinculos" class="lore-textarea"
-                placeholder="Pessoas, lugares ou coisas que o personagem não abriria mão…" rows="5"></textarea>
-            </div>
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">⚠</span>
-                <label class="lore-card-title">Fraquezas &amp; Defeitos</label>
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">⚠</span>
+                  <label class="lore-card-title">Fraquezas &amp; Defeitos</label>
+                </div>
+                <textarea data-field="fraquezas" class="lore-textarea"
+                  placeholder="Vícios, medos, pontos cegos ou falhas de caráter…" rows="5"></textarea>
               </div>
-              <textarea data-field="fraquezas" class="lore-textarea"
-                placeholder="Vícios, medos, pontos cegos ou falhas de caráter…" rows="5"></textarea>
             </div>
-          </div>
 
-          <!-- Linha 3: História -->
-          <div class="lore-row lore-row-1">
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">📖</span>
-                <label class="lore-card-title">História do Personagem</label>
+            <!-- Linha 3: História -->
+            <div class="lore-row lore-row-1">
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">📖</span>
+                  <label class="lore-card-title">História do Personagem</label>
+                </div>
+                <textarea data-field="historia" class="lore-textarea lore-textarea-tall"
+                  placeholder="De onde veio? O que o levou a se tornar um Auror? Família, traumas, marcos importantes da vida…"
+                  rows="8"></textarea>
               </div>
-              <textarea data-field="historia" class="lore-textarea lore-textarea-tall"
-                placeholder="De onde veio? O que o levou a se tornar um Auror? Família, traumas, marcos importantes da vida…"
-                rows="8"></textarea>
             </div>
-          </div>
 
-          <!-- Linha 4: Aparência Detalhada + Motivação -->
-          <div class="lore-row lore-row-2">
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">📅</span>
-                <label class="lore-card-title">Eventos Importantes</label>
+            <!-- Linha 4: Aparência Detalhada + Motivação -->
+            <div class="lore-row lore-row-2">
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">📅</span>
+                  <label class="lore-card-title">Eventos Importantes</label>
+                </div>
+                <textarea data-field="eventos" class="lore-textarea"
+                  placeholder="Eventos marcantes da vida do personagem após o início da jornada…" rows="5"></textarea>
               </div>
-              <textarea data-field="eventos" class="lore-textarea"
-                placeholder="Eventos marcantes da vida do personagem após o início da jornada…" rows="5"></textarea>
-            </div>
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">🔥</span>
-                <label class="lore-card-title">Motivação Principal</label>
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">🔥</span>
+                  <label class="lore-card-title">Motivação Principal</label>
+                </div>
+                <textarea data-field="motivacao" class="lore-textarea"
+                  placeholder="O que faz o personagem continuar lutando? Qual é a faísca que o move?…"
+                  rows="5"></textarea>
               </div>
-              <textarea data-field="motivacao" class="lore-textarea"
-                placeholder="O que faz o personagem continuar lutando? Qual é a faísca que o move?…"
-                rows="5"></textarea>
             </div>
-          </div>
 
-          <!-- Linha 5: Segredos + Conexões -->
-          <div class="lore-row lore-row-2">
-            <div class="lore-card lore-card-secret">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">🔒</span>
-                <label class="lore-card-title">Segredos</label>
-                <span class="lore-secret-badge">Apenas você</span>
+            <!-- Linha 5: Segredos + Conexões -->
+            <div class="lore-row lore-row-2">
+              <div class="lore-card lore-card-secret">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">🔒</span>
+                  <label class="lore-card-title">Segredos</label>
+                  <span class="lore-secret-badge">Apenas você</span>
+                </div>
+                <textarea data-field="segredos" class="lore-textarea"
+                  placeholder="O que o personagem esconde dos demais — até dos aliados?…" rows="5"></textarea>
               </div>
-              <textarea data-field="segredos" class="lore-textarea"
-                placeholder="O que o personagem esconde dos demais — até dos aliados?…" rows="5"></textarea>
-            </div>
-            <div class="lore-card">
-              <div class="lore-card-header">
-                <span class="lore-card-icon">🤝</span>
-                <label class="lore-card-title">Conexões &amp; Aliados</label>
+              <div class="lore-card">
+                <div class="lore-card-header">
+                  <span class="lore-card-icon">🤝</span>
+                  <label class="lore-card-title">Conexões &amp; Aliados</label>
+                </div>
+                <textarea data-field="conexoes" class="lore-textarea"
+                  placeholder="NPCs importantes, mentores, rivais, contatos do Ministério…" rows="5"></textarea>
               </div>
-              <textarea data-field="conexoes" class="lore-textarea"
-                placeholder="NPCs importantes, mentores, rivais, contatos do Ministério…" rows="5"></textarea>
             </div>
-          </div>
 
-        </div><!-- /lore-grid -->
+          </div><!-- /lore-grid -->
         </div><!-- /stab-historia -->
 
         <!-- MEDIDOR DE ESTILO -->
         <h2 class="sec-title"><span class="sec-icon">🌟</span> Medidor de Estilo</h2>
         <div class="estilo-panel" id="estilo-panel-${id}">
-          <p class="estilo-desc">Defina o rank atual do Medidor de Estilo em combate. A partir do <strong>Rank B</strong>, o personagem ganha <strong>+5% em Magia de Combate</strong> automaticamente.</p>
+          <p class="estilo-desc">Defina o rank atual do Medidor de Estilo em combate. A partir do <strong>Rank
+              B</strong>, o personagem ganha <strong>+5% em Magia de Combate</strong> automaticamente.</p>
           <div class="estilo-rank-row">
             <span class="estilo-rank-label">Rank atual:</span>
             <div class="estilo-rank-btns">
               <button class="estilo-rank-btn" data-rank="D" onclick="selecionarEstiloRank(this,'${id}')">D</button>
               <button class="estilo-rank-btn" data-rank="C" onclick="selecionarEstiloRank(this,'${id}')">C</button>
-              <button class="estilo-rank-btn rank-b" data-rank="B" onclick="selecionarEstiloRank(this,'${id}')">B</button>
-              <button class="estilo-rank-btn rank-a" data-rank="A" onclick="selecionarEstiloRank(this,'${id}')">A</button>
-              <button class="estilo-rank-btn rank-s" data-rank="S" onclick="selecionarEstiloRank(this,'${id}')">S</button>
-              <button class="estilo-rank-btn rank-ss" data-rank="SS" onclick="selecionarEstiloRank(this,'${id}')">SS</button>
-              <button class="estilo-rank-btn rank-sss" data-rank="SSS" onclick="selecionarEstiloRank(this,'${id}')">SSS</button>
+              <button class="estilo-rank-btn rank-b" data-rank="B"
+                onclick="selecionarEstiloRank(this,'${id}')">B</button>
+              <button class="estilo-rank-btn rank-a" data-rank="A"
+                onclick="selecionarEstiloRank(this,'${id}')">A</button>
+              <button class="estilo-rank-btn rank-s" data-rank="S"
+                onclick="selecionarEstiloRank(this,'${id}')">S</button>
+              <button class="estilo-rank-btn rank-ss" data-rank="SS"
+                onclick="selecionarEstiloRank(this,'${id}')">SS</button>
+              <button class="estilo-rank-btn rank-sss" data-rank="SSS"
+                onclick="selecionarEstiloRank(this,'${id}')">SSS</button>
             </div>
             <input type="hidden" data-field="estilo_rank" value="D">
           </div>
@@ -954,10 +978,17 @@
             <div class="ccnote-body">
               <p class="ccnote-title">Regras de Luta Corporal</p>
               <ul class="ccnote-list">
-                <li><strong>Adjacência obrigatória:</strong> o personagem precisa estar ao alcance imediato do adversário para realizar um ataque físico.</li>
-                <li><strong>Perícia:</strong> rola com <em>Luta Corporal</em> (não Magia de Combate). As mesmas categorias de sucesso se aplicam: Crítico, Extremo, Difícil, Regular, Falha e Falha Crítica.</li>
-                <li><strong>Dano e Postura:</strong> declare antes de rolar se o golpe vai na <em>Postura</em> (aba Efeito / Guarda) ou na <em>Vida</em> (aba Ataque). As mesmas tabelas de dano dos feitiços são usadas.</li>
-                <li><strong>Assinatura Corporal:</strong> para receber o bônus de Assinatura, o jogador deve ter definido previamente um <em>golpe específico de alguma arte marcial</em> (ex.: Harai Goshi, Cruzado de Esquerda, Kick Giratório). Esse golpe não pode ter sua faixa de alcance aumentada — é sempre adjacente.</li>
+                <li><strong>Adjacência obrigatória:</strong> o personagem precisa estar ao alcance imediato do
+                  adversário para realizar um ataque físico.</li>
+                <li><strong>Perícia:</strong> rola com <em>Luta Corporal</em> (não Magia de Combate). As mesmas
+                  categorias de sucesso se aplicam: Crítico, Extremo, Difícil, Regular, Falha e Falha Crítica.</li>
+                <li><strong>Dano e Postura:</strong> declare antes de rolar se o golpe vai na <em>Postura</em> (aba
+                  Efeito / Guarda) ou na <em>Vida</em> (aba Ataque). As mesmas tabelas de dano dos feitiços são usadas.
+                </li>
+                <li><strong>Assinatura Corporal:</strong> para receber o bônus de Assinatura, o jogador deve ter
+                  definido previamente um <em>golpe específico de alguma arte marcial</em> (ex.: Harai Goshi, Cruzado de
+                  Esquerda, Kick Giratório). Esse golpe não pode ter sua faixa de alcance aumentada — é sempre
+                  adjacente.</li>
               </ul>
             </div>
           </div>
@@ -1195,17 +1226,20 @@
         <div class="skill-popup-slot skill-popup-slot-ip">
           <span class="skill-popup-slot-icon">🧠</span>
           <span class="skill-popup-slot-label">Interesse<br>Pessoal</span>
-          <input type="number" id="skill-popup-ip" class="skill-popup-input" min="0" max="99" value="0" oninput="onPopupSkillInput()">
+          <input type="number" id="skill-popup-ip" class="skill-popup-input" min="0" max="99" value="0"
+            oninput="onPopupSkillInput()">
         </div>
         <div class="skill-popup-slot skill-popup-slot-oc">
           <span class="skill-popup-slot-icon">📚</span>
           <span class="skill-popup-slot-label">Ocupação</span>
-          <input type="number" id="skill-popup-oc" class="skill-popup-input" min="0" max="99" value="0" oninput="onPopupSkillInput()">
+          <input type="number" id="skill-popup-oc" class="skill-popup-input" min="0" max="99" value="0"
+            oninput="onPopupSkillInput()">
         </div>
         <div class="skill-popup-slot skill-popup-slot-livre">
           <span class="skill-popup-slot-icon">⭐</span>
           <span class="skill-popup-slot-label">Livre /<br>Melhoria</span>
-          <input type="number" id="skill-popup-livre" class="skill-popup-input" min="0" max="99" value="0" oninput="onPopupSkillInput()">
+          <input type="number" id="skill-popup-livre" class="skill-popup-input" min="0" max="99" value="0"
+            oninput="onPopupSkillInput()">
         </div>
       </div>
       <div class="skill-popup-total-row" id="skill-popup-total-row"></div>

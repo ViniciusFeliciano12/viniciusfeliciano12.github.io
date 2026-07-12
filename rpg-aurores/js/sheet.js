@@ -133,9 +133,9 @@ function preencherFicha(id, dados) {
     allSkills.forEach(sk => {
       const oldVal = dados[sk];
       if (oldVal !== undefined && oldVal !== '' &&
-          dados[sk + '_ip'] === undefined &&
-          dados[sk + '_oc'] === undefined &&
-          dados[sk + '_livre'] === undefined) {
+        dados[sk + '_ip'] === undefined &&
+        dados[sk + '_oc'] === undefined &&
+        dados[sk + '_livre'] === undefined) {
         const inp = c.querySelector(`[data-field="${sk}_livre"]`);
         if (inp) inp.value = parseInt(oldVal) || 0;
       }
@@ -179,7 +179,7 @@ function aplicarCamposRemoto(fichaId, dadosRemoto, nomeRemoto) {
     switch (key) {
       case '_foto': {
         const img = c.querySelector('.foto-preview-img');
-        const ph  = c.querySelector('.foto-placeholder-div');
+        const ph = c.querySelector('.foto-placeholder-div');
         if (dadosRemoto[key]) {
           if (img) { img.src = dadosRemoto[key]; img.style.display = 'block'; }
           if (ph) ph.style.display = 'none';
@@ -508,7 +508,7 @@ function switchSectionTab(btn, fichaId) {
 
 /* ═══ CRIATURAS MÁGICAS ═══════════════════════════════════════ */
 const CRIATURA_MAX_JOGADOR = 3;
-const _CRIATURA_NUMERAIS = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+const _CRIATURA_NUMERAIS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
 function _criaturaFichaId(lista) {
   return lista.closest('[id^="content-"]').id.replace('content-', '');
@@ -521,7 +521,7 @@ function _criaturaRenumerar(lista) {
     if (label) label.firstChild.textContent = 'Criatura ' + (_CRIATURA_NUMERAIS[i] || i + 1);
     // reatribui data-field com novo índice
     div.querySelectorAll('[data-field]').forEach(el => {
-      el.dataset.field = el.dataset.field.replace(/criatura_\d+_/, `criatura_${i+1}_`);
+      el.dataset.field = el.dataset.field.replace(/criatura_\d+_/, `criatura_${i + 1}_`);
     });
   });
 }
@@ -537,14 +537,14 @@ function criaturaRenderSlot(lista, index, dados, disabled) {
       ${disabled ? '' : '<button class="btn-del-criatura" title="Remover criatura">✕</button>'}
     </div>
     <div class="criatura-fields">
-      <div class="field"><label>Nome</label><input type="text" data-field="criatura_${index+1}_nome" placeholder="Ex: Picles…" ${disabled ? 'disabled' : ''}></div>
-      <div class="field"><label>Espécie</label><input type="text" data-field="criatura_${index+1}_especie" placeholder="Ex: Bowtruckle…" ${disabled ? 'disabled' : ''}></div>
-      <div class="field criatura-field-desc"><label>Descrição</label><textarea data-field="criatura_${index+1}_desc" placeholder="Aparência, comportamento, habilidades…" rows="2" ${disabled ? 'disabled' : ''}></textarea></div>
+      <div class="field"><label>Nome</label><input type="text" data-field="criatura_${index + 1}_nome" placeholder="Ex: Picles…" ${disabled ? 'disabled' : ''}></div>
+      <div class="field"><label>Espécie</label><input type="text" data-field="criatura_${index + 1}_especie" placeholder="Ex: Bowtruckle…" ${disabled ? 'disabled' : ''}></div>
+      <div class="field criatura-field-desc"><label>Descrição</label><textarea data-field="criatura_${index + 1}_desc" placeholder="Aparência, comportamento, habilidades…" rows="2" ${disabled ? 'disabled' : ''}></textarea></div>
     </div>`;
   if (dados) {
-    div.querySelector(`[data-field="criatura_${index+1}_nome"]`).value = dados.nome || '';
-    div.querySelector(`[data-field="criatura_${index+1}_especie"]`).value = dados.especie || '';
-    div.querySelector(`[data-field="criatura_${index+1}_desc"]`).value = dados.desc || '';
+    div.querySelector(`[data-field="criatura_${index + 1}_nome"]`).value = dados.nome || '';
+    div.querySelector(`[data-field="criatura_${index + 1}_especie"]`).value = dados.especie || '';
+    div.querySelector(`[data-field="criatura_${index + 1}_desc"]`).value = dados.desc || '';
   }
   div.querySelectorAll('[data-field]').forEach(el => {
     el.addEventListener('input', debounce(() => coletarDados(_criaturaFichaId(lista)), 600));
@@ -593,8 +593,8 @@ function criaturaPreencherDados(fichaId, fichaData) {
   lista.innerHTML = '';
   let i = 0;
   while (fichaData['criatura_' + (i + 1) + '_nome'] !== undefined ||
-         fichaData['criatura_' + (i + 1) + '_especie'] !== undefined ||
-         fichaData['criatura_' + (i + 1) + '_desc'] !== undefined) {
+    fichaData['criatura_' + (i + 1) + '_especie'] !== undefined ||
+    fichaData['criatura_' + (i + 1) + '_desc'] !== undefined) {
     criaturaRenderSlot(lista, i, {
       nome: fichaData['criatura_' + (i + 1) + '_nome'] || '',
       especie: fichaData['criatura_' + (i + 1) + '_especie'] || '',

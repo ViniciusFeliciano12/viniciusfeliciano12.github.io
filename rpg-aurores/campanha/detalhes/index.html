@@ -34,17 +34,23 @@
         <div id="auth-form-login">
           <input class="auth-input" type="email" id="auth-email" placeholder="seu@email.com" autocomplete="email">
           <div class="pass-wrap">
-            <input class="auth-input" type="password" id="auth-password" placeholder="Senha" autocomplete="current-password">
-            <button type="button" class="btn-olho" onclick="toggleSenha('auth-password',this)" title="Mostrar senha"></button>
+            <input class="auth-input" type="password" id="auth-password" placeholder="Senha"
+              autocomplete="current-password">
+            <button type="button" class="btn-olho" onclick="toggleSenha('auth-password',this)"
+              title="Mostrar senha"></button>
           </div>
           <button class="auth-btn" id="auth-login-btn" onclick="authLogin()">Entrar</button>
         </div>
         <div id="auth-form-signup" style="display:none">
-          <input class="auth-input" type="email" id="auth-signup-email" placeholder="seu@email.com" autocomplete="email">
-          <input class="auth-input" type="text" id="auth-signup-username" placeholder="Nome de usuário (opcional)" maxlength="40" autocomplete="username">
+          <input class="auth-input" type="email" id="auth-signup-email" placeholder="seu@email.com"
+            autocomplete="email">
+          <input class="auth-input" type="text" id="auth-signup-username" placeholder="Nome de usuário (opcional)"
+            maxlength="40" autocomplete="username">
           <div class="pass-wrap">
-            <input class="auth-input" type="password" id="auth-signup-password" placeholder="Senha (mínimo 6 chars)" autocomplete="new-password">
-            <button type="button" class="btn-olho" onclick="toggleSenha('auth-signup-password',this)" title="Mostrar senha"></button>
+            <input class="auth-input" type="password" id="auth-signup-password" placeholder="Senha (mínimo 6 chars)"
+              autocomplete="new-password">
+            <button type="button" class="btn-olho" onclick="toggleSenha('auth-signup-password',this)"
+              title="Mostrar senha"></button>
           </div>
           <button class="auth-btn" id="auth-signup-btn" onclick="authSignup()">Criar conta</button>
         </div>
@@ -61,7 +67,7 @@
       <div class="user-avatar-mini" id="user-avatar-mini"></div>
       <span class="user-email" id="user-email-display"></span>
       <span class="gm-badge" id="gm-badge" style="display:none">Mestre</span>
-      <a class="btn-painel" href="../" >← Campanhas</a>
+      <a class="btn-painel" href="../">← Campanhas</a>
       <a class="btn-painel" id="btn-perfil" href="../../perfil/" style="display:none">Perfil</a>
       <button class="btn-logout" onclick="authLogout()">Sair</button>
     </div>
@@ -79,7 +85,8 @@
             <span id="detail-status-badge" class="camp-status"></span>
           </div>
           <p id="detail-desc" class="camp-detail-desc"></p>
-          <p class="camp-detail-gm">Mestre: <span id="detail-gm-name"></span> &nbsp;·&nbsp; Sistema: <span id="detail-sistema"></span></p>
+          <p class="camp-detail-gm">Mestre: <span id="detail-gm-name"></span> &nbsp;·&nbsp; Sistema: <span
+              id="detail-sistema"></span></p>
         </div>
       </div>
 
@@ -107,7 +114,8 @@
       <div class="camp-panel escudo-panel" id="panel-escudo" style="display:none">
         <div class="escudo-toolbar">
           <div class="escudo-turno-track">
-            <button class="escudo-nav-btn" onclick="escudoTurnoAnterior()" title="Turno anterior" aria-label="Turno anterior">‹</button>
+            <button class="escudo-nav-btn" onclick="escudoTurnoAnterior()" title="Turno anterior"
+              aria-label="Turno anterior">‹</button>
             <div class="escudo-turno-display">
               <span class="escudo-rodada-pill">Rodada <strong id="escudo-rodada-valor">1</strong></span>
               <div class="escudo-turno-nome-row">
@@ -115,17 +123,21 @@
                 <span class="escudo-turno-nome" id="escudo-turno-atual">—</span>
               </div>
             </div>
-            <button class="escudo-nav-btn" onclick="escudoProximoTurno()" title="Próximo turno" aria-label="Próximo turno">›</button>
+            <button class="escudo-nav-btn" onclick="escudoProximoTurno()" title="Próximo turno"
+              aria-label="Próximo turno">›</button>
           </div>
           <div class="escudo-toolbar-acoes">
             <button class="escudo-btn" onclick="escudoReiniciarRodadas()">↺ Reiniciar Rodadas</button>
-            <button class="escudo-btn escudo-btn--perigo" onclick="escudoConfirmarReiniciarCombate()">🗑 Reiniciar Combate</button>
-            <button class="escudo-btn escudo-btn--destaque" onclick="abrirModalAddNpc()">+ Adicionar NPC/Monstro</button>
+            <button class="escudo-btn escudo-btn--perigo" onclick="escudoConfirmarReiniciarCombate()">🗑 Reiniciar
+              Combate</button>
+            <button class="escudo-btn escudo-btn--destaque" onclick="abrirModalAddNpc()">+ Adicionar
+              NPC/Monstro</button>
           </div>
         </div>
         <div id="escudo-content"></div>
         <div class="escudo-regras-footer" id="escudo-regras-footer">
-          <button class="escudo-regras-toggle" onclick="escudoToggleRegras('escudo-regras-footer')">📖 Resumo de Regras — Medidor de Estilo</button>
+          <button class="escudo-regras-toggle" onclick="escudoToggleRegras('escudo-regras-footer')">📖 Resumo de Regras
+            — Medidor de Estilo</button>
           <div class="escudo-regras-body gain-lose">
             <div>
               <h4 class="green">Ganha 1 nível quando:</h4>
@@ -149,7 +161,8 @@
           </div>
         </div>
         <div class="escudo-regras-footer" id="escudo-regras-footer-postura">
-          <button class="escudo-regras-toggle" onclick="escudoToggleRegras('escudo-regras-footer-postura')">🛡️ Resumo de Regras — Postura vs Feitiços</button>
+          <button class="escudo-regras-toggle" onclick="escudoToggleRegras('escudo-regras-footer-postura')">🛡️ Resumo
+            de Regras — Postura vs Feitiços</button>
           <div class="escudo-regras-body gain-lose">
             <div>
               <h4 class="green">Feitiços de Dano (Colisão)</h4>
@@ -167,7 +180,7 @@
                 <li>Bloqueio bem-sucedido: consome 1d6 de Postura mesmo assim.</li>
                 <li>Bloqueio falho: causa 2d6 de Postura.</li>
                 <li><strong>⚠ O efeito de controle (congelar, atordoar etc.) só entra se esse dano ZERAR a Postura
-                  do alvo.</strong> Sobrou Postura? Só perdeu Postura, sem efeito.</li>
+                    do alvo.</strong> Sobrou Postura? Só perdeu Postura, sem efeito.</li>
                 <li><strong>Quebrada (0):</strong> acerta automático, sem exceção.</li>
               </ul>
             </div>
@@ -207,7 +220,8 @@
       <div id="add-ficha-error" class="auth-error" style="display:none"></div>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" onclick="fecharModalAddFicha()">Cancelar</button>
-        <button class="modal-btn modal-btn-confirm" id="btn-confirmar-add-ficha" disabled onclick="confirmarAddFicha()">Vincular ficha</button>
+        <button class="modal-btn modal-btn-confirm" id="btn-confirmar-add-ficha" disabled
+          onclick="confirmarAddFicha()">Vincular ficha</button>
       </div>
     </div>
   </div>
@@ -216,7 +230,8 @@
   <div class="modal-overlay" id="modal-add-npc">
     <div class="modal-box camp-modal camp-modal--wide">
       <h3>Adicionar NPC/Monstro ao combate</h3>
-      <p class="camp-modal-subtitle">Selecione uma ficha de sua autoria para clonar como NPC transitório (não altera a ficha original):</p>
+      <p class="camp-modal-subtitle">Selecione uma ficha de sua autoria para clonar como NPC transitório (não altera a
+        ficha original):</p>
       <div class="ficha-picker" id="add-npc-picker">
         <div class="camp-loading" id="add-npc-loading">Carregando fichas…</div>
         <div id="add-npc-empty" style="display:none"></div>
@@ -225,7 +240,8 @@
       <div id="add-npc-error" class="auth-error" style="display:none"></div>
       <div class="modal-actions">
         <button class="modal-btn modal-btn-cancel" onclick="fecharModalAddNpc()">Cancelar</button>
-        <button class="modal-btn modal-btn-confirm" id="btn-confirmar-add-npc" disabled onclick="confirmarAddNpc()">Adicionar ao combate</button>
+        <button class="modal-btn modal-btn-confirm" id="btn-confirmar-add-npc" disabled
+          onclick="confirmarAddNpc()">Adicionar ao combate</button>
       </div>
     </div>
   </div>
@@ -265,10 +281,15 @@
         <div class="ccnote-body">
           <p class="ccnote-title">Regras de Luta Corporal</p>
           <ul class="ccnote-list">
-            <li><strong>Adjacência obrigatória:</strong> o personagem precisa estar ao alcance imediato do adversário para realizar um ataque físico.</li>
-            <li><strong>Perícia:</strong> rola com <em>Luta Corporal</em> (não Magia de Combate). As mesmas categorias de sucesso se aplicam: Crítico, Extremo, Difícil, Regular, Falha e Falha Crítica.</li>
-            <li><strong>Dano e Postura:</strong> declare antes de rolar se o golpe vai na <em>Postura</em> (aba Efeito / Guarda) ou na <em>Vida</em> (aba Ataque). As mesmas tabelas de dano dos feitiços são usadas.</li>
-            <li><strong>Assinatura Corporal:</strong> para receber o bônus de Assinatura, o jogador deve ter definido previamente um <em>golpe específico de alguma arte marcial</em> (ex.: Harai Goshi, Cruzado de Esquerda, Kick Giratório). Esse golpe não pode ter sua faixa de alcance aumentada — é sempre adjacente.</li>
+            <li><strong>Adjacência obrigatória:</strong> o personagem precisa estar ao alcance imediato do adversário
+              para realizar um ataque físico.</li>
+            <li><strong>Perícia:</strong> rola com <em>Luta Corporal</em> (não Magia de Combate). As mesmas categorias
+              de sucesso se aplicam: Crítico, Extremo, Difícil, Regular, Falha e Falha Crítica.</li>
+            <li><strong>Dano e Postura:</strong> declare antes de rolar se o golpe vai na <em>Postura</em> (aba Efeito /
+              Guarda) ou na <em>Vida</em> (aba Ataque). As mesmas tabelas de dano dos feitiços são usadas.</li>
+            <li><strong>Assinatura Corporal:</strong> para receber o bônus de Assinatura, o jogador deve ter definido
+              previamente um <em>golpe específico de alguma arte marcial</em> (ex.: Harai Goshi, Cruzado de Esquerda,
+              Kick Giratório). Esse golpe não pode ter sua faixa de alcance aumentada — é sempre adjacente.</li>
           </ul>
         </div>
       </div>
@@ -370,8 +391,7 @@
             <span class="atk-label">Assinatura</span>
             <span class="atk-sub">+1d4 Postura extra</span>
           </button>
-          <button class="attack-type-btn" data-etype="assinatura_ef_acertou"
-            onclick="selectEffectType(this,'${id}')">
+          <button class="attack-type-btn" data-etype="assinatura_ef_acertou" onclick="selectEffectType(this,'${id}')">
             <span class="atk-icon">⚡</span>
             <span class="atk-label">Assinatura + Acertou</span>
             <span class="atk-sub">2d6 + 1d4 Postura</span>

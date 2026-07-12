@@ -406,9 +406,9 @@ function _authBotoes(disabled) {
 
 // Atualiza o indicador de campanha no export-bar para a ficha ativa
 function _atualizarDisplayCampanha(fichaId) {
-  const labelEl  = document.getElementById('ficha-camp-label');
-  const textEl   = document.getElementById('ficha-camp-text');
-  const btnEl    = document.getElementById('btn-vincular-camp');
+  const labelEl = document.getElementById('ficha-camp-label');
+  const textEl = document.getElementById('ficha-camp-text');
+  const btnEl = document.getElementById('btn-vincular-camp');
   if (!labelEl) return;
 
   // Oculta em modo leitura (ficha de outro), sem config ou quando o GM está vendo ficha alheia
@@ -442,10 +442,10 @@ let _vincularCampSelecionada = null;
 
 async function abrirModalVincular() {
   _vincularCampSelecionada = null;
-  const btn    = document.getElementById('btn-confirmar-vincular');
-  const errEl  = document.getElementById('modal-vincular-error');
+  const btn = document.getElementById('btn-confirmar-vincular');
+  const errEl = document.getElementById('modal-vincular-error');
   const listEl = document.getElementById('modal-vincular-list');
-  if (btn)   btn.disabled = true;
+  if (btn) btn.disabled = true;
   if (errEl) errEl.style.display = 'none';
   if (listEl) listEl.innerHTML = '<p style="color:var(--ink-soft);font-size:13px;padding:8px 0">Carregando campanhas…</p>';
   document.getElementById('modal-vincular-camp').classList.add('open');
@@ -501,7 +501,7 @@ function fecharModalVincular() {
 
 async function confirmarVincular() {
   if (!_vincularCampSelecionada || !abaAtiva) return;
-  const btn   = document.getElementById('btn-confirmar-vincular');
+  const btn = document.getElementById('btn-confirmar-vincular');
   const errEl = document.getElementById('modal-vincular-error');
   btn.disabled = true;
   btn.textContent = 'Vinculando…';

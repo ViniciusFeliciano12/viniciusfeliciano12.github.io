@@ -215,7 +215,7 @@ async function initPerfil() {
 
     // dbRegisterUser() em dbInit não é aguardado; esperá-lo aqui garante que o
     // Firestore SDK já estabeleceu conexão com o servidor antes da leitura source:server.
-    await dbRegisterUser().catch(() => {});
+    await dbRegisterUser().catch(() => { });
 
     const perfil = await dbGetUser(user.uid).catch(() => null);
     const inicial = (perfil?.username || user.email || '?')[0].toUpperCase();
