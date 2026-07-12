@@ -10,7 +10,8 @@
   const PAGES = [
     { key: 'ficha',     label: '⚡ Ficha',     slug: 'ficha/' },
     { key: 'campanha',  label: '📢 Campanha',  slug: 'campanha/' },
-    { key: 'regras',    label: '📖 Regras',    slug: 'regras/' },
+    { key: 'regras',    label: '📖 Regras de Combate',  slug: 'regras/' },
+    { key: 'regras-criacao', label: '📝 Regras de Criação', slug: 'regras-criacao/' },
     { key: 'glossario', label: '📚 Glossário', slug: 'glossario/' },
     { key: 'itens',     label: '🧪 Itens',     slug: 'itens/' },
   ];

@@ -44,10 +44,36 @@
   padding: 6px 14px;
   margin: 28px -24px 16px;
   border-left: 4px solid var(--gold);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .rules-sec-title:first-child {
   margin-top: 0
+}
+
+.rules-sec-title::after {
+  content: "▾";
+  font-size: 11px;
+  color: var(--gold);
+  transition: transform .2s ease;
+  flex-shrink: 0;
+}
+
+.rules-sec-title.is-collapsed::after {
+  transform: rotate(-90deg);
+}
+
+.rules-sec-content {
+  overflow: hidden;
+}
+
+.rules-sec-content.is-collapsed {
+  display: none;
 }
 
 .rule-card {

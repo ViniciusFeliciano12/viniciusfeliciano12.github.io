@@ -1,0 +1,634 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regras de Criação — Aurores</title>
+  <link rel="stylesheet" href="../css/base.css?v=202607122000">
+  <link rel="stylesheet" href="../css/content.css?v=202607122000">
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="../js/firebase-config.js?v=202607122000"></script>
+  <script src="../js/db.js?v=202607122000"></script>
+  <script src="../js/header.js?v=202607122000" data-page="regras-criacao"></script>
+</head>
+
+<body>
+
+  <!-- ═══ TOP BAR ════════════════════════════════════════════════ -->
+  <div class="app-topbar">
+    <div class="page-nav"></div>
+    <div class="user-bar" id="user-bar" style="display:none"></div>
+  </div>
+
+  <!-- ═══ REGRAS DE CRIAÇÃO PAGE ══════════════════════════════════════════════ -->
+  <div class="page active" id="page-regras-criacao">
+    <div class="rules-wrap">
+      <div class="rules-header">
+        <h1>Regras de Criação de Ficha</h1>
+        <p>Sistema d100 — Adaptação Auror / HP RPG</p>
+      </div>
+      <div class="rules-body">
+
+        <!-- DISTRIBUIÇÃO E EVOLUÇÃO -->
+        <h2 class="rules-sec-title">Distribuição e Evolução (Criação)</h2>
+        <div class="rule-card">
+              <ul style="font-size:12.5px;margin-bottom:12px">
+                <li><strong>Atributos base:</strong> Role 3d6 e multiplique por 5.</li>
+                <li><strong>Ocupação:</strong> Pontos profissionais são <strong>EDU × 4</strong>, distribuídos
+                  <strong>apenas</strong> entre as 8 perícias fixas da sua <strong>Especialização</strong> (veja
+                  abaixo).
+                </li>
+                <li><strong>Interesse Pessoal:</strong> Pontos extras são <strong>INT × 2</strong>, livres para qualquer
+                  perícia da ficha.</li>
+                <li><strong>Limite:</strong> Nenhuma perícia pode passar de 75% na criação.</li>
+              </ul>
+        </div>
+
+        <!-- ESPECIALIZAÇÕES DE AUROR -->
+        <h2 class="rules-sec-title">Especializações de Auror</h2>
+        <div class="rule-card bordered-gold" style="margin-bottom:14px">
+          <p style="font-size:12.5px;line-height:1.6">
+            Toda Ficha de Auror escolhe <strong>uma Especialização</strong> na criação. Ela define exatamente quais
+            <strong>8 perícias</strong> recebem os pontos de Ocupação (<strong>EDU × 4</strong>) — distribua os pontos
+            livremente entre essas 8, respeitando o limite de 75% na criação. Os pontos de Interesse Pessoal
+            (<strong>INT × 2</strong>) continuam livres para qualquer perícia da ficha, inclusive fora da lista da
+            Especialização.
+            São <strong>20 Especializações</strong> organizadas em 4 linhas temáticas.
+          </p>
+        </div>
+        <div class="spec-category-title">⚔ Linha de Combate <small>— Aurores treinados para confronto direto — magia
+            ofensiva, defesa e leitura de postura.</small></div>
+        <div class="spec-grid">
+          <div class="spec-card">
+            <h4>🗲 Duelista de Linha</h4>
+            <p class="spec-flavor">O Auror clássico de duelo formal. Troca feitiços cara a cara e lê a guarda do
+              oponente como ninguém.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Magia de Combate</span>
+              <span class="spec-skill-tag">Defesa/Protego</span>
+              <span class="spec-skill-tag">Esquiva</span>
+              <span class="spec-skill-tag">Conjuração</span>
+              <span class="spec-skill-tag">Luta Corporal</span>
+              <span class="spec-skill-tag">Encantamento</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Transfiguração</span>
+            </div>
+            <p class="spec-note">Foco no <strong>Medidor de Estilo</strong>: sobe rank rápido por variar feitiços em
+              duelo direto.</p>
+          </div>
+          <div class="spec-card">
+            <h4>🎯 Artilheiro de Cerco</h4>
+            <p class="spec-flavor">Pensa em distância, ângulo e overcast. Prefere abater o alvo antes que ele chegue
+              perto.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Magia de Combate</span>
+              <span class="spec-skill-tag">Arremessar</span>
+              <span class="spec-skill-tag">Encantamento</span>
+              <span class="spec-skill-tag">Conjuração</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Atletismo/Pular</span>
+              <span class="spec-skill-tag">Teoria da Magia/Runas</span>
+              <span class="spec-skill-tag">Esquiva</span>
+            </div>
+            <p class="spec-note"><strong>Alcance Ampliado:</strong> ataca sem nenhuma Desvantagem até <strong>12
+                quadrados (18m)</strong> — o dobro do alcance Curto normal, cobrindo o que seria a faixa Média para
+              qualquer outro Auror. A partir de <strong>13 quadrados</strong> (faixa Longa), a penalidade de distância
+              volta a valer normalmente. Também domina o <strong>Overcast</strong> como ninguém.</p>
+          </div>
+          <div class="spec-card">
+            <h4>💀 Caçador das Trevas</h4>
+            <p class="spec-flavor">Conhece as Artes das Trevas para melhor combatê-las. Anda na linha entre o lícito e o
+              necessário.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Magia das Trevas</span>
+              <span class="spec-skill-tag">Magia de Combate</span>
+              <span class="spec-skill-tag">Intimidação</span>
+              <span class="spec-skill-tag">Furtividade</span>
+              <span class="spec-skill-tag">Rastreamento Mágico</span>
+              <span class="spec-skill-tag">História da Magia</span>
+              <span class="spec-skill-tag">Defesa/Protego</span>
+              <span class="spec-skill-tag">Esquiva</span>
+            </div>
+            <p class="spec-note">Único com acesso confortável a <strong>Magia das Trevas</strong> (01% base); abuso tem
+              consequências narrativas a critério do Mestre.</p>
+          </div>
+          <div class="spec-card">
+            <h4>👊 Combatente Corpo-a-Corpo</h4>
+            <p class="spec-flavor">Quando a varinha falha ou é desarmada, este Auror já está com os punhos prontos.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Luta Corporal</span>
+              <span class="spec-skill-tag">Atletismo/Pular</span>
+              <span class="spec-skill-tag">Esquiva</span>
+              <span class="spec-skill-tag">Natação</span>
+              <span class="spec-skill-tag">Defesa/Protego</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Arremessar</span>
+              <span class="spec-skill-tag">Sobrevivência</span>
+            </div>
+            <p class="spec-note">Recupera Postura com facilidade via <strong>Ataque após Esquiva</strong> e bloqueios
+              físicos.</p>
+          </div>
+          <div class="spec-card spec-card--solo">
+            <h4>🧹 Cavaleiro de Vassoura (Aéreo)</h4>
+            <p class="spec-flavor">Leva o duelo para o ar. Combina manobras aéreas com magia de combate em pleno voo.
+            </p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Voo com Vassoura</span>
+              <span class="spec-skill-tag">Magia de Combate</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Arremessar</span>
+              <span class="spec-skill-tag">Esquiva</span>
+              <span class="spec-skill-tag">Atletismo/Pular</span>
+              <span class="spec-skill-tag">Encantamento</span>
+              <span class="spec-skill-tag">Conjuração</span>
+            </div>
+            <p class="spec-note">Flanqueios aéreos contam em dobro para fins de <strong>Flanqueio Perfeito</strong> no
+              Medidor de Estilo, a critério do Mestre.</p>
+          </div>
+        </div>
+        <div class="spec-category-title">🔍 Linha de Investigação <small>— Aurores que resolvem o caso com a mente —
+            perícia, dedução e conhecimento arcano.</small></div>
+        <div class="spec-grid">
+          <div class="spec-card">
+            <h4>🧪 Investigador Forense</h4>
+            <p class="spec-flavor">Lê a cena do crime mágico como um livro aberto: vestígios, feitiços residuais e
+              provas.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Usar Biblioteca</span>
+              <span class="spec-skill-tag">Psicologia</span>
+              <span class="spec-skill-tag">Disfarce/Polissuco</span>
+              <span class="spec-skill-tag">Rastreamento Mágico</span>
+              <span class="spec-skill-tag">Leis do Ministério</span>
+              <span class="spec-skill-tag">Escutar</span>
+              <span class="spec-skill-tag">Arqueologia/Geologia</span>
+            </div>
+            <p class="spec-note">Excelente em <strong>Ações de Cenário</strong>; reverter o cenário com Sucesso Maior é
+              rotina.</p>
+          </div>
+          <div class="spec-card">
+            <h4>⚰ Especialista em Necro-investigação</h4>
+            <p class="spec-flavor">Investiga magia das trevas, maldições e mortes suspeitas sem se deixar corromper pelo
+              tema.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Magia das Trevas</span>
+              <span class="spec-skill-tag">História da Magia</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Psicologia</span>
+              <span class="spec-skill-tag">Rastreamento Mágico</span>
+              <span class="spec-skill-tag">Usar Biblioteca</span>
+              <span class="spec-skill-tag">Antiguidades Mágicas</span>
+              <span class="spec-skill-tag">Intimidação</span>
+            </div>
+            <p class="spec-note">Resistente a abalos psicológicos ao investigar cenas envolvendo Magia das Trevas (bônus
+              narrativo a critério do Mestre).</p>
+          </div>
+          <div class="spec-card">
+            <h4>🐺 Rastreador Mágico</h4>
+            <p class="spec-flavor">Segue trilhas que ninguém mais vê — mágicas, animais ou humanas — por qualquer
+              terreno.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Rastreamento Mágico</span>
+              <span class="spec-skill-tag">Sobrevivência</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Furtividade</span>
+              <span class="spec-skill-tag">Trato de Criaturas</span>
+              <span class="spec-skill-tag">Escutar</span>
+              <span class="spec-skill-tag">Atletismo/Pular</span>
+              <span class="spec-skill-tag">Arremessar</span>
+            </div>
+            <p class="spec-note">Praticamente nunca perde um alvo em fuga; ideal para perseguições e Ações de Cenário ao
+              ar livre.</p>
+          </div>
+          <div class="spec-card">
+            <h4>📐 Analista Arcano</h4>
+            <p class="spec-flavor">Decifra runas, calcula aritmancia e reconstrói feitiços a partir de fragmentos
+              teóricos.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Teoria da Magia/Runas</span>
+              <span class="spec-skill-tag">Aritmancia</span>
+              <span class="spec-skill-tag">Usar Biblioteca</span>
+              <span class="spec-skill-tag">Antiguidades Mágicas</span>
+              <span class="spec-skill-tag">Arqueologia/Geologia</span>
+              <span class="spec-skill-tag">Alquimia</span>
+              <span class="spec-skill-tag">Encantamento</span>
+              <span class="spec-skill-tag">Conjuração</span>
+            </div>
+            <p class="spec-note">Referência da equipe para identificar feitiços desconhecidos e objetos amaldiçoados.
+            </p>
+          </div>
+          <div class="spec-card spec-card--solo">
+            <h4>📡 Agente de Inteligência</h4>
+            <p class="spec-flavor">Coleta informação antes que a missão comece — contatos, escutas e disfarces.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Escutar</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Disfarce/Polissuco</span>
+              <span class="spec-skill-tag">Lábia</span>
+              <span class="spec-skill-tag">Psicologia</span>
+              <span class="spec-skill-tag">Línguas Mágicas</span>
+              <span class="spec-skill-tag">Usar Biblioteca</span>
+              <span class="spec-skill-tag">Leis do Ministério</span>
+            </div>
+            <p class="spec-note">Prefere resolver a missão com informação antes que ela vire um confronto.</p>
+          </div>
+        </div>
+        <div class="spec-category-title">🗣 Linha Social <small>— Aurores que resolvem com palavras o que outros
+            resolveriam com feitiços.</small></div>
+        <div class="spec-grid">
+          <div class="spec-card">
+            <h4>🏛 Diplomata do Ministério</h4>
+            <p class="spec-flavor">Ponte entre o Ministério, outras nações mágicas e o mundo trouxa. Vive de protocolo e
+              acordo.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Charme</span>
+              <span class="spec-skill-tag">Lábia</span>
+              <span class="spec-skill-tag">Leis do Ministério</span>
+              <span class="spec-skill-tag">Psicologia</span>
+              <span class="spec-skill-tag">Línguas Mágicas</span>
+              <span class="spec-skill-tag">Estudo dos Trouxas</span>
+              <span class="spec-skill-tag">Arte/Criação</span>
+              <span class="spec-skill-tag">Intimidação</span>
+            </div>
+            <p class="spec-note">Mestre em transformar confrontos em <strong>Ações de Cenário</strong> sociais, evitando
+              combate quando possível.</p>
+          </div>
+          <div class="spec-card">
+            <h4>🎭 Infiltrador Social</h4>
+            <p class="spec-flavor">Entra em festas, repartições e círculos fechados sem nunca ser quem diz que é.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Disfarce/Polissuco</span>
+              <span class="spec-skill-tag">Esconder</span>
+              <span class="spec-skill-tag">Furtividade</span>
+              <span class="spec-skill-tag">Prestidigitação</span>
+              <span class="spec-skill-tag">Psicologia</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Atletismo/Pular</span>
+              <span class="spec-skill-tag">Luta Corporal</span>
+            </div>
+            <p class="spec-note">A <strong>Aparatação</strong> para flanco/costas é a assinatura tática quando o
+              disfarce cai.</p>
+          </div>
+          <div class="spec-card">
+            <h4>🕊 Negociador de Crise</h4>
+            <p class="spec-flavor">Entra em cena quando alguém está prestes a fazer algo irreversível e a missão é
+              evitar isso.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Lábia</span>
+              <span class="spec-skill-tag">Psicologia</span>
+              <span class="spec-skill-tag">Intimidação</span>
+              <span class="spec-skill-tag">Charme</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Leis do Ministério</span>
+              <span class="spec-skill-tag">Escutar</span>
+              <span class="spec-skill-tag">Defesa/Protego</span>
+            </div>
+            <p class="spec-note">Especialista em desescalar confrontos antes que cheguem ao Medidor de Estilo.</p>
+          </div>
+          <div class="spec-card">
+            <h4>🌐 Especialista em Trouxas</h4>
+            <p class="spec-flavor">Vive na fronteira entre os dois mundos, resolvendo incidentes que envolvem
+              não-bruxos.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Estudo dos Trouxas</span>
+              <span class="spec-skill-tag">Disfarce/Polissuco</span>
+              <span class="spec-skill-tag">Charme</span>
+              <span class="spec-skill-tag">Lábia</span>
+              <span class="spec-skill-tag">Prestidigitação</span>
+              <span class="spec-skill-tag">Arte/Criação</span>
+              <span class="spec-skill-tag">Línguas Mágicas</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+            </div>
+            <p class="spec-note">Referência da equipe em obliviação social, encobrimento de incidentes e trânsito
+              discreto entre os mundos.</p>
+          </div>
+          <div class="spec-card spec-card--solo">
+            <h4>🦉 Mediador Mágico-Criatura</h4>
+            <p class="spec-flavor">Fala a língua de criaturas mágicas e comunidades não-humanas, evitando conflitos por
+              tradução.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Trato de Criaturas</span>
+              <span class="spec-skill-tag">Línguas Mágicas</span>
+              <span class="spec-skill-tag">Charme</span>
+              <span class="spec-skill-tag">Psicologia</span>
+              <span class="spec-skill-tag">Herbologia</span>
+              <span class="spec-skill-tag">Sobrevivência</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Lábia</span>
+            </div>
+            <p class="spec-note">Essencial em missões envolvendo centauros, duendes, gigantes e outras comunidades
+              mágicas.</p>
+          </div>
+        </div>
+        <div class="spec-category-title">🌲 Linha de Campo <small>— Aurores que vivem fora dos escritórios —
+            sobrevivência, natureza e cura em condições adversas.</small></div>
+        <div class="spec-grid">
+          <div class="spec-card">
+            <h4>🏕 Batedor de Fronteira</h4>
+            <p class="spec-flavor">Vive em território hostil, mapeando rotas e sobrevivendo onde o Ministério não
+              alcança.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Sobrevivência</span>
+              <span class="spec-skill-tag">Furtividade</span>
+              <span class="spec-skill-tag">Esconder</span>
+              <span class="spec-skill-tag">Rastreamento Mágico</span>
+              <span class="spec-skill-tag">Atletismo/Pular</span>
+              <span class="spec-skill-tag">Natação</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Arremessar</span>
+            </div>
+            <p class="spec-note">Ideal para missões longas em florestas, montanhas e fronteiras mágicas isoladas.</p>
+          </div>
+          <div class="spec-card">
+            <h4>🐉 Magizoologista</h4>
+            <p class="spec-flavor">Trata com criaturas e ambientes selvagens. Tão à vontade numa floresta quanto num
+              duelo.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Trato de Criaturas</span>
+              <span class="spec-skill-tag">Herbologia</span>
+              <span class="spec-skill-tag">Sobrevivência</span>
+              <span class="spec-skill-tag">Rastreamento Mágico</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Arremessar</span>
+              <span class="spec-skill-tag">Natação</span>
+              <span class="spec-skill-tag">Voo com Vassoura</span>
+            </div>
+            <p class="spec-note">Forte em Ações de Cenário ao ar livre e contra criaturas mágicas fora do padrão humano.
+            </p>
+          </div>
+          <div class="spec-card">
+            <h4>🌿 Curandeiro de Campo</h4>
+            <p class="spec-flavor">Mantém a equipe em pé longe de qualquer St. Mungo's, improvisando tratamento com o
+              que a natureza oferece.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Curandeirismo</span>
+              <span class="spec-skill-tag">Herbologia</span>
+              <span class="spec-skill-tag">Poções</span>
+              <span class="spec-skill-tag">Psicologia</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Usar Biblioteca</span>
+              <span class="spec-skill-tag">Alquimia</span>
+              <span class="spec-skill-tag">Sobrevivência</span>
+            </div>
+            <p class="spec-note">Em combate, prioriza <strong>Ação de Foco</strong> para recuperar Postura própria e dos
+              aliados.</p>
+          </div>
+          <div class="spec-card">
+            <h4>⚗ Alquimista de Campo</h4>
+            <p class="spec-flavor">Prepara poções e reagentes improvisados em campo, transformando ingredientes locais
+              em soluções táticas.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Alquimia</span>
+              <span class="spec-skill-tag">Poções</span>
+              <span class="spec-skill-tag">Herbologia</span>
+              <span class="spec-skill-tag">Teoria da Magia/Runas</span>
+              <span class="spec-skill-tag">Usar Biblioteca</span>
+              <span class="spec-skill-tag">Curandeirismo</span>
+              <span class="spec-skill-tag">Conjuração</span>
+              <span class="spec-skill-tag">Arqueologia/Geologia</span>
+            </div>
+            <p class="spec-note">Pode preparar contravenenos e poções de emergência mesmo sem laboratório, a critério do
+              Mestre.</p>
+          </div>
+          <div class="spec-card spec-card--solo">
+            <h4>🏺 Explorador de Ruínas</h4>
+            <p class="spec-flavor">Adentra túmulos, templos e ruínas esquecidas em busca de relíquias e respostas
+              históricas.</p>
+            <div class="spec-skills">
+              <span class="spec-skill-tag">Arqueologia/Geologia</span>
+              <span class="spec-skill-tag">Antiguidades Mágicas</span>
+              <span class="spec-skill-tag">Sobrevivência</span>
+              <span class="spec-skill-tag">Esconder</span>
+              <span class="spec-skill-tag">Percepção/Revelare</span>
+              <span class="spec-skill-tag">Rastreamento Mágico</span>
+              <span class="spec-skill-tag">História da Magia</span>
+              <span class="spec-skill-tag">Furtividade</span>
+            </div>
+            <p class="spec-note">Especialista em detectar e desarmar armadilhas mágicas antigas em ruínas e tumbas.</p>
+          </div>
+        </div>
+
+        <!-- PATENTES DO MINISTÉRIO -->
+        <h2 class="rules-sec-title">Patentes do Ministério</h2>
+        <div class="rule-card bordered-gold" style="margin-bottom:14px">
+          <p style="font-size:12.5px;line-height:1.6">
+            Todo Auror possui uma <strong>Patente</strong> dentro do Departamento de Execução das Leis da Magia,
+            que reflete sua experiência, confiabilidade e nível de acesso ao arsenal do Ministério.
+            A patente evolui conforme o Auror demonstra resultados em campo — decisão narrativa do Mestre.
+            A patente também determina quais <strong>itens de missão</strong> o Auror pode requisitar antes de cada
+            operação.
+          </p>
+        </div>
+
+        <div class="rule-card" style="margin-bottom:14px;border-left:4px solid var(--gold)">
+          <h4 class="gold">Sistema de Progressão de Patentes</h4>
+          <p style="font-size:12.5px;margin-bottom:10px">As patentes não são permanentes — elas evoluem conforme você
+            completa missões e demonstra competência em campo. Cada missão contribui para sua <strong>Porcentagem de
+              Experiência de Patente</strong>, que vai de 0% a 100%.</p>
+          <ul style="font-size:12.5px;margin-bottom:10px">
+            <li><strong>Durante as missões:</strong> A cada operação bem-sucedida, o Mestre atribui uma porcentagem
+              baseada no desempenho. (tipicamente 5–25% por missão, dependendo da dificuldade e execução).</li>
+            <li><strong>Progresso acumulativo:</strong> A porcentagem é acumulada na sua patente atual. Você pode
+              acompanhar o progresso na sua ficha de Auror.</li>
+            <li><strong>Ao atingir 100%:</strong> Você sobe automaticamente para a próxima patente. A porcentagem reseta
+              a 0% na nova patente, e você imediatamente ganha acesso aos itens do novo rank.</li>
+            <li><strong>Demissão ou falhas críticas:</strong> A critério do Mestre, falhas graves em combate ou escolhas
+              questionáveis podem reduzir a porcentagem ou até recuar uma patente.</li>
+          </ul>
+          <div class="school-special" style="margin-top:10px">
+            <strong>Exemplo:</strong> Um Cadete com 60% de experiência completa uma missão média e recebe +30%. Agora
+            tem 90%. Na próxima missão bem-sucedida com +15%, atinge 105% e é promovido a Investigador (começa com 5% em
+            Investigador).
+          </div>
+        </div>
+
+        <div class="rule-card bordered-gold" style="margin-bottom:24px">
+          <h4 class="gold">Hierarquia de Patentes</h4>
+          <div class="patentes-lista">
+            <div class="patente-row patente-cadete">
+              <span class="patente-insignia">🔵</span>
+              <div class="patente-row-body">
+                <div class="patente-row-header">
+                  <strong class="patente-nome">Cadete</strong>
+                  <span class="patente-rank-badge">Rank 1</span>
+                  <span class="patente-acesso">Acesso: Rank 1</span>
+                </div>
+                <p class="patente-desc">Auror em treinamento supervisionado. Ainda não possui autonomia operacional plena.
+                  Acesso apenas ao equipamento básico de campo.</p>
+              </div>
+            </div>
+            <div class="patente-row patente-investigador">
+              <span class="patente-insignia">🟢</span>
+              <div class="patente-row-body">
+                <div class="patente-row-header">
+                  <strong class="patente-nome">Investigador</strong>
+                  <span class="patente-rank-badge">Rank 2</span>
+                  <span class="patente-acesso">Acesso: Rank 1–2</span>
+                </div>
+                <p class="patente-desc">Auror certificado para missões de baixo a médio risco. Trabalha de forma
+                  semi-independente com supervisão ocasional.</p>
+              </div>
+            </div>
+            <div class="patente-row patente-auror">
+              <span class="patente-insignia">🟡</span>
+              <div class="patente-row-body">
+                <div class="patente-row-header">
+                  <strong class="patente-nome">Auror</strong>
+                  <span class="patente-rank-badge">Rank 3</span>
+                  <span class="patente-acesso">Acesso: Rank 1–3</span>
+                </div>
+                <p class="patente-desc">Agente operacional pleno. Autorizado a conduzir missões de alto risco de forma
+                  independente e liderar esquadrões em campo.</p>
+              </div>
+            </div>
+            <div class="patente-row patente-inspetor">
+              <span class="patente-insignia">🟠</span>
+              <div class="patente-row-body">
+                <div class="patente-row-header">
+                  <strong class="patente-nome">Inspetor</strong>
+                  <span class="patente-rank-badge">Rank 4</span>
+                  <span class="patente-acesso">Acesso: Rank 1–4</span>
+                </div>
+                <p class="patente-desc">Veterano com histórico em operações críticas. Autorizado a requisitar
+                  equipamentos estratégicos de uso restrito.</p>
+              </div>
+            </div>
+            <div class="patente-row patente-comandante">
+              <span class="patente-insignia">🔴</span>
+              <div class="patente-row-body">
+                <div class="patente-row-header">
+                  <strong class="patente-nome">Comandante</strong>
+                  <span class="patente-rank-badge">Rank 5</span>
+                  <span class="patente-acesso">Acesso: Rank 1–5</span>
+                </div>
+                <p class="patente-desc">Autoridade máxima de campo no Ministério. Acesso irrestrito ao arsenal
+                  completo. Decide o destino de missões críticas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MÉTODOS DE ENSINO (NACIONALIDADES) -->
+        <h2 class="rules-sec-title">Métodos de Ensino (Nacionalidades)</h2>
+        <div class="rule-card bordered-crimson" style="margin-bottom:14px">
+          <p style="font-size:12.5px;line-height:1.6">
+            O Método de Ensino define onde e como o seu Auror estudou e concede <strong>bônus fixos de perícia e/ou
+              PM</strong>,
+            refletindo a tradição mágica de cada região. Esses bônus são <strong>somados</strong> aos valores finais
+            após a distribuição de Ocupação e Interesse Pessoal, e <strong>podem</strong> ultrapassar o limite de 75% da
+            criação
+            (o limite vale apenas para a distribuição de pontos, não para o bônus de Método de Ensino).
+          </p>
+        </div>
+        <div class="spec-grid">
+
+          <div class="school-card">
+            <h4>🦁 Hogwarts <span style="font-size:11px;color:var(--ink-soft);font-weight:400">— Reino Unido</span></h4>
+            <p class="school-flavor">Tradição equilibrada entre as quatro casas; formação generalista e versátil.</p>
+            <ul class="school-bonus-list">
+              <li><strong>+10%</strong> em Encantamento <em>ou</em> Defesa/Protego (escolha na criação)</li>
+              <li><strong>+5%</strong> em Magia de Combate</li>
+            </ul>
+          </div>
+
+          <div class="school-card">
+            <h4>🦅 Ilvermorny <span style="font-size:11px;color:var(--ink-soft);font-weight:400">— Estados Unidos</span>
+            </h4>
+            <p class="school-flavor">Escola jovem e pragmática, conhecida por duelistas rápidos e variantes de feitiço
+              próprias.</p>
+            <ul class="school-bonus-list">
+              <li><strong>+10%</strong> em Magia de Combate</li>
+              <li><strong>+5%</strong> em Conjuração</li>
+            </ul>
+          </div>
+
+          <div class="school-card">
+            <h4>🌸 Beauxbatons <span style="font-size:11px;color:var(--ink-soft);font-weight:400">— França</span></h4>
+            <p class="school-flavor">Refinamento e sutileza. Magia tratada quase como uma arte performática.</p>
+            <ul class="school-bonus-list">
+              <li><strong>+10%</strong> em Charme</li>
+              <li><strong>+10%</strong> em Prestidigitação</li>
+            </ul>
+          </div>
+
+          <div class="school-card">
+            <h4>🎏 Mahoutokoro <span style="font-size:11px;color:var(--ink-soft);font-weight:400">— Japão</span></h4>
+            <p class="school-flavor">Disciplina rígida; alunos aprendem a voar antes mesmo de empunhar a varinha com
+              firmeza.</p>
+            <ul class="school-bonus-list">
+              <li><strong>+15%</strong> em Voo com Vassoura</li>
+              <li><strong>+5%</strong> em Esquiva</li>
+            </ul>
+          </div>
+
+          <div class="school-card">
+            <h4>🌍 Uagadou <span style="font-size:11px;color:var(--ink-soft);font-weight:400">— África</span></h4>
+            <p class="school-flavor">A maior escola de magia do mundo. Tradicionalmente <strong>não usa
+                varinhas</strong>, canalizando magia diretamente pelo corpo e gestos.</p>
+            <ul class="school-bonus-list">
+              <li><strong>+10%</strong> em Conjuração</li>
+            </ul>
+            <div class="school-special">
+              <strong>Magia sem Varinha:</strong> pode lançar qualquer feitiço de Efeito ou de cenário (não-ofensivo)
+              sem varinha em mãos,
+              pagando <strong>1 PM</strong> extra por uso. Feitiços de Dano ainda exigem varinha normalmente.
+            </div>
+          </div>
+
+          <div class="school-card">
+            <h4>🌺 Castelobruxo <span style="font-size:11px;color:var(--ink-soft);font-weight:400">— Brasil</span></h4>
+            <p class="school-flavor">Erguida em meio à floresta; ensino centrado em plantas, criaturas e magia natural.
+            </p>
+            <ul class="school-bonus-list">
+              <li><strong>+10%</strong> em Herbologia</li>
+              <li><strong>+10%</strong> em Trato de Criaturas</li>
+            </ul>
+          </div>
+
+          <div class="school-card">
+            <h4>❄ Koldovstoretz <span style="font-size:11px;color:var(--ink-soft);font-weight:400">— Europa
+                Oriental</span></h4>
+            <p class="school-flavor">Formação dura, voltada à sobrevivência em climas hostis e ao combate direto.</p>
+            <ul class="school-bonus-list">
+              <li><strong>+10%</strong> em Sobrevivência</li>
+              <li><strong>+5%</strong> em Magia de Combate</li>
+            </ul>
+          </div>
+
+          <div class="school-card">
+            <h4>🐍 Durmstrang <span style="font-size:11px;color:var(--ink-soft);font-weight:400">— Norte da
+                Europa</span></h4>
+            <p class="school-flavor">Currículo que não evita as Artes das Trevas, formando Aurores agressivos e diretos.
+            </p>
+            <ul class="school-bonus-list">
+              <li><strong>+10%</strong> em Magia das Trevas</li>
+              <li><strong>+5%</strong> em Intimidação</li>
+            </ul>
+          </div>
+
+          <div class="school-card school-card--solo">
+            <h4>🏠 Ensino Domiciliar <span style="font-size:11px;color:var(--ink-soft);font-weight:400">— Sem escola
+                fixa</span></h4>
+            <p class="school-flavor">Formação fora de qualquer instituição: tutores particulares, familiares bruxos ou
+              autodidatismo. Sem tradição de uma escola específica, mas com liberdade para focar no que importa.</p>
+            <ul class="school-bonus-list">
+              <li>Escolha <strong>uma</strong> das opções abaixo na criação:</li>
+              <li><strong>+5%</strong> em <strong>duas</strong> perícias à sua escolha</li>
+              <li><em>ou</em> <strong>+12%</strong> em <strong>uma</strong> perícia à sua escolha</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div><!-- /rules-body -->
+    </div><!-- /rules-wrap -->
+  </div><!-- /page-regras-criacao -->
+
+  <script src="../js/rules-collapse.js?v=202607122000"></script>
+  <script src="../js/script.js?v=202607122000"></script>
+</body>
+
+</html>

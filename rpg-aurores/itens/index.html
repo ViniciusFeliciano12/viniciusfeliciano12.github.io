@@ -5,15 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Itens — Aurores</title>
-  <link rel="stylesheet" href="../css/base.css?v=202607121941">
-  <link rel="stylesheet" href="../css/content.css?v=202607121941">
-  <link rel="stylesheet" href="../css/items.css?v=202607121941">
+  <link rel="stylesheet" href="../css/base.css?v=202607122000">
+  <link rel="stylesheet" href="../css/content.css?v=202607122000">
+  <link rel="stylesheet" href="../css/items.css?v=202607122000">
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js?v=202607121941"></script>
-  <script src="../js/db.js?v=202607121941"></script>
-  <script src="../js/header.js?v=202607121941" data-page="itens"></script>
+  <script src="../js/firebase-config.js?v=202607122000"></script>
+  <script src="../js/db.js?v=202607122000"></script>
+  <script src="../js/header.js?v=202607122000" data-page="itens"></script>
 </head>
 
 <body>
@@ -51,6 +51,66 @@
               style="background:rgba(99,102,241,0.2);color:#a5b4fc;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:600;margin-right:6px">Utilitário</span>
             Ferramentas táticas reutilizáveis até o fim de seu efeito.
           </p>
+        </div>
+
+        <!-- CARGA MÁXIMA -->
+        <h2 class="rules-sec-title">Sistema de Carga Máxima</h2>
+        <div class="rule-card bordered-gold" style="margin-bottom:24px">
+          <h4 class="gold">Capacidade de Carga de Itens</h4>
+          <p style="font-size:13px;margin-bottom:12px;line-height:1.6">
+            Cada Auror pode carregar uma quantidade limitada de itens de missão, determinada pela sua <strong>Força
+              (FOR)</strong>.
+            Itens mais pesados (frascos grandes, recipientes duplos) consomem mais espaço na mochila tática.
+            A fórmula é simples:
+          </p>
+          <div class="carga-formula-destaque">
+            <span class="formula-text">Carga Máxima = FOR ÷ 20</span>
+            <span class="formula-min">(mínimo 1 ponto de carga)</span>
+          </div>
+          <table class="exaustao-table" style="margin:14px 0">
+            <tr>
+              <th>FOR</th>
+              <th>Carga Máxima</th>
+              <th>Exemplo</th>
+            </tr>
+            <tr>
+              <td>20</td>
+              <td>1</td>
+              <td>1 item leve</td>
+            </tr>
+            <tr>
+              <td>40</td>
+              <td>2</td>
+              <td>2 itens leves ou 1 item pesado</td>
+            </tr>
+            <tr>
+              <td>50</td>
+              <td>2</td>
+              <td>2 itens leves ou 1 item pesado</td>
+            </tr>
+            <tr>
+              <td>60</td>
+              <td>3</td>
+              <td>3 itens leves, ou 1 pesado + 1 leve</td>
+            </tr>
+            <tr>
+              <td>80</td>
+              <td>4</td>
+              <td>4 itens leves ou 2 pesados</td>
+            </tr>
+            <tr>
+              <td>100</td>
+              <td>5</td>
+              <td>5 itens leves ou 2 pesados + 1 leve</td>
+            </tr>
+          </table>
+          <ul style="font-size:12.5px">
+            <li><strong>Peso 1 (Leve):</strong> frascos pequenos, tinturas em ampolas — ocupam 1 ponto de carga.</li>
+            <li><strong>Peso 2 (Pesado):</strong> frascos grandes, poções de efeito prolongado — ocupam 2 pontos de
+              carga.</li>
+            <li>Você <strong>não pode adicionar</strong> um item se ele ultrapassar sua carga disponível.</li>
+            <li>A carga atual e o limite são exibidos dinamicamente na seção <em>Itens de Missão</em> da ficha.</li>
+          </ul>
         </div>
 
         <!-- RANK 1 — CADETE -->
@@ -665,5 +725,7 @@
       </div><!-- /rules-body -->
     </div><!-- /rules-wrap -->
   </div><!-- /page-itens -->
+
+  <script src="../js/rules-collapse.js?v=202607122000"></script>
 
 </body>

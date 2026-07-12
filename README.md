@@ -38,7 +38,7 @@ Roda inteiramente no navegador — sem frameworks, sem build step — usando Fir
 | **Sistema de Combate** | Rolagem d100, tipos de ataque (Normal, Vulnerável, Assinatura), cálculo de dano e efeitos |
 | **Evolução de Perícias** | Marcação automática (ou manual, via clique direito) de perícias aptas a evoluir ao rolar sucesso |
 | **Medidor de Estilo** | Ranking D → SSS com bônus progressivos em Magia de Combate |
-| **Catálogo de Itens** | 50+ itens organizados por rank (Cadete → SSS) em categorias por tipo |
+| **Catálogo de Itens** | 50+ itens organizados por rank (Cadete → SSS) em categorias por tipo, com sistema de carga máxima (FOR ÷ 20) |
 | **Campanhas** | Criação de sessões, convites a jogadores, aprovação de candidatos, GM pode criar fichas para jogadores |
 | **Escudo do Mestre** | Painel de combate da campanha: iniciativa, turnos e rodadas, edição rápida de HP/Postura/PM/Sorte/Estilo de PCs e NPCs, clonagem de fichas como NPCs transitórios e anotações por combatente |
 | **Painel do Mestre** | Visão geral de todos os jogadores registrados e suas fichas |
@@ -123,7 +123,8 @@ ViniciusFeliciano12.github.io/
     │   ├── detalhes.js          # Membros, candidatos, vínculo de fichas
     │   └── escudo.js            # Escudo do Mestre (painel de combate da campanha)
     ├── painel/index.html        # Painel do Mestre
-    ├── regras/index.html        # Referência de regras d100
+    ├── regras/index.html        # Referência de regras de combate d100
+    ├── regras-criacao/index.html # Regras de criação de ficha (especializações, patentes, etc.)
     ├── glossario/index.html     # Glossário mágico
     ├── itens/index.html         # Catálogo de itens
     ├── perfil/index.html        # Perfil do usuário
@@ -149,6 +150,7 @@ ViniciusFeliciano12.github.io/
         ├── items.js             # Banco de dados de itens
         ├── dice.js              # Rolagem e probabilidades
         ├── header.js            # Componente de cabeçalho
+        ├── rules-collapse.js    # Recolhe/expande seções nas páginas de regras/itens
         ├── painel.js            # Lógica do Painel do Mestre
         ├── perfil.js            # Gerenciamento de perfil
         ├── glossario.js         # Filtro de busca do glossário
