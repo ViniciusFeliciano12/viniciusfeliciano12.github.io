@@ -5,14 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regras — Aurores</title>
-  <link rel="stylesheet" href="../css/base.css?v=202606242341">
-  <link rel="stylesheet" href="../css/content.css?v=202606242341">
+  <link rel="stylesheet" href="../css/base.css?v=202607121941">
+  <link rel="stylesheet" href="../css/content.css?v=202607121941">
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js?v=202606242341"></script>
-  <script src="../js/db.js?v=202606242341"></script>
-  <script src="../js/header.js?v=202606242341" data-page="regras"></script>
+  <script src="../js/firebase-config.js?v=202607121941"></script>
+  <script src="../js/db.js?v=202607121941"></script>
+  <script src="../js/header.js?v=202607121941" data-page="regras"></script>
 </head>
 
 <body>
@@ -169,8 +169,10 @@
             <li><strong>Ação de Movimento:</strong> Deslocar-se pelo grid.</li>
             <li><strong>Ação de Combate:</strong> Atacar (Dano/Efeito), usar Foco (curar postura), usar um item ou
               Dash (dobrar o deslocamento sem custar PM).</li>
-            <li><strong>Ação de Cenário (Suporte):</strong> Usar magias (Transfiguração, Encantamento, etc.) para
-              manipular o ambiente.</li>
+            <li><strong>Ação de Cenário (Suporte):</strong> Manipular o ambiente ou produzir um efeito nele — com
+              ou sem magia. Pode ser um feitiço (Transfiguração, Encantamento, etc.) ou algo puramente físico: abrir
+              uma porta, girar uma manivela, puxar uma alavanca, empurrar uma mesa para criar cobertura, ligar um
+              holofote na cara do inimigo para ofuscá-lo. O que importa é o efeito produzido, não se veio de magia.</li>
           </ul>
           <p
             style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">
@@ -178,26 +180,40 @@
           <ul style="font-size:12.5px;margin-bottom:14px">
             <li><strong>Restrição:</strong> Prende o alvo, impedindo seu movimento — fica <em>congelada</em> até o
               alvo reagir (ver nota abaixo).</li>
-            <li><strong>Criar Barreira:</strong> Ergue cobertura física ou mágica para <strong>proteger você mesmo
+            <li><strong>Criar Barreira:</strong> Ergue cobertura física ou mágica (mágica ou não — pode ser tanto um
+              feitiço quanto simplesmente empurrar uma mesa na frente de você) para <strong>proteger você mesmo
                 ou um aliado à sua escolha</strong> — não afeta nenhum alvo inimigo diretamente, então não congela
               nem espera reação de ninguém. Passa a valer <em>imediatamente</em>, no mesmo turno em que é criada:
               qualquer ataque inimigo contra quem está protegido já sofre <em>Desvantagem</em> para contornar, desde
               o próximo ataque em diante (inclusive num combate em grupo, contra qualquer atacante).</li>
-            <li><strong>Afetar os Sentidos:</strong> Ofusca, ensurdece ou distrai o alvo (luz, fumaça, ruído), impondo
+            <li><strong>Afetar os Sentidos:</strong> Ofusca, ensurdece ou distrai o alvo (luz, fumaça, ruído) — pode
+              ser mágico ou não (ligar um holofote na cara dele funciona igual), impondo
               Desvantagem na próxima Defesa dele — fica <em>congelado</em> até o alvo reagir (ver nota abaixo).</li>
             <li><strong>Impacto Ambiental:</strong> Arremessa objetos físicos. Causa <strong>1d4 de Dano de
                 Postura</strong> direto no alvo — fica <em>congelado</em> até o alvo reagir (ver nota abaixo).</li>
-            <li><strong>Manipulação:</strong> Desarma o inimigo ou rouba itens de sua posse — fica <em>congelada</em>
-              até o alvo reagir (ver nota abaixo).</li>
+            <li><strong>Manipulação:</strong> Desarma o inimigo, rouba itens de sua posse, ou manipula algo no
+              cenário que produza um efeito — abrir uma porta, girar uma manivela, puxar uma alavanca. Quando mira
+              um alvo (desarmar, roubar), fica <em>congelada</em> até o alvo reagir (ver nota abaixo); quando não
+              mira ninguém diretamente (abrir a porta, girar a manivela), fica <em>congelada</em> até o seu próprio
+              próximo turno, dando a qualquer outra criatura a chance de contestar antes que se resolva (ver nota
+              abaixo).</li>
           </ul>
           <div class="school-special" style="margin-bottom:14px">
-            <strong>Timing — Restrição, Afetar os Sentidos, Impacto Ambiental e Manipulação:</strong> essas quatro
+            <strong>Timing — Restrição, Afetar os Sentidos, Impacto Ambiental e Manipulação (com alvo):</strong> essas
             miram um alvo específico e por isso não se resolvem na hora — ficam <em>congeladas</em> sobre o alvo até
             chegar a vez <strong>dele reagir</strong> (seu próximo turno, ou antes disso se ele tiver uma reação
             disponível). Quando isso acontece, o alvo escolhe: sofrer o efeito normalmente (perder o movimento, ficar
             em Desvantagem, levar o dano, perder o item), usar a Aparatação como Ação de Movimento para anular o
             efeito automaticamente (ver seção 3), ou gastar sua própria Ação de Cenário para contestar via Embate
             Ambiental (abaixo). Só depois dessa decisão o efeito (ou sua anulação) se resolve de fato.
+          </div>
+          <div class="school-special" style="margin-bottom:14px">
+            <strong>Timing — Manipulação sem alvo (efeitos no ambiente):</strong> quando a Ação de Cenário não afeta
+            nenhum alvo diretamente — abrir uma porta, girar uma manivela — não há ninguém para "reagir" ao efeito.
+            Em vez disso, ela fica <em>congelada</em> até o <strong>seu próprio próximo turno</strong>: qualquer outro
+            personagem, aliado ou inimigo, pode agir antes disso para impedir o resultado (por exemplo, gastando sua
+            própria Ação de Cenário para travar a porta ou destruir a manivela via Embate Ambiental, abaixo). Se
+            nada for feito até então, o efeito se resolve normalmente no início do seu próximo turno.
           </div>
           <div class="school-special" style="margin-bottom:14px">
             <strong>Criar Barreira é a exceção:</strong> por proteger quem a criou (ou um aliado escolhido) em vez de
@@ -324,6 +340,8 @@
                   Área" abaixo).</li>
               </ul>
             </div>
+          </div>
+          <div>
             <div class="rule-card">
               <h4>3b. Feitiços em Área</h4>
               <p style="font-size:12.5px;margin-bottom:8px">Feitiços normalmente afetam um único alvo. Para atingir
@@ -337,8 +355,6 @@
                   separadas, uma contra a Defesa de cada alvo.</li>
               </ul>
             </div>
-          </div>
-          <div>
             <div class="rule-card">
               <h4>4. Recuperando a Postura</h4>
               <ul style="font-size:12.5px">
@@ -1221,7 +1237,7 @@
     </div><!-- /rules-wrap -->
   </div><!-- /page-regras -->
 
-  <script src="../js/script.js?v=202606242341"></script>
+  <script src="../js/script.js?v=202607121941"></script>
 </body>
 
 </html>
