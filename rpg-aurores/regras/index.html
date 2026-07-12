@@ -5,14 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regras de Combate — Aurores</title>
-  <link rel="stylesheet" href="../css/base.css?v=202607122000">
-  <link rel="stylesheet" href="../css/content.css?v=202607122000">
+  <link rel="stylesheet" href="../css/base.css?v=202607122024">
+  <link rel="stylesheet" href="../css/content.css?v=202607122024">
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js?v=202607122000"></script>
-  <script src="../js/db.js?v=202607122000"></script>
-  <script src="../js/header.js?v=202607122000" data-page="regras"></script>
+  <script src="../js/firebase-config.js?v=202607122024"></script>
+  <script src="../js/db.js?v=202607122024"></script>
+  <script src="../js/header.js?v=202607122024" data-page="regras"></script>
 </head>
 
 <body>
@@ -275,6 +275,10 @@
                 </li>
                 <li><strong>Melhoria de Assinatura (Efeito/Dano):</strong> Adiciona <strong>+1d4 de redução de
                     Postura</strong> (Efeito) ou <strong>+1d4 de Dano em HP</strong> (Dano).</li>
+                <li><strong>Melhoria de Assinatura (Área sem Custo):</strong> O feitiço de Assinatura pode afetar
+                  <strong>2 alvos</strong> (o primeiro + 1 extra) sem gastar PM por isso, mantendo a Vantagem normal
+                  do feitiço. A partir do <strong>3º alvo</strong>, volta a valer a regra normal de Overcast (1 PM
+                  por alvo extra adicional — ver seção 5).</li>
                 <li><strong>Sistema de Combos:</strong> Usar o mesmo feitiço já usado no duelo gera
                   <em>Desvantagem</em>. Variar cria bônus de estilo — essencial!
                 </li>
@@ -325,10 +329,13 @@
                   então não há o que anular), não importa quantas — se você foi alvo de 3 Ações de Cenário
                   diferentes, aparatar remove as 3 de uma vez. Surgir
                   no flanco/costas do inimigo ainda conta como Flanqueio Perfeito, igual ao uso em reação. Custa 3 PM
-                  (ver seção 5).</li>
+                  (ver seção 7).</li>
               </ul>
-              <p style="font-size:12.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 6px">
-                Overcast (Gasto de PM para Ampliar o Feitiço)</p>
+            </div>
+          </div>
+          <div>
+            <div class="rule-card">
+              <h4>4. Overcast (Gasto de PM para Ampliar o Feitiço)</h4>
               <p style="font-size:12px;margin-bottom:8px;color:var(--ink-soft)">Overcast é o termo geral para gastar
                 PM extra e melhorar seu feitiço além do normal. Cada 1 PM gasto compra <strong>um</strong> dos
                 benefícios abaixo (podem ser combinados, gastando 1 PM por benefício escolhido):</p>
@@ -337,13 +344,14 @@
                 <li><strong>Aumentar Dano:</strong> +1d4 de Dano extra na Vida (HP) ou na Postura, conforme o tipo do
                   feitiço.</li>
                 <li><strong>Afetar em Área:</strong> Habilita o feitiço a atingir múltiplos alvos (ver "Feitiços em
-                  Área" abaixo).</li>
+                  Área" — seção 5).</li>
+                <li><strong>Anular Desvantagem:</strong> Anula 1 Desvantagem em qualquer rolagem (não só de
+                  feitiços) — cobertura, distância, Sistema de Combos, etc. Pode ser usado múltiplas vezes na mesma
+                  rolagem, gastando 1 PM por Desvantagem anulada.</li>
               </ul>
             </div>
-          </div>
-          <div>
             <div class="rule-card">
-              <h4>3b. Feitiços em Área</h4>
+              <h4>5. Feitiços em Área</h4>
               <p style="font-size:12.5px;margin-bottom:8px">Feitiços normalmente afetam um único alvo. Para atingir
                 mais de um, use o Overcast acima ("Afetar em Área") e pague o custo por alvo extra:</p>
               <ul style="font-size:12.5px">
@@ -356,7 +364,7 @@
               </ul>
             </div>
             <div class="rule-card">
-              <h4>4. Recuperando a Postura</h4>
+              <h4>6. Recuperando a Postura</h4>
               <ul style="font-size:12.5px">
                 <li><strong>Bloqueio Oportuno:</strong> Bloquear com sucesso um Feitiço de Dano recupera <strong>1d4 de
                     Postura</strong>.</li>
@@ -368,12 +376,12 @@
               </ul>
             </div>
             <div class="rule-card">
-              <h4>5. Pontos de Magia (PM) e Sorte</h4>
+              <h4>7. Pontos de Magia (PM) e Sorte</h4>
               <ul style="font-size:12.5px">
                 <li>Feitiços de combate e cenário não gastam PM passivamente.</li>
                 <li><strong>Aparatação:</strong> Gasta 3 PM (reação ou Ação de Movimento).</li>
-                <li><strong>Overcast:</strong> Gasta 1 PM por benefício (distância, dano extra ou alvo adicional em
-                  área — ver seção 3).</li>
+                <li><strong>Overcast:</strong> Gasta 1 PM por benefício (distância, dano extra, alvo adicional em
+                  área ou anular Desvantagem — ver seção 4).</li>
                 <li><strong>Esgotamento:</strong> Se os PM chegarem a 0, o bruxo fica <strong>Exausto</strong>.</li>
                 <li><strong>Sorte:</strong> Após rolar, você pode queimar pontos de Sorte permanentes para <em>subir
                   um nível de sucesso</em> no resultado: Falha → Regular, Regular → Difícil, ou Difícil → Extremo (1
@@ -426,14 +434,6 @@
                     menos punitivo.</td>
                 </tr>
               </table>
-            </div>
-            <div class="rule-card">
-              <h4>6. Evolução de Perícias (Fim da Missão)</h4>
-              <ul style="font-size:12.5px">
-                <li>Role 1d100 para cada perícia marcada. Se tirar <strong>MAIOR</strong> que o valor atual, ganhe
-                  <strong>1d10</strong> pontos.
-                </li>
-              </ul>
             </div>
           </div>
         </div>
@@ -590,8 +590,8 @@
     </div><!-- /rules-wrap -->
   </div><!-- /page-regras -->
 
-  <script src="../js/rules-collapse.js?v=202607122000"></script>
-  <script src="../js/script.js?v=202607122000"></script>
+  <script src="../js/rules-collapse.js?v=202607122024"></script>
+  <script src="../js/script.js?v=202607122024"></script>
 </body>
 
 </html>

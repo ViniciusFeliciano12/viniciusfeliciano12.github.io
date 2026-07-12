@@ -5,17 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fichas de Auror</title>
-  <link rel="stylesheet" href="../css/base.css?v=202607122000">
-  <link rel="stylesheet" href="../css/sheet.css?v=202607122000">
-  <link rel="stylesheet" href="../css/combat.css?v=202607122000">
-  <link rel="stylesheet" href="../css/items.css?v=202607122000">
+  <link rel="stylesheet" href="../css/base.css?v=202607122024">
+  <link rel="stylesheet" href="../css/sheet.css?v=202607122024">
+  <link rel="stylesheet" href="../css/combat.css?v=202607122024">
+  <link rel="stylesheet" href="../css/items.css?v=202607122024">
   <!-- Firebase SDK (compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js?v=202607122000"></script>
-  <script src="../js/db.js?v=202607122000"></script>
-  <script src="../js/header.js?v=202607122000" data-page="ficha"></script>
+  <script src="../js/firebase-config.js?v=202607122024"></script>
+  <script src="../js/db.js?v=202607122024"></script>
+  <script src="../js/header.js?v=202607122024" data-page="ficha"></script>
 </head>
 
 <body>
@@ -520,7 +520,12 @@
           <ul>
             <li><strong>Aumentar Efeito/Dano:</strong> +1d4 de Dano (HP) para magias ofensivas, ou +1d4 de redução de
               Postura para magias de controle.</li>
-            <li><strong>Dobrar Alcance Base:</strong> Anula 1 nível de penalidade de distância passivamente.</li>
+            <li><strong>Dobrar Alcance Base:</strong> Anula 1 nível de penalidade de distância passivamente — só
+              afeta o alcance, nada além disso.</li>
+            <li><strong>Área sem Custo:</strong> O feitiço também pode afetar <strong>2 alvos</strong> (o primeiro +
+              1 extra) sem gastar PM por isso, mantendo a Vantagem normal do feitiço de Assinatura — só afeta a
+              área, nada além disso. A partir do <strong>3º alvo</strong>, volta a valer a regra normal de Overcast
+              (1 PM por alvo extra adicional).</li>
           </ul>
         </div>
         <div class="feiticos-grid">
@@ -530,6 +535,7 @@
               <option value="">— Escolha a Melhoria —</option>
               <option value="dano">Aumentar Efeito/Dano</option>
               <option value="alcance">Dobrar Alcance Base</option>
+              <option value="area">Área sem Custo (2 alvos, c/ Vantagem)</option>
             </select>
           </div>
           <div class="feitico-card">
@@ -538,6 +544,7 @@
               <option value="">— Escolha a Melhoria —</option>
               <option value="dano">Aumentar Efeito/Dano</option>
               <option value="alcance">Dobrar Alcance Base</option>
+              <option value="area">Área sem Custo (2 alvos, c/ Vantagem)</option>
             </select>
           </div>
         </div>
@@ -1208,15 +1215,15 @@
     </div>
   </div>
 
-  <script src="../js/utils.js?v=202607122000"></script>
-  <script src="../js/storage.js?v=202607122000"></script>
-  <script src="../js/skills.js?v=202607122000"></script>
-  <script src="../js/items.js?v=202607122000"></script>
-  <script src="../js/sheet.js?v=202607122000"></script>
-  <script src="../js/app.js?v=202607122000"></script>
-  <script src="../js/dice.js?v=202607122000"></script>
-  <script src="../js/attrs-roll.js?v=202607122000"></script>
-  <script src="../js/combat.js?v=202607122000"></script>
+  <script src="../js/utils.js?v=202607122024"></script>
+  <script src="../js/storage.js?v=202607122024"></script>
+  <script src="../js/skills.js?v=202607122024"></script>
+  <script src="../js/items.js?v=202607122024"></script>
+  <script src="../js/sheet.js?v=202607122024"></script>
+  <script src="../js/app.js?v=202607122024"></script>
+  <script src="../js/dice.js?v=202607122024"></script>
+  <script src="../js/attrs-roll.js?v=202607122024"></script>
+  <script src="../js/combat.js?v=202607122024"></script>
 </body>
 
 </html>
