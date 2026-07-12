@@ -248,13 +248,31 @@ function _escudoPct(atual, max) {
   return Math.max(0, Math.min(100, Math.round((a / m) * 100)));
 }
 
+// Mesmos limiares de sheet.js:atualizarLabelPostura() — mantém a leitura da
+// Postura idêntica entre a ficha do jogador e o Escudo do Mestre.
+function _escudoPosturaStatus(atual, max) {
+  const a = parseInt(atual) || 0;
+  const m = parseInt(max) || 1;
+  const pct = a / m;
+  if (a <= 0) return { texto: 'QUEBRADA', cor: 'var(--rank-sss)' };
+  if (pct <= .25) return { texto: 'DESGASTADA', cor: 'var(--rank-ss)' };
+  if (pct <= .50) return { texto: 'CANSADA', cor: '#b8860b' };
+  return { texto: 'SAUDÁVEL', cor: 'var(--forest)' };
+}
+
 function _renderBarra(e, campo, label, tipoClasse) {
   const atual = parseInt(e[campo + '_atual']) || 0;
   const max = parseInt(e[campo + '_max']) || 0;
   const pct = _escudoPct(atual, max);
+  const statusHTML = campo === 'postura'
+    ? (() => {
+      const s = _escudoPosturaStatus(atual, max);
+      return `<span class="escudo-postura-status" style="color:${s.cor}">${s.texto}</span>`;
+    })()
+    : '';
   return `
     <div class="escudo-res escudo-res--${tipoClasse}">
-      <div class="escudo-res-head"><span>${label}</span><span class="escudo-res-nums">${atual}/${max}</span></div>
+      <div class="escudo-res-head"><span class="escudo-res-label-wrap"><span>${label}</span>${statusHTML}</span><span class="escudo-res-nums">${atual}/${max}</span></div>
       <div class="escudo-barra"><div class="escudo-barra-fill" style="width:${pct}%"></div></div>
       <div class="escudo-res-ctrl">
         <button type="button" onclick="_escudoAjustarRecurso('${e.tipo}','${_esc(e.id)}','${campo}_atual',-1)">−</button>
@@ -629,12 +647,21 @@ function _escudoPericiaTotal(dados, skillKey) {
 // marcação que a ficha usa. O popup de resultado sai no canto inferior direito,
 // com o mesmo estilo (número grande colorido + tipo de sucesso + threshold),
 // exatamente como na ficha.
+// Mesma conta de dice.js:classifyResult() — a colinha mostra pro Mestre, sem
+// precisar rolar, o valor máximo do d100 que cada nível de sucesso aceita.
+function _escudoLimiares(total) {
+  return { regular: total, dificil: Math.floor(total / 2), extremo: Math.floor(total / 5) };
+}
+
 function _renderMiniPericiaRow(dados, skillKey, nome) {
   const total = _escudoPericiaTotal(dados, skillKey);
+  const l = _escudoLimiares(total);
+  const tituloLimiares = `Extremo≤${l.extremo} / Difícil≤${l.dificil} / Regular≤${l.regular}`;
   return `
     <div class="mini-pericia-row">
       <span class="skill-total mini-pericia-total" data-total="${skillKey}" title="Clique para rolar">${total}%</span>
       <label><span class="skill-label-text mini-pericia-nome">${_esc(nome)}</span></label>
+      <span class="mini-pericia-limiares" title="${tituloLimiares}"><span class="mini-lim mini-lim--extremo" title="Sucesso Extremo: rolar ≤ ${l.extremo}">${l.extremo}</span>/<span class="mini-lim mini-lim--dificil" title="Sucesso Difícil: rolar ≤ ${l.dificil}">${l.dificil}</span>/<span class="mini-lim mini-lim--regular" title="Sucesso Regular: rolar ≤ ${l.regular}">${l.regular}</span></span>
     </div>`;
 }
 
@@ -710,6 +737,6 @@ function _escudoCriarPainelCombateHTML(id) {
 
 // ─── Rodapé: resumo de regras ───────────────────────────────────
 
-function escudoToggleRegras() {
-  document.getElementById('escudo-regras-footer')?.classList.toggle('escudo-regras--aberto');
+function escudoToggleRegras(id) {
+  document.getElementById(id || 'escudo-regras-footer')?.classList.toggle('escudo-regras--aberto');
 }

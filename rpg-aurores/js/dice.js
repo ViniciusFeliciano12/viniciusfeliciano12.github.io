@@ -20,7 +20,7 @@
     if (roll <= extremo) return { label: 'Sucesso Extremo', cls: 'res-extremo', success: true };
     if (roll <= dificil) return { label: 'Sucesso Difícil', cls: 'res-dificil', success: true };
     if (roll <= skillTotal) return { label: 'Sucesso Regular', cls: 'res-regular', success: true };
-    if (roll >= 96) return { label: 'Falha Crítica!', cls: 'res-falha-crit', success: false };
+    if (roll === 100) return { label: 'Falha Crítica!', cls: 'res-falha-crit', success: false };
     return { label: 'Falha', cls: 'res-falha', success: false };
   }
 

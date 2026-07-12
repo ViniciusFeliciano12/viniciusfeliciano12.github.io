@@ -114,8 +114,9 @@
               <div class="gloss-entry">
                 <span class="gloss-term">PM <span class="gloss-abbr">Pontos de Magia</span></span>
                 <p class="gloss-def">Calculado como <em>POD ÷ 5</em>. Recurso para habilidades especiais:
-                  <strong>Aparatação de Combate</strong> (custa 2 PM) e <strong>Overcast</strong> (custa 1 PM por nível
-                  de penalidade reduzido). Zerar os PM causa <strong>Exaustão</strong>.
+                  <strong>Aparatação</strong> (custa 3 PM) e <strong>Overcast</strong> (custa 1 PM por benefício
+                  escolhido — distância, dano extra ou alvo adicional em área). Zerar os PM causa
+                  <strong>Exaustão</strong>.
                 </p>
               </div>
 
@@ -130,9 +131,10 @@
 
               <div class="gloss-entry">
                 <span class="gloss-term">Sorte</span>
-                <p class="gloss-def">Recurso permanente (não se recupera facilmente). Pode ser gasto <strong>1 a
-                    1</strong> após um rolar para reduzir o resultado no d100, forçando um sucesso. Use com parcimônia —
-                  cada ponto queimado é permanente.</p>
+                <p class="gloss-def">Recurso permanente (não se recupera facilmente). Após rolar, gaste <strong>1
+                    ponto</strong> para subir <strong>um nível de sucesso</strong> (Falha → Regular → Difícil →
+                  Extremo), sempre um nível por vez. Não funciona em <strong>Falha Crítica</strong> (resultado 100).
+                  Use com parcimônia — cada ponto queimado é permanente.</p>
               </div>
 
             </div>
@@ -176,9 +178,9 @@
 
               <div class="gloss-entry">
                 <span class="gloss-term">Falha Crítica <span class="gloss-abbr">Fumble</span></span>
-                <p class="gloss-def">Resultado = <strong>96–100</strong>. Além de falhar, o personagem sofre uma
-                  consequência severa a critério do Mestre — varinha derrubada, tropeço, feitiço desviado para aliado,
-                  etc.</p>
+                <p class="gloss-def">Resultado = <strong>100</strong> (sempre). Além de falhar, o personagem sofre
+                  uma consequência severa a critério do Mestre — varinha derrubada, tropeço, feitiço desviado para
+                  aliado, etc. <strong>Sorte não pode evitar ou reduzir uma Falha Crítica.</strong></p>
               </div>
 
               <div class="gloss-entry">
@@ -215,7 +217,8 @@
                 <p class="gloss-def">Objetivo é quebrar a guarda e impor um efeito (paralisar, encadear, desorientar).
                   <strong>Não segue a Regra de Colisão</strong> — o estado da Postura não altera a dificuldade de
                   bloqueio. Bloqueado: drena <strong>1d6 de Postura</strong>. Acertado: drena <strong>2d6 de
-                    Postura</strong> e o efeito entra.
+                    Postura</strong> — mas o efeito de controle <strong>só entra se isso zerar a Postura do
+                  alvo</strong>. Acertar sem zerar a Postura só causa a redução de Postura, sem o controle.
                 </p>
               </div>
 
@@ -305,9 +308,11 @@
 
               <div class="gloss-entry">
                 <span class="gloss-term">Ação de Cenário <span class="gloss-abbr">Suporte</span></span>
-                <p class="gloss-def">Usar magias (Transfiguração, Encantamento etc.) para manipular o ambiente. Falhar
-                  nesta ação drena <strong>1 PM</strong> por exaustão. Tipos: <em>Restrição, Cobertura, Impacto
-                    Ambiental</em> e <em>Manipulação</em>.</p>
+                <p class="gloss-def">Usar magias (Transfiguração, Encantamento etc.) para manipular o ambiente.
+                  Tipos: <em>Restrição, Criar Barreira, Afetar os Sentidos, Impacto Ambiental</em> e
+                  <em>Manipulação</em>. Restrição, Afetar os Sentidos, Impacto Ambiental e Manipulação miram um alvo
+                  e ficam congelados até ele reagir. Criar Barreira é diferente — não mira ninguém (protege quem a
+                  criou ou um aliado), então vale de imediato, sem congelamento.</p>
               </div>
 
               <div class="gloss-entry">
@@ -320,7 +325,8 @@
               <div class="gloss-entry">
                 <span class="gloss-term">Bloqueio</span>
                 <p class="gloss-def">Reação defensiva — rola Defesa/Protego. Contra Efeitos: empate de nível basta;
-                  consome 1d6 de Postura. Contra Dano: segue a Regra de Colisão; sucesso recupera 1d4 de Postura.</p>
+                  consome 1d6 de Postura (bloqueio) ou 2d6 (falha, e o efeito de controle só entra se isso zerar a
+                  Postura). Contra Dano: segue a Regra de Colisão; sucesso recupera 1d4 de Postura.</p>
               </div>
 
               <div class="gloss-entry">
@@ -331,18 +337,49 @@
               </div>
 
               <div class="gloss-entry">
-                <span class="gloss-term">Aparatação de Combate</span>
-                <p class="gloss-def">Reação defensiva especial — <strong>custa 2 PM</strong>. Evita o ataque
-                  automaticamente e teleporta o personagem até <strong>12 quadrados</strong>. Surgir no flanco/costas do
-                  inimigo garante <strong>+1 nível no Medidor de Estilo</strong> e conta como Flanqueio Perfeito.</p>
+                <span class="gloss-term">Aparatação</span>
+                <p class="gloss-def">Reação defensiva ou Ação de Movimento — <strong>custa 3 PM</strong>. Como
+                  reação: evita o ataque automaticamente e teleporta até <strong>12 quadrados</strong>. Como Ação de
+                  Movimento: teleporta até 12 quadrados <strong>e ainda deixa a Ação de Combate livre para
+                  atacar</strong> no mesmo turno, além de <strong>anular automaticamente</strong> qualquer Ação de
+                  Cenário congelada contra você (Impacto Ambiental, Manipulação, Restrição ou Afetar os Sentidos —
+                  Criar Barreira não mira você, não há o que anular), não importa quantas estejam pendentes. Em
+                  qualquer um dos dois usos, surgir no
+                  flanco/costas do inimigo garante <strong>+1 nível no Medidor de Estilo</strong> e conta como
+                  Flanqueio Perfeito. Diferente do <strong>Dash</strong>, que consome a Ação de Combate (impedindo
+                  ataque) e não anula nada.</p>
               </div>
 
               <div class="gloss-entry">
                 <span class="gloss-term">Overcast</span>
-                <p class="gloss-def">Gasta <strong>1 PM</strong> para reduzir em <strong>1 nível</strong> a penalidade
-                  de distância no Sniping. O Artilheiro de Cerco é a especialização com maior aproveitamento desta
-                  mecânica. Errar um ataque à distância com Overcast ativo causa perda de 1 nível no Medidor de Estilo.
+                <p class="gloss-def">Gasta <strong>1 PM</strong> por benefício escolhido: reduzir em 1 nível a
+                  penalidade de distância no Sniping, adicionar <strong>+1d4</strong> de dano extra (Vida ou Postura),
+                  ou habilitar o feitiço a afetar mais de um alvo em área. O Artilheiro de Cerco é a especialização
+                  com maior aproveitamento da variante de distância. Errar um ataque à distância com Overcast ativo
+                  causa perda de 1 nível no Medidor de Estilo.
                 </p>
+              </div>
+
+              <div class="gloss-entry">
+                <span class="gloss-term">Feitiços em Área</span>
+                <p class="gloss-def">Habilitados via Overcast ("Afetar em Área"). Custa <strong>1 PM por alvo
+                  extra</strong> além do primeiro. A rolagem de ataque é independente para cada alvo afetado.</p>
+              </div>
+
+              <div class="gloss-entry">
+                <span class="gloss-term">Ataque Duplo</span>
+                <p class="gloss-def">Na Ação de Combate, o jogador pode realizar dois ataques em vez de um, desde que
+                  sejam <strong>dois feitiços diferentes</strong> (repetir o mesmo conta como Sistema de Combos).
+                  Cada ataque sofre <strong>Desvantagem</strong>, cumulativa com outras Desvantagens aplicáveis.</p>
+              </div>
+
+              <div class="gloss-entry">
+                <span class="gloss-term">Dash</span>
+                <p class="gloss-def">Uso da Ação de Combate (em vez de atacar) para se deslocar o <strong>dobro do
+                  deslocamento base (12 quadrados)</strong> — mesma distância da Aparatação, mas <strong>sem custar
+                  PM</strong>. Como consome a Ação de Combate, <strong>não permite atacar</strong> no turno. Não
+                  teleporta, não ignora terreno e <strong>não anula</strong> Ações de Cenário congeladas contra
+                  você — nesses pontos, é estritamente mais fraco que a Aparatação usada como Ação de Movimento.</p>
               </div>
 
             </div>
@@ -356,25 +393,42 @@
               <div class="gloss-entry">
                 <span class="gloss-term">Restrição</span>
                 <p class="gloss-def">Tipo de Ação de Cenário bem-sucedida. <strong>Prende o alvo</strong> — ele perde a
-                  Ação de Movimento no próximo turno.</p>
+                  Ação de Movimento no próximo turno. Fica <strong>congelada</strong> até o alvo reagir: nesse
+                  momento ele escolhe sofrer o efeito, aparatar (Ação de Movimento) para anulá-lo, ou contestar via
+                  Embate Ambiental.</p>
               </div>
 
               <div class="gloss-entry">
-                <span class="gloss-term">Cobertura</span>
-                <p class="gloss-def">Tipo de Ação de Cenário bem-sucedida. Cria uma <strong>barreira física</strong>. O
-                  próximo ataque inimigo sofre <em>Desvantagem</em> para contorná-la.</p>
+                <span class="gloss-term">Criar Barreira</span>
+                <p class="gloss-def">Tipo de Ação de Cenário bem-sucedida. Ergue uma <strong>barreira física ou
+                  mágica</strong> para proteger <strong>quem a criou ou um aliado à sua escolha</strong> — não mira
+                  nenhum alvo inimigo, então <strong>não fica congelada</strong> nem espera reação de ninguém. Vale
+                  imediatamente: qualquer ataque inimigo contra o protegido, de qualquer atacante, sofre
+                  <em>Desvantagem</em> a partir dali, até a barreira ser destruída/revertida via Embate Ambiental.</p>
+              </div>
+
+              <div class="gloss-entry">
+                <span class="gloss-term">Afetar os Sentidos</span>
+                <p class="gloss-def">Tipo de Ação de Cenário bem-sucedida. Ofusca, ensurdece ou distrai o alvo,
+                  impondo <em>Desvantagem</em> na próxima Defesa dele. Fica <strong>congelado</strong> até o alvo
+                  reagir: nesse momento ele escolhe sofrer o efeito, aparatar para anulá-lo, ou contestar via Embate
+                  Ambiental.</p>
               </div>
 
               <div class="gloss-entry">
                 <span class="gloss-term">Impacto Ambiental</span>
                 <p class="gloss-def">Tipo de Ação de Cenário bem-sucedida. Arremessa objetos físicos contra o inimigo,
-                  causando <strong>1d4 de Dano de Postura</strong> direto, sem passar pela Regra de Colisão.</p>
+                  causando <strong>1d4 de Dano de Postura</strong> direto, sem passar pela Regra de Colisão. Esse dano
+                  fica <strong>congelado</strong> até o alvo reagir, que então escolhe sofrê-lo, usar a Aparatação
+                  como Ação de Movimento para anulá-lo, ou contestar via Embate Ambiental.</p>
               </div>
 
               <div class="gloss-entry">
                 <span class="gloss-term">Manipulação</span>
                 <p class="gloss-def">Tipo de Ação de Cenário bem-sucedida. <strong>Desarma o inimigo</strong> ou rouba
-                  itens de sua posse.</p>
+                  itens de sua posse. A tentativa fica <strong>congelada</strong> até o alvo reagir, que pode usar a
+                  Aparatação como Ação de Movimento para anulá-la ou usar sua própria Ação de Cenário para contestar
+                  via Embate Ambiental antes de perder o item.</p>
               </div>
 
               <div class="gloss-entry">
@@ -388,7 +442,8 @@
                 <span class="gloss-term">Sniping <span class="gloss-abbr">Ataque à Distância</span></span>
                 <p class="gloss-def">Sistema de penalidade por alcance. Curto (1–6 sq): sem penalidade. Médio (7–12 sq):
                   1 Desvantagem. Longo (13–18 sq): 2 Desvantagens. Cada faixa além impõe +1 Desvantagem. Use
-                  <strong>Overcast</strong> para reduzir.
+                  <strong>Overcast</strong> para reduzir. O <strong>Artilheiro de Cerco</strong> trata todo o alcance
+                  Médio como sem penalidade (ataca até 12 sq / 18m sem Desvantagem), só sofrendo a partir de 13 sq.
                 </p>
               </div>
 
@@ -445,8 +500,8 @@
 
               <div class="gloss-entry">
                 <span class="gloss-term">Flanqueio Perfeito</span>
-                <p class="gloss-def">Ação de usar a <strong>Aparatação de Combate</strong> para surgir no flanco ou
-                  costas do inimigo, contornando a cobertura. Concede <strong>+1 nível no Medidor de Estilo</strong>.
+                <p class="gloss-def">Ação de usar a <strong>Aparatação</strong> para surgir no flanco ou costas do
+                  inimigo, contornando a cobertura. Concede <strong>+1 nível no Medidor de Estilo</strong>.
                   Cavaleiros de Vassoura contam flanqueios aéreos em dobro.</p>
               </div>
 
@@ -522,7 +577,7 @@
                 <span class="gloss-term">Exaustão</span>
                 <p class="gloss-def">Estado aplicado quando os PM chegam a <strong>zero</strong>. Role
                   <strong>1d6</strong> para determinar o efeito — ele dura até o personagem recuperar ao menos 1 PM
-                  (exceto resultado 6). Ações de Cenário que falham enquanto em campo drenam 1 PM.
+                  (exceto resultado 6).
                 </p>
               </div>
 
@@ -801,9 +856,9 @@
 
               <div class="gloss-entry">
                 <span class="gloss-term">Aparatação</span>
-                <p class="gloss-def">Teletransporte mágico. No sistema, a <strong>Aparatação de Combate</strong> é uma
-                  reação que custa 2 PM e move o personagem até 12 quadrados instantaneamente, ideal para flanquear ou
-                  fugir.</p>
+                <p class="gloss-def">Teletransporte mágico. No sistema, a <strong>Aparatação</strong> custa 3 PM e
+                  move o personagem até 12 quadrados instantaneamente — como reação a um ataque ou como Ação de
+                  Movimento — ideal para flanquear ou fugir.</p>
               </div>
 
               <div class="gloss-entry">

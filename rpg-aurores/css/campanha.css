@@ -1444,6 +1444,8 @@
 
 .escudo-res-nums { font-weight: 700; color: var(--ink); font-family: sans-serif; letter-spacing: 0; }
 
+.escudo-res-label-wrap { display: flex; align-items: baseline; gap: 5px; }
+
 .escudo-barra {
   height: 7px;
   border-radius: 4px;
@@ -1462,6 +1464,14 @@
 .escudo-res--postura .escudo-barra-fill { background: linear-gradient(90deg, #2a5a8c, #5a9fd8); }
 .escudo-res--pm .escudo-barra-fill { background: linear-gradient(90deg, #5a2a8c, #9d6ad8); }
 .escudo-res--sorte .escudo-barra-fill { background: linear-gradient(90deg, var(--gold), var(--gold-lt)); }
+
+.escudo-postura-status {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
 
 .escudo-res-ctrl {
   display: flex;
@@ -1761,7 +1771,7 @@
 
 .mini-pericia-row {
   display: grid;
-  grid-template-columns: 32px 1fr;
+  grid-template-columns: 32px 1fr auto;
   align-items: center;
   gap: 0 6px;
   padding: 3px 4px;
@@ -1810,6 +1820,23 @@
 
 .mini-pericia-total:hover { background: var(--parch-deep); }
 .mini-pericia-total:active { transform: scale(.93); }
+
+/* Colinha de limiares (Extremo/Difícil/Regular) — fica no fim da linha, ao
+   lado do nome da perícia, com cada número badge colorido pelo nível de
+   sucesso, pra o Mestre ver quanto precisa tirar sem precisar rolar. */
+.mini-pericia-limiares {
+  justify-self: end;
+  text-align: right;
+  white-space: nowrap;
+  font-size: 9.5px;
+  font-weight: 700;
+  font-family: sans-serif;
+  color: var(--ink-soft);
+}
+
+.mini-lim--extremo { color: var(--rank-ss); }
+.mini-lim--dificil { color: var(--gold); }
+.mini-lim--regular { color: var(--forest); }
 
 .mini-sorte-input {
   border: none;

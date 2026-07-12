@@ -163,7 +163,7 @@ function rollAttack(id, tab, mode) {
       if (r <= extremo) return { label: 'Extremo', cls: 'res-extremo' };
       if (r <= dificil) return { label: 'Difícil', cls: 'res-dificil' };
       if (r <= skillTotal) return { label: 'Regular', cls: 'res-regular' };
-      if (r >= 96) return { label: 'Falha Crítica!', cls: 'res-falha-crit' };
+      if (r === 100) return { label: 'Falha Crítica!', cls: 'res-falha-crit' };
       return { label: 'Falha', cls: 'res-falha' };
     }
 

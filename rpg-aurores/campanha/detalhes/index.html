@@ -125,7 +125,7 @@
         </div>
         <div id="escudo-content"></div>
         <div class="escudo-regras-footer" id="escudo-regras-footer">
-          <button class="escudo-regras-toggle" onclick="escudoToggleRegras()">📖 Resumo de Regras — Medidor de Estilo</button>
+          <button class="escudo-regras-toggle" onclick="escudoToggleRegras('escudo-regras-footer')">📖 Resumo de Regras — Medidor de Estilo</button>
           <div class="escudo-regras-body gain-lose">
             <div>
               <h4 class="green">Ganha 1 nível quando:</h4>
@@ -144,6 +144,31 @@
                 <li>Erra uma Ação de Ataque e uma de Cenário no mesmo turno.</li>
                 <li>Usa sempre a mesma tática sem variação.</li>
                 <li>Falha ao contestar o cenário no Embate Ambiental.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="escudo-regras-footer" id="escudo-regras-footer-postura">
+          <button class="escudo-regras-toggle" onclick="escudoToggleRegras('escudo-regras-footer-postura')">🛡️ Resumo de Regras — Postura vs Feitiços</button>
+          <div class="escudo-regras-body gain-lose">
+            <div>
+              <h4 class="green">Feitiços de Dano (Colisão)</h4>
+              <ul>
+                <li><strong>Saudável (&gt;½):</strong> qualquer Sucesso na Defesa bloqueia.</li>
+                <li><strong>Cansada (≤½):</strong> Defesa precisa de nível ≥ ao do Ataque.</li>
+                <li><strong>Desgastada (≤¼):</strong> Defesa precisa de nível MAIOR que o do Ataque.</li>
+                <li><strong>Quebrada (0):</strong> Vulnerável — acerta automático, +1d6 de dano extra.</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="red">Feitiços de Efeito (não seguem Colisão)</h4>
+              <ul>
+                <li>Empate de nível já basta para bloquear, em qualquer Postura.</li>
+                <li>Bloqueio bem-sucedido: consome 1d6 de Postura mesmo assim.</li>
+                <li>Bloqueio falho: causa 2d6 de Postura.</li>
+                <li><strong>⚠ O efeito de controle (congelar, atordoar etc.) só entra se esse dano ZERAR a Postura
+                  do alvo.</strong> Sobrou Postura? Só perdeu Postura, sem efeito.</li>
+                <li><strong>Quebrada (0):</strong> acerta automático, sem exceção.</li>
               </ul>
             </div>
           </div>
@@ -287,10 +312,6 @@
         <div class="damage-options">
           <div class="damage-options-title">Modificadores adicionais</div>
           <div class="damage-checkboxes">
-            <label class="damage-check-item">
-              <input type="checkbox" data-dmg-mod="rank_b" onchange="updateDamagePreview('${id}','ataque')">
-              <label>Rank <strong>B</strong> (Medidor de Estilo) <small>— +5% em Magia de Combate</small></label>
-            </label>
             <label class="damage-check-item">
               <input type="checkbox" data-dmg-mod="rank_a" onchange="updateDamagePreview('${id}','ataque')">
               <label>Rank <strong>A</strong> (Medidor de Estilo) <small>— +1d dado de Postura extra</small></label>

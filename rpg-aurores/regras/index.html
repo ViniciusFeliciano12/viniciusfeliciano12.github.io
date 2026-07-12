@@ -87,17 +87,19 @@
                 <tr>
                   <td style="color:var(--ink-soft)">Falha</td>
                   <td>Resultado &gt; valor da perícia</td>
-                  <td>Rolar 61–95</td>
+                  <td>Rolar 61–99</td>
                 </tr>
                 <tr>
                   <td style="color:var(--crimson)">Falha Crítica</td>
-                  <td>Resultado = <strong>96–100</strong></td>
-                  <td>Rolar 96–00</td>
+                  <td>Resultado = <strong>100</strong></td>
+                  <td>Rolar 100</td>
                 </tr>
               </table>
               <div class="school-special" style="margin-top:10px">
                 <strong>Falha Crítica em combate:</strong> além de falhar, o personagem sofre uma consequência severa
                 a critério do Mestre — varinha derrubada, tropeço, feitiço desviado para aliado, etc.
+                <strong>Sorte não pode ser usada para evitar ou reduzir uma Falha Crítica</strong> — o resultado 100
+                é sempre 100, sem exceção.
               </div>
               <p style="font-size:11.5px;margin-top:10px;line-height:1.6">
                 <strong>Vantagem:</strong> role 2d100 e use o <em>menor</em> resultado.<br>
@@ -143,12 +145,20 @@
                 sucesso</strong> — ou seja, qualquer Sucesso na Defesa é suficiente, mesmo em Postura baixa.</li>
             <li><strong>Bloqueio bem-sucedido:</strong> o efeito é neutralizado, mas a colisão consome <strong>1d6 de
                 Postura</strong> de qualquer forma — bloquear um Efeito nunca é gratuito.</li>
-            <li><strong>Bloqueio falho (Defesa com nível menor que o Ataque):</strong> o efeito entra e causa
+            <li><strong>Bloqueio falho (Defesa com nível menor que o Ataque):</strong> o feitiço causa
               <strong>2d6 de dano de Postura</strong>.
             </li>
             <li><strong>Postura Quebrada (Zero):</strong> sem exceção — Feitiços de Efeito também acertam
               automaticamente quando a guarda está quebrada.</li>
           </ul>
+          <div class="school-special" style="margin-top:10px">
+            <strong>⚠ O efeito de controle só entra quando a Postura chega a Zero:</strong> acertar um Feitiço de
+            Efeito (ex.: Glacius) causa os 2d6 de dano de Postura acima, mas isso <em>não</em> significa que o
+            controle (congelar, atordoar, imobilizar etc.) já aconteceu. O efeito de controle só se manifesta de
+            fato no instante em que aquele dano <strong>zera a Postura do alvo</strong> (ou é aplicado sobre um alvo
+            que já está com Postura Quebrada). Se o alvo ainda tiver Postura sobrando depois do dano, ele só perdeu
+            Postura — continua agindo normalmente, sem o efeito de controle.
+          </div>
         </div>
 
         <!-- TURNO & CENÁRIO -->
@@ -157,21 +167,44 @@
           <h4 class="gold">3 Ações Simultâneas por Turno</h4>
           <ul style="font-size:13px;margin-bottom:14px">
             <li><strong>Ação de Movimento:</strong> Deslocar-se pelo grid.</li>
-            <li><strong>Ação de Combate:</strong> Atacar (Dano/Efeito), usar Foco (curar postura) ou usar um item.</li>
+            <li><strong>Ação de Combate:</strong> Atacar (Dano/Efeito), usar Foco (curar postura), usar um item ou
+              Dash (dobrar o deslocamento sem custar PM).</li>
             <li><strong>Ação de Cenário (Suporte):</strong> Usar magias (Transfiguração, Encantamento, etc.) para
-              manipular o ambiente. <strong>Falhar nesta ação drena 1 PM por exaustão.</strong></li>
+              manipular o ambiente.</li>
           </ul>
           <p
             style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">
             Tipos de Ação de Cenário (em caso de Sucesso)</p>
           <ul style="font-size:12.5px;margin-bottom:14px">
-            <li><strong>Restrição:</strong> Prende o alvo. Ele perde a Ação de Movimento no próximo turno.</li>
-            <li><strong>Cobertura:</strong> Cria barreira física. Próximo ataque inimigo sofre <em>Desvantagem</em> para
-              contornar.</li>
+            <li><strong>Restrição:</strong> Prende o alvo, impedindo seu movimento — fica <em>congelada</em> até o
+              alvo reagir (ver nota abaixo).</li>
+            <li><strong>Criar Barreira:</strong> Ergue cobertura física ou mágica para <strong>proteger você mesmo
+                ou um aliado à sua escolha</strong> — não afeta nenhum alvo inimigo diretamente, então não congela
+              nem espera reação de ninguém. Passa a valer <em>imediatamente</em>, no mesmo turno em que é criada:
+              qualquer ataque inimigo contra quem está protegido já sofre <em>Desvantagem</em> para contornar, desde
+              o próximo ataque em diante (inclusive num combate em grupo, contra qualquer atacante).</li>
+            <li><strong>Afetar os Sentidos:</strong> Ofusca, ensurdece ou distrai o alvo (luz, fumaça, ruído), impondo
+              Desvantagem na próxima Defesa dele — fica <em>congelado</em> até o alvo reagir (ver nota abaixo).</li>
             <li><strong>Impacto Ambiental:</strong> Arremessa objetos físicos. Causa <strong>1d4 de Dano de
-                Postura</strong> direto.</li>
-            <li><strong>Manipulação:</strong> Desarma o inimigo ou rouba itens de sua posse.</li>
+                Postura</strong> direto no alvo — fica <em>congelado</em> até o alvo reagir (ver nota abaixo).</li>
+            <li><strong>Manipulação:</strong> Desarma o inimigo ou rouba itens de sua posse — fica <em>congelada</em>
+              até o alvo reagir (ver nota abaixo).</li>
           </ul>
+          <div class="school-special" style="margin-bottom:14px">
+            <strong>Timing — Restrição, Afetar os Sentidos, Impacto Ambiental e Manipulação:</strong> essas quatro
+            miram um alvo específico e por isso não se resolvem na hora — ficam <em>congeladas</em> sobre o alvo até
+            chegar a vez <strong>dele reagir</strong> (seu próximo turno, ou antes disso se ele tiver uma reação
+            disponível). Quando isso acontece, o alvo escolhe: sofrer o efeito normalmente (perder o movimento, ficar
+            em Desvantagem, levar o dano, perder o item), usar a Aparatação como Ação de Movimento para anular o
+            efeito automaticamente (ver seção 3), ou gastar sua própria Ação de Cenário para contestar via Embate
+            Ambiental (abaixo). Só depois dessa decisão o efeito (ou sua anulação) se resolve de fato.
+          </div>
+          <div class="school-special" style="margin-bottom:14px">
+            <strong>Criar Barreira é a exceção:</strong> por proteger quem a criou (ou um aliado escolhido) em vez de
+            mirar um inimigo, não há "alvo" para congelar o efeito até a vez de reagir — a barreira já está de pé e
+            vale contra qualquer ataque inimigo seguinte, de qualquer atacante, até ser destruída/revertida via
+            Embate Ambiental.
+          </div>
           <p
             style="font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">
             Uso de Criaturas Mágicas em Ações de Cenário</p>
@@ -182,8 +215,8 @@
             <p style="margin-bottom:8px">Em vez de lançar um feitiço, o personagem comanda uma criatura mágica sob seu
               controle para executar a Ação de Cenário. A rolagem usa <strong>Trato de Criaturas Mágicas</strong> no
               lugar da perícia mágica normalmente exigida. Os tipos de ação de cenário são as mesmas, mas quem realiza é a criatura.</p>
-            <p style="margin-bottom:8px;color:var(--ink-soft);font-size:12px"><strong>Falha:</strong> Drena 1 PM
-              normalmente (a criatura age de forma imprevisível). <strong>Nota:</strong> A criatura deve estar presente
+            <p style="margin-bottom:8px;color:var(--ink-soft);font-size:12px"><strong>Falha:</strong> Sem custo
+              adicional (a criatura age de forma imprevisível). <strong>Nota:</strong> A criatura deve estar presente
               na cena e sob controle do personagem — o Mestre decide se a situação permite seu uso.</p>
             <p style="margin-bottom:0;font-size:12px;border-top:1px solid rgba(180,140,60,.2);padding-top:8px">
               <strong>Vida &amp; Postura da Criatura:</strong> Criaturas mágicas possuem seus próprios valores de
@@ -216,8 +249,9 @@
               <h4>1. Dinâmica de Ataque, Dano e Combos</h4>
               <ul style="font-size:12.5px">
                 <li><strong>Feitiços de Efeito (Controle):</strong> Objetivo é quebrar a guarda. Se bloqueados, reduzem
-                  <strong>1d6 de Postura</strong>. Se acertarem direto, reduz <strong>2d6 de Postura</strong> e o efeito
-                  entra.
+                  <strong>1d6 de Postura</strong>. Se acertarem direto, reduzem <strong>2d6 de Postura</strong> — mas
+                  o efeito de controle (congelar, atordoar etc.) <strong>só entra se esse dano zerar a Postura do
+                  alvo</strong>. Se sobrar Postura, o alvo só perdeu Postura, sem ficar sob efeito.
                 </li>
                 <li><strong>Feitiços de Dano (Ofensivos):</strong> Causam <strong>1d6 de Dano</strong> na Vida (HP). A
                   chance de acerto obedece à Regra de Colisão. Se o alvo estiver Vulnerável (Postura 0), recebe
@@ -228,6 +262,11 @@
                 <li><strong>Sistema de Combos:</strong> Usar o mesmo feitiço já usado no duelo gera
                   <em>Desvantagem</em>. Variar cria bônus de estilo — essencial!
                 </li>
+                <li><strong>Ataque Duplo:</strong> Na sua Ação de Combate, você pode realizar dois ataques em vez de
+                  um — desde que sejam <strong>dois feitiços diferentes</strong> entre si (usar o mesmo feitiço nos
+                  dois ataques conta como repetição para o Sistema de Combos, gerando Desvantagem extra). Cada um dos
+                  dois ataques sofre <em>Desvantagem</em>, que se acumula normalmente com outras Desvantagens já
+                  aplicáveis (cobertura do alvo, distância, Sistema de Combos, etc.).</li>
               </ul>
             </div>
             <div class="rule-card">
@@ -237,14 +276,15 @@
               <ul style="font-size:12.5px">
                 <li><strong>Bloqueio:</strong> Rola Defesa/Protego. Contra <strong>Efeitos</strong>: empate de nível de
                   sucesso já basta para bloquear — a Postura não altera essa condição. Bloquear consome <strong>1d6 de
-                    Postura</strong> de qualquer forma; falhar deixa o efeito entrar e causa <strong>2d6 de
-                    Postura</strong>. Contra <strong>Dano</strong>: o bloqueio obedece à Regra de Colisão e, se
-                  bem-sucedido, <strong>recupera 1d4 de Postura</strong>.</li>
+                    Postura</strong> de qualquer forma; falhar causa <strong>2d6 de Postura</strong> — o efeito de
+                  controle só entra se isso zerar a Postura do alvo. Contra <strong>Dano</strong>: o bloqueio obedece
+                  à Regra de Colisão e, se bem-sucedido, <strong>recupera 1d4 de Postura</strong>.</li>
                 <li><strong>Esquiva:</strong> Rola perícia física. Evita totalmente o feitiço. <em>Punição:</em> Ficar
                   no chão impõe Desvantagem no próximo ataque.</li>
-                <li><strong>Aparatação de Combate (Gasta 2 PM):</strong> Evita o ataque automaticamente e se
-                  teletransporta até <strong>12 quadrados</strong>. Surgir no flanco/costas garante +1 nível no Medidor
-                  de Estilo.</li>
+                <li><strong>Aparatação (Gasta 3 PM):</strong> Evita o ataque automaticamente e se teletransporta até
+                  <strong>12 quadrados</strong>. Surgir no flanco/costas garante +1 nível no Medidor de Estilo. Pode
+                  ser usada tanto como reação a um ataque quanto como Ação de Movimento no seu próprio turno — ver
+                  detalhes de cada uso na seção 3 (Movimentação e Grid) abaixo.</li>
               </ul>
             </div>
             <div class="rule-card">
@@ -254,12 +294,51 @@
                 <li><strong>Curto (1–6 sq):</strong> Alcance padrão. Sem penalidade.</li>
                 <li><strong>Médio (7–12 sq):</strong> 1 Desvantagem no ataque.</li>
                 <li><strong>Longo (13–18 sq):</strong> 2 Desvantagens. E assim sucessivamente.</li>
-                <li><strong>Overcast (–1 Penalidade):</strong> Gaste 1 PM para diminuir a penalidade de distância em 1
-                  nível.</li>
                 <li><strong>Assinatura Melhorada:</strong> "Dobrar Alcance Base" anula 1 nível de penalidade
                   passivamente.</li>
+                <li><strong>Dash (Ação de Combate):</strong> em vez de atacar/focar/usar item, gaste sua Ação de
+                  Combate para se deslocar o <strong>dobro do deslocamento base (12 quadrados)</strong> — mesma
+                  distância da Aparatação, mas <strong>sem custar PM</strong>. Como consome a Ação de Combate, você
+                  <strong>não pode atacar</strong> nesse turno. É só correr — não teleporta, não ignora terreno/linha
+                  de visão e <strong>não anula</strong> nenhuma Ação de Cenário pendente contra você.</li>
+                <li><strong>Aparatação como Ação de Movimento:</strong> por usar a Ação de Movimento (e não a de
+                  Combate), sua Ação de Combate continua livre — você pode se teletransportar até 12 quadrados
+                  <strong>e ainda atacar</strong> no mesmo turno. Como é teleporte de verdade, ela
+                  <strong>anula automaticamente qualquer Ação de Cenário congelada</strong> que esteja te afligindo
+                  (Impacto Ambiental, Manipulação, Restrição ou Afetar os Sentidos — Criar Barreira não mira você,
+                  então não há o que anular), não importa quantas — se você foi alvo de 3 Ações de Cenário
+                  diferentes, aparatar remove as 3 de uma vez. Surgir
+                  no flanco/costas do inimigo ainda conta como Flanqueio Perfeito, igual ao uso em reação. Custa 3 PM
+                  (ver seção 5).</li>
+              </ul>
+              <p style="font-size:12.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 6px">
+                Overcast (Gasto de PM para Ampliar o Feitiço)</p>
+              <p style="font-size:12px;margin-bottom:8px;color:var(--ink-soft)">Overcast é o termo geral para gastar
+                PM extra e melhorar seu feitiço além do normal. Cada 1 PM gasto compra <strong>um</strong> dos
+                benefícios abaixo (podem ser combinados, gastando 1 PM por benefício escolhido):</p>
+              <ul style="font-size:12.5px">
+                <li><strong>Aumentar Distância:</strong> Reduz a penalidade de distância em 1 nível.</li>
+                <li><strong>Aumentar Dano:</strong> +1d4 de Dano extra na Vida (HP) ou na Postura, conforme o tipo do
+                  feitiço.</li>
+                <li><strong>Afetar em Área:</strong> Habilita o feitiço a atingir múltiplos alvos (ver "Feitiços em
+                  Área" abaixo).</li>
               </ul>
             </div>
+            <div class="rule-card">
+              <h4>3b. Feitiços em Área</h4>
+              <p style="font-size:12.5px;margin-bottom:8px">Feitiços normalmente afetam um único alvo. Para atingir
+                mais de um, use o Overcast acima ("Afetar em Área") e pague o custo por alvo extra:</p>
+              <ul style="font-size:12.5px">
+                <li><strong>Custo:</strong> 1 PM para cada alvo extra além do primeiro (o primeiro alvo não tem custo
+                  adicional de área).</li>
+                <li><strong>Rolagem:</strong> A rolagem de ataque é <em>independente</em> para cada alvo — role uma
+                  vez para cada um, com seus próprios níveis de sucesso e Colisão.</li>
+                <li><strong>Exemplo:</strong> Afetar 3 alvos custa 2 PM (2 alvos extras) e exige 3 rolagens de ataque
+                  separadas, uma contra a Defesa de cada alvo.</li>
+              </ul>
+            </div>
+          </div>
+          <div>
             <div class="rule-card">
               <h4>4. Recuperando a Postura</h4>
               <ul style="font-size:12.5px">
@@ -272,18 +351,19 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <div>
             <div class="rule-card">
               <h4>5. Pontos de Magia (PM) e Sorte</h4>
               <ul style="font-size:12.5px">
                 <li>Feitiços de combate e cenário não gastam PM passivamente.</li>
-                <li><strong>Aparatação de Combate:</strong> Gasta 2 PM.</li>
-                <li><strong>Overcast:</strong> Gasta 1 PM para reduzir 1 nível de penalidade de distância.</li>
-                <li><strong>Esgotamento:</strong> Se os PM chegarem a 0, o bruxo fica <strong>Exausto</strong>. Falhar
-                  em Ações de Cenário drena 1 PM.</li>
-                <li><strong>Sorte:</strong> Após rolar, você pode queimar pontos de Sorte permanentes (1 por 1) para
-                  reduzir o valor no d100 e forçar um sucesso. Cuidado — reduz sua sorte para testes especiais!</li>
+                <li><strong>Aparatação:</strong> Gasta 3 PM (reação ou Ação de Movimento).</li>
+                <li><strong>Overcast:</strong> Gasta 1 PM por benefício (distância, dano extra ou alvo adicional em
+                  área — ver seção 3).</li>
+                <li><strong>Esgotamento:</strong> Se os PM chegarem a 0, o bruxo fica <strong>Exausto</strong>.</li>
+                <li><strong>Sorte:</strong> Após rolar, você pode queimar pontos de Sorte permanentes para <em>subir
+                  um nível de sucesso</em> no resultado: Falha → Regular, Regular → Difícil, ou Difícil → Extremo (1
+                  ponto de Sorte por nível subido, não é possível pular mais de um nível de uma vez). <strong>Não
+                  funciona em Falha Crítica</strong> (resultado 100) — esse resultado é sempre 100, sem exceção.
+                  Cuidado — reduz sua sorte para testes especiais!</li>
               </ul>
               <p
                 style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:12px 0 6px">
@@ -475,8 +555,10 @@
               <span class="spec-skill-tag">Teoria da Magia/Runas</span>
               <span class="spec-skill-tag">Esquiva</span>
             </div>
-            <p class="spec-note">Domina o <strong>Overcast</strong> (gasto de PM para reduzir penalidade de distância)
-              como ninguém.</p>
+            <p class="spec-note"><strong>Alcance Ampliado:</strong> ataca sem nenhuma Desvantagem até <strong>12
+                quadrados (18m)</strong> — o dobro do alcance Curto normal, cobrindo o que seria a faixa Média para
+              qualquer outro Auror. A partir de <strong>13 quadrados</strong> (faixa Longa), a penalidade de distância
+              volta a valer normalmente. Também domina o <strong>Overcast</strong> como ninguém.</p>
           </div>
           <div class="spec-card">
             <h4>💀 Caçador das Trevas</h4>
@@ -649,8 +731,8 @@
               <span class="spec-skill-tag">Atletismo/Pular</span>
               <span class="spec-skill-tag">Luta Corporal</span>
             </div>
-            <p class="spec-note">A <strong>Aparatação de Combate</strong> para flanco/costas é a assinatura tática
-              quando o disfarce cai.</p>
+            <p class="spec-note">A <strong>Aparatação</strong> para flanco/costas é a assinatura tática quando o
+              disfarce cai.</p>
           </div>
           <div class="spec-card">
             <h4>🕊 Negociador de Crise</h4>
