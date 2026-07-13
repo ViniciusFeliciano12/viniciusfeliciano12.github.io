@@ -5,14 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regras de Combate — Aurores</title>
-  <link rel="stylesheet" href="../css/base.css?v=202607122024">
-  <link rel="stylesheet" href="../css/content.css?v=202607122024">
+  <link rel="stylesheet" href="../css/base.css?v=202607122055">
+  <link rel="stylesheet" href="../css/content.css?v=202607122055">
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <script src="../js/firebase-config.js?v=202607122024"></script>
-  <script src="../js/db.js?v=202607122024"></script>
-  <script src="../js/header.js?v=202607122024" data-page="regras"></script>
+  <script src="../js/firebase-config.js?v=202607122055"></script>
+  <script src="../js/db.js?v=202607122055"></script>
+  <script src="../js/header.js?v=202607122055" data-page="regras"></script>
 </head>
 
 <body>
@@ -31,6 +31,84 @@
         <p>Sistema d100 — Adaptação Auror / HP RPG</p>
       </div>
       <div class="rules-body">
+
+        <!-- COLINHA RÁPIDA -->
+        <h2 class="rules-sec-title">🃏 Ações do Turno — Referência Rápida</h2>
+        <div class="rule-card bordered-gold">
+          <p class="colinha-intro">Todo turno você faz <strong>as 3 ações abaixo ao mesmo tempo</strong> (não em
+            sequência escolhida — Movimento, Combate e Cenário sempre acontecem juntos, cada uma com sua própria
+            escolha de uso).</p>
+          <table class="exaustao-table colinha-table" style="margin-bottom:16px">
+            <tr>
+              <th style="width:16%">Ação</th>
+              <th>O que pode fazer</th>
+            </tr>
+            <tr>
+              <td><strong>🏃 Movimento</strong></td>
+              <td>Andar até 6 quadrados <em>ou</em> Aparatar (3 PM): teleporta 12 quadrados, <strong>anula toda Ação
+                  de Cenário congelada</strong> contra você e ainda deixa a Ação de Combate livre para atacar.</td>
+            </tr>
+            <tr>
+              <td><strong>⚔ Combate</strong></td>
+              <td>Atacar (Dano ou Efeito) • Focar (recupera ¼ da Postura Máx.) • Usar item • <strong>Dash</strong>:
+                abre mão de atacar para andar o dobro (12 quadrados) sem gastar PM, mas não teleporta e não anula
+                nada.</td>
+            </tr>
+            <tr>
+              <td><strong>🎯 Cenário</strong></td>
+              <td>Manipula o ambiente (mágico ou físico) escolhendo <strong>um</strong> dos 5 tipos abaixo.</td>
+            </tr>
+          </table>
+
+          <p class="colinha-label">Os 5 Tipos de Ação de Cenário</p>
+          <table class="exaustao-table colinha-table" style="margin-bottom:16px">
+            <tr>
+              <th style="width:18%">Tipo</th>
+              <th>Efeito (em caso de Sucesso)</th>
+              <th style="width:22%">Congela até</th>
+            </tr>
+            <tr>
+              <td><strong>Restrição</strong></td>
+              <td>Prende o alvo, impede o movimento dele.</td>
+              <td>Alvo reagir</td>
+            </tr>
+            <tr>
+              <td><strong>Criar Barreira</strong></td>
+              <td>Cobertura para você/aliado — Desvantagem para inimigos te acertarem, já a partir do próximo
+                ataque.</td>
+              <td>Não congela (vale na hora)</td>
+            </tr>
+            <tr>
+              <td><strong>Afetar Sentidos</strong></td>
+              <td>Ofusca/ensurdece/distrai — Desvantagem na próxima Defesa do alvo.</td>
+              <td>Alvo reagir</td>
+            </tr>
+            <tr>
+              <td><strong>Impacto Ambiental</strong></td>
+              <td>Arremesso de objetos — 1d4 de Dano de Postura direto.</td>
+              <td>Alvo reagir</td>
+            </tr>
+            <tr>
+              <td><strong>Manipulação</strong></td>
+              <td>Desarma/rouba item (com alvo) <em>ou</em> mexe no cenário sem mirar ninguém (porta, alavanca).</td>
+              <td>Com alvo: alvo reagir. Sem alvo: seu próprio próximo turno</td>
+            </tr>
+          </table>
+          <div class="school-special colinha-note">
+            <strong>Quando o alvo "reage" a uma Ação de Cenário congelada</strong>, ele escolhe uma: sofrer o
+            efeito, Aparatar como Ação de Movimento (anula automático), ou gastar a própria Ação de Cenário para
+            contestar via <strong>Embate Ambiental</strong> — Anular (Sucesso igual), Reverter (Sucesso maior) ou
+            Ignorar e Retaliar (novo efeito próprio).
+          </div>
+
+          <p class="colinha-label">Reagindo a um Ataque (quando você é o alvo)</p>
+          <ul class="colinha-list">
+            <li><strong>Bloqueio:</strong> Efeito → empate de sucesso já bloqueia (custa 1d6 Postura; falhar custa
+              2d6). Dano → segue Regra de Colisão; bloqueio bom recupera 1d4 de Postura.</li>
+            <li><strong>Esquiva:</strong> Evita tudo, mas cai no chão (Desvantagem no próximo ataque seu).</li>
+            <li><strong>Aparatação (3 PM):</strong> Evita automático, teleporta 12 quadrados, some do lugar.</li>
+          </ul>
+        </div>
 
         <!-- NÍVEIS DE SUCESSO -->
         <h2 class="rules-sec-title">Níveis de Sucesso — Referência Rápida</h2>
@@ -597,8 +675,8 @@
     </div><!-- /rules-wrap -->
   </div><!-- /page-regras -->
 
-  <script src="../js/rules-collapse.js?v=202607122024"></script>
-  <script src="../js/script.js?v=202607122024"></script>
+  <script src="../js/rules-collapse.js?v=202607122055"></script>
+  <script src="../js/script.js?v=202607122055"></script>
 </body>
 
 </html>

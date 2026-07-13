@@ -223,6 +223,49 @@
   color: var(--gold)
 }
 
+/* ─── COLINHA RÁPIDA (cheat sheet) ───────────────────────────── */
+.colinha-table th,
+.colinha-table td {
+  text-align: center;
+}
+
+.colinha-table td:first-child {
+  color: var(--crimson);
+  width: auto;
+}
+
+.colinha-table td:not(:first-child) {
+  text-align: left;
+}
+
+.colinha-intro {
+  text-align: center;
+  font-size: 12.5px;
+  margin-bottom: 14px;
+}
+
+.colinha-label {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 8px;
+}
+
+.colinha-note {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.colinha-list {
+  font-size: 12.5px;
+  margin-bottom: 0;
+  text-align: left;
+  max-width: 720px;
+}
+
 .gain-lose {
   display: grid;
   grid-template-columns: 1fr 1fr;
