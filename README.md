@@ -56,6 +56,10 @@ Hosting      Firebase Hosting / GitHub Pages
 Build        PowerShell (update-version.ps1) para cache busting automático
 ```
 
+> **Em migração:** o sistema está sendo reescrito incrementalmente em React + Vite + TypeScript
+> dentro de [`web/`](web/), página por página, convivendo com o legado acima até a transição terminar.
+> Veja [`web/README.md`](web/README.md) para detalhes da nova stack.
+
 ---
 
 ## Começando
